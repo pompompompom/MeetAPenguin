@@ -14,13 +14,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.ViewHolder> {
+public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListViewAdapter.ViewHolder> {
 
     private final ArrayList<Contact> mValues;
-    private final ContactFragment.OnListFragmentInteractionListener mListener;
+    private final ContactListFragment.OnListFragmentInteractionListener mListener;
     private Context mContext;
 
-    public ContactViewAdapter(ArrayList<Contact> items, ContactFragment.OnListFragmentInteractionListener listener, Context context) {
+    public ContactListViewAdapter(ArrayList<Contact> items, ContactListFragment.OnListFragmentInteractionListener listener, Context context) {
         mValues = items;
         mListener = listener;
         mContext = context;

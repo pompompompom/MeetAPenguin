@@ -24,16 +24,16 @@ import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ContactFragment extends Fragment {
+public class ContactListFragment extends Fragment {
 
-    private static final String TAG = ContactFragment.class.getSimpleName();
+    private static final String TAG = ContactListFragment.class.getSimpleName();
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Contact> original;
-    private ContactViewAdapter contactAdapter;
+    private ContactListViewAdapter contactAdapter;
     private boolean searchController;
     private View searchTip;
     private TextView queryText;
@@ -42,12 +42,12 @@ public class ContactFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ContactFragment() {
+    public ContactListFragment() {
     }
 
     @SuppressWarnings("unused")
-    public static ContactFragment newInstance(int columnCount) {
-        ContactFragment fragment = new ContactFragment();
+    public static ContactListFragment newInstance(int columnCount) {
+        ContactListFragment fragment = new ContactListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -138,7 +138,7 @@ public class ContactFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         ArrayList<Contact> dataset = new ArrayList<>();
         dataset.addAll(original);
-        contactAdapter = new ContactViewAdapter(dataset, mListener, getContext());
+        contactAdapter = new ContactListViewAdapter(dataset, mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
@@ -182,21 +182,32 @@ public class ContactFragment extends Fragment {
         contact6.setPhotoUrl("http://www.babyfacenelsonjournal.com/uploads/3/8/2/4/3824310/5721541_orig.jpg");
         dummyData.add(contact6);
 
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
-        dummyData.add(contact6);
+        Contact contact7 = new Contact();
+        contact7.setName("Allan Grespan");
+        contact7.setDescription("Economist");
+        contact7.setPhotoUrl("http://www.washingtonspeakers.com/images/photos/sp1/2300.jpg");
+        dummyData.add(contact7);
+
+
+        Contact contact8 = new Contact();
+        contact8.setName("Wozniak");
+        contact8.setDescription("Engineer");
+        contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
+        dummyData.add(contact8);
+
+
+        Contact contact9 = new Contact();
+        contact9.setName("Tony Blair");
+        contact9.setDescription("Prime Minister");
+        contact9.setPhotoUrl("https://pbs.twimg.com/profile_images/1675579492/Tony_Blair_pic.JPG");
+        dummyData.add(contact9);
+
+
+        Contact contact10 = new Contact();
+        contact10.setName("Jude Law");
+        contact10.setDescription("Actor");
+        contact10.setPhotoUrl("http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE1ODA0OTcxNjkzODY4NTU3.jpg");
+        dummyData.add(contact10);
 
         return dummyData;
     }
@@ -209,7 +220,7 @@ public class ContactFragment extends Fragment {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnShareFragmentInteraction");
         }
     }
 

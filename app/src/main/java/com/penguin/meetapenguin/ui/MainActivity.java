@@ -13,18 +13,24 @@ import android.view.MenuItem;
 
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.Contact;
+import com.penguin.meetapenguin.model.ContactInfo;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ContactFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, ShareFragment.OnShareFragmentInteraction {
 
     private Fragment homeFragment = new HomeFragment();
-    private Fragment contactFragment = new ContactFragment();
+    private Fragment contactFragment = new ContactListFragment();
+    private Fragment shareFragment = new ShareFragment();
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -77,11 +83,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
         } else if (id == R.id.nav_contacts) {
             displayFragment(contactFragment, title);
+        } else if (id == R.id.share) {
+            displayFragment(shareFragment, title);
         } else if (id == R.id.nav_mail) {
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -95,5 +103,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Contact item) {
 
+    }
+
+    @Override
+    public void onContactInfoSelected(ContactInfo contactInfo) {
+
+    }
+
+    @Override
+    public void onShare(Contact item, ArrayList<ContactInfo> selectedContactInfo) {
+
+    }
+
+    @Override
+    public Toolbar getToolBar() {
+        return toolbar;
+    }
+
+    public DrawerLayout getDrawereLayout() {
+        return mDrawer;
     }
 }
