@@ -15,13 +15,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ShareContactViewAdapter extends RecyclerView.Adapter<ShareContactViewAdapter.ViewHolder> {
+public class PrepareShareContactViewAdapter extends RecyclerView.Adapter<PrepareShareContactViewAdapter.ViewHolder> {
 
     private final ArrayList<ContactInfo> mValues;
-    private final ShareFragment.OnShareFragmentInteraction mListener;
+    private final PrepareShareFragment.OnShareFragmentInteraction mListener;
     private Context mContext;
 
-    public ShareContactViewAdapter(ArrayList<ContactInfo> items, ShareFragment.OnShareFragmentInteraction listener, Context context) {
+    public PrepareShareContactViewAdapter(ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener, Context context) {
         mValues = items;
         mListener = listener;
         mContext = context;

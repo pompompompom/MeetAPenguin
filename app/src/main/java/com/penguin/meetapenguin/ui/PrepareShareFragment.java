@@ -2,6 +2,7 @@ package com.penguin.meetapenguin.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -25,15 +27,15 @@ import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
-public class ShareFragment extends Fragment {
+public class PrepareShareFragment extends Fragment {
 
-    private static final String TAG = ShareFragment.class.getSimpleName();
+    private static final String TAG = PrepareShareFragment.class.getSimpleName();
     private OnShareFragmentInteraction mListener;
-    private ShareContactViewAdapter contactAdapter;
+    private PrepareShareContactViewAdapter contactAdapter;
     private Contact mContact;
     private Toolbar toolbar;
     private View toolbarView;
@@ -44,12 +46,12 @@ public class ShareFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ShareFragment() {
+    public PrepareShareFragment() {
     }
 
     @SuppressWarnings("unused")
-    public static ShareFragment newInstance(Contact contact) {
-        ShareFragment fragment = new ShareFragment();
+    public static PrepareShareFragment newInstance(Contact contact) {
+        PrepareShareFragment fragment = new PrepareShareFragment();
         Bundle args = new Bundle();
         args.putParcelable("Contact", contact);
         fragment.setArguments(args);
@@ -94,12 +96,26 @@ public class ShareFragment extends Fragment {
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
 
+        Button shareBt = (Button) view.findViewById(R.id.share_button);
+        shareBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchShareActivity(mContact);
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new ShareContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
+        contactAdapter = new PrepareShareContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
+    }
+
+    private void launchShareActivity(Contact mContact) {
+        Intent intent = new Intent(getActivity(), ShareActivity.class);
+        intent.putExtra("Contact", mContact);
+        startActivity(intent);
     }
 
     private Contact setupFakeData() {

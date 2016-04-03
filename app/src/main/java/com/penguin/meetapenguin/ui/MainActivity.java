@@ -18,11 +18,11 @@ import com.penguin.meetapenguin.model.ContactInfo;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, ShareFragment.OnShareFragmentInteraction {
+        implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, PrepareShareFragment.OnShareFragmentInteraction {
 
     private Fragment homeFragment = new HomeFragment();
     private Fragment contactFragment = new ContactListFragment();
-    private Fragment shareFragment = new ShareFragment();
+    private Fragment shareFragment = new PrepareShareFragment();
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
 
