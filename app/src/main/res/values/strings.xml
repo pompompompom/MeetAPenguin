@@ -6,4 +6,9 @@
 
     <string name="action_settings">Settings</string>
     <string name="query_filter">Filtering results for:</string>
+
+    <string name="title_activity_share_contact">ShareContactActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="edit_sharing_contacts">Edit Sharing Information</string>
 </resources>
