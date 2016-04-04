@@ -14,8 +14,9 @@
 
     <ImageView
         android:id="@+id/contact_info_icon"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="30dp"
         android:src="@drawable/ic_group_black_24dp" />
 

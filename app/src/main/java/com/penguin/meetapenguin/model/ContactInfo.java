@@ -9,4 +9,6 @@ public interface ContactInfo {
     String getExtraDescription();
 
     String getAtrributeValue();
+
+    int getIconResId();
 }

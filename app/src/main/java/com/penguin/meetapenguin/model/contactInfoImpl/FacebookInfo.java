@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.model.contactInfoImpl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.ContactInfo;
 
 /**
@@ -22,6 +23,8 @@ public class FacebookInfo implements ContactInfo, Parcelable {
             return new FacebookInfo[size];
         }
     };
+
+    private final static int ResId = R.drawable.facebook;
 
     protected FacebookInfo(Parcel in) {
 
@@ -53,5 +56,10 @@ public class FacebookInfo implements ContactInfo, Parcelable {
     @Override
     public String getAtrributeValue() {
         return "www.facebook.com/teste";
+    }
+
+    @Override
+    public int getIconResId() {
+        return ResId;
     }
 }

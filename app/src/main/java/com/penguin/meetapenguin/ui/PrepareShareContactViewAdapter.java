@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.ContactInfo;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,10 +37,7 @@ public class PrepareShareContactViewAdapter extends RecyclerView.Adapter<Prepare
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
-        Picasso.with(mContext)
-                .load(R.drawable.ic_group_black_24dp)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.mContactIcon);
+        holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId()));
     }
 
     @Override
