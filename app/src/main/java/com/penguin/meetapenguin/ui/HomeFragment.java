@@ -7,7 +7,9 @@ import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ public class HomeFragment extends Fragment {
     private Contact contact;
     private Toolbar toolbar;
     private View toolbarView;
+    private boolean dialogShown = false;
 
     public HomeFragment() {
 
@@ -38,7 +41,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dialogShown = false;
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         contact = DataUtil.getMockContact();
@@ -50,6 +54,34 @@ public class HomeFragment extends Fragment {
                 .load(contact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
                 .into(imageProfile);
+
+        imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!dialogShown) {
+                    new AlertDialog.Builder(inflater.getContext()).setMessage("Change Profile Picture?").setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO
+                            dialogShown = false;
+                        }
+                    }).setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO
+                            dialogShown = false;
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO
+                            dialogShown = false;
+                        }
+                    }).show();
+                    dialogShown = true;
+                }
+            }
+        });
 
         TextView name = (TextView) toolbar.findViewById(R.id.name);
         TextView description = (TextView) toolbar.findViewById(R.id.description);
