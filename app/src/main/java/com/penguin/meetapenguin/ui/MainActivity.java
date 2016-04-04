@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     private Fragment homeFragment = new HomeFragment();
     private Fragment contactFragment = new ContactListFragment();
     private Fragment shareFragment = new PrepareShareFragment();
+    private Fragment inboxFragment = new InboxFragment();
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
 
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.share) {
             displayFragment(shareFragment, title);
         } else if (id == R.id.nav_mail) {
+        } else if (id == R.id.nav_inbox){
+            displayFragment(inboxFragment, title);
         }
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
