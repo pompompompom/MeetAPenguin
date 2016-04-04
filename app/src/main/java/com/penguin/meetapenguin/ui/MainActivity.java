@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, PrepareShareFragment.OnShareFragmentInteraction {
 
-    private Fragment homeFragment = new HomeFragment();
+    private Fragment homeFragment;
     private Fragment contactFragment = new ContactListFragment();
     private Fragment shareFragment = new PrepareShareFragment();
     private DrawerLayout mDrawer;
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        homeFragment = new HomeFragment(toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
