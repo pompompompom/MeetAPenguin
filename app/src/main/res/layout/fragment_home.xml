@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is home screen"/>
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.penguin.meetapenguin.ui.ContactFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/share_button"
+        android:layout_marginTop="10dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".ui.ContactListFragment"
+        tools:listitem="@layout/fragment_contact" />
+</RelativeLayout>

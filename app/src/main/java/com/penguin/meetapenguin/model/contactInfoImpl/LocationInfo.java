@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.model.contactInfoImpl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.ContactInfo;
 
 /**
@@ -22,6 +23,8 @@ public class LocationInfo implements ContactInfo, Parcelable {
             return new LocationInfo[size];
         }
     };
+
+    private final static int ResId = R.drawable.ic_place_black_24dp;
 
     public LocationInfo() {
 
@@ -54,5 +57,10 @@ public class LocationInfo implements ContactInfo, Parcelable {
     @Override
     public String getAtrributeValue() {
         return "Cupertino - CA";
+    }
+
+    @Override
+    public int getIconResId() {
+        return ResId;
     }
 }

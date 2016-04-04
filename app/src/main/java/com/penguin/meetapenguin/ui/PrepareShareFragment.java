@@ -19,8 +19,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.Contact;
 import com.penguin.meetapenguin.model.ContactInfo;
-import com.penguin.meetapenguin.model.contactInfoImpl.FacebookInfo;
-import com.penguin.meetapenguin.model.contactInfoImpl.LocationInfo;
+import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class PrepareShareFragment extends Fragment {
 
     private static final String TAG = PrepareShareFragment.class.getSimpleName();
     private OnShareFragmentInteraction mListener;
-    private PrepareShareContactViewAdapter contactAdapter;
+    private ContactViewAdapter contactAdapter;
     private Contact mContact;
     private Toolbar toolbar;
     private View toolbarView;
@@ -70,7 +69,7 @@ public class PrepareShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_share_contact, container, false);
-        mContact = setupFakeData();
+        mContact = DataUtil.getMockContact();
         setHasOptionsMenu(true);
 
         //You added a lot of view into the toolbar to customize it this fragment.
@@ -106,7 +105,7 @@ public class PrepareShareFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new PrepareShareContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
+        contactAdapter = new ContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
@@ -116,20 +115,6 @@ public class PrepareShareFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ShareActivity.class);
         intent.putExtra("Contact", mContact);
         startActivity(intent);
-    }
-
-    private Contact setupFakeData() {
-        Contact contact = new Contact();
-        contact.setName("Tom Brandy");
-        contact.setDescription("Player");
-        contact.setPhotoUrl("http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2330.png&w=350&h=254");
-        ContactInfo contactInfo = new FacebookInfo();
-        ContactInfo contactInfo2 = new LocationInfo();
-        ArrayList<ContactInfo> contactInfoArrayList = new ArrayList<>();
-        contactInfoArrayList.add(contactInfo);
-        contactInfoArrayList.add(contactInfo2);
-        contact.setContactInfoArrayList(contactInfoArrayList);
-        return contact;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
@@ -61,7 +62,7 @@ public class ShareActivity extends AppCompatActivity {
         } catch (WriterException e) {
             e.printStackTrace();
         }
-        View toolbar = getLayoutInflater().inflate(R.layout.share_fragment_toolbar, view, true);
+        RelativeLayout toolbar = (RelativeLayout) getLayoutInflater().inflate(R.layout.share_activity_toolbar, view);
         TextView name = (TextView) toolbar.findViewById(R.id.name);
         TextView description = (TextView) toolbar.findViewById(R.id.description);
 

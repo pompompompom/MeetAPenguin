@@ -20,7 +20,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, PrepareShareFragment.OnShareFragmentInteraction {
 
-    private Fragment homeFragment = new HomeFragment();
+    private Fragment homeFragment;
+    private Fragment settingsFragment = new SettingsFragment();
     private Fragment contactFragment = new ContactListFragment();
     private Fragment shareFragment = new PrepareShareFragment();
     private Fragment inboxFragment = new InboxFragment();
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        homeFragment = new HomeFragment(toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             displayFragment(homeFragment, title);
         } else if (id == R.id.nav_settings) {
+            displayFragment(settingsFragment, title);
         } else if (id == R.id.nav_contacts) {
             displayFragment(contactFragment, title);
         } else if (id == R.id.share) {
