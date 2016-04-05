@@ -110,8 +110,8 @@ public class SingleContactFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
         //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(toolbarView);
     }

@@ -1,11 +1,5 @@
 package com.penguin.meetapenguin.ui;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.util.DataUtil;
-import com.squareup.picasso.Picasso;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -14,18 +8,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
+
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.model.Contact;
+import com.penguin.meetapenguin.util.DataUtil;
+import com.squareup.picasso.Picasso;
 
 /**
  * Fragment to display main screen.
  */
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = HomeFragment.class.getSimpleName();
     private Contact contact;
     private Toolbar toolbar;
     private View toolbarView;
@@ -117,8 +119,9 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView() called with: " + "");
         //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(toolbarView);
     }
