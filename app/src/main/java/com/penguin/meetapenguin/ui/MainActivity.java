@@ -31,12 +31,10 @@ public class MainActivity extends AppCompatActivity
     private Fragment contactFragment = new ContactListFragment();
     private Fragment shareFragment = new PrepareShareFragment();
     private Fragment inboxFragment = new InboxFragment();
-    private Fragment singleContactFragment;
+    private SingleContactFragment singleContactFragment;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
 
-    //TODO: Bad design? Bring up with groupmates.
-    public Contact tempContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Contact item) {
-        tempContact = item;
+        singleContactFragment.setContact(item);
         displayFragment(singleContactFragment, item.getName());
     }
 

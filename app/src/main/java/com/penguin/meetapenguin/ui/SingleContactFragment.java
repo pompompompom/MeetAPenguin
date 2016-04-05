@@ -46,13 +46,6 @@ public class SingleContactFragment extends Fragment {
         dialogShown = false;
         View v = inflater.inflate(R.layout.fragment_single_contact, container, false);
 
-        contact = DataUtil.getMockContact();
-
-        //TODO: Ask for better design ideas.
-        MainActivity activity = (MainActivity) getActivity();
-        contact = activity.tempContact;
-
-
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
@@ -101,6 +94,9 @@ public class SingleContactFragment extends Fragment {
         return v;
     }
 
+    public void setContact(Contact contact){
+        this.contact = contact;
+    }
 
     @Override
     public void onDetach() {
