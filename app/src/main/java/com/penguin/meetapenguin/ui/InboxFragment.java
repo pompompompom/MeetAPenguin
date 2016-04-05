@@ -25,6 +25,8 @@ public class InboxFragment extends Fragment {
     private ArrayList<InboxMessage> messages;
     private InboxFragmentAdapter inboxAdapter;
     private OnListInboxFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    private View view;
 
     /**
      * default no-args constructor.
@@ -42,9 +44,9 @@ public class InboxFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inbox, container, false);
+        view = inflater.inflate(R.layout.fragment_inbox, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         ArrayList<InboxMessage> dataset = new ArrayList<InboxMessage>();

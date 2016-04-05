@@ -29,6 +29,13 @@ public class SingleContactFragment extends Fragment {
     private Contact contact;
     private Toolbar toolbar;
     private View toolbarView;
+    private CircularImageView imageProfile;
+    private TextView name;
+    private TextView description;
+    private RecyclerView recyclerView;
+    private ContactViewAdapter contactAdapter;
+    private FloatingActionButton floatingActionButton;
+
     private boolean dialogShown = false;
 
     /**
@@ -47,31 +54,32 @@ public class SingleContactFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dialogShown = false;
-        View v = inflater.inflate(R.layout.fragment_single_contact, container, false);
+        View view = inflater.inflate(R.layout.fragment_single_contact,
+                container, false);
 
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
-        CircularImageView imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
+        imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
         Picasso.with(getContext())
                 .load(contact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
                 .into(imageProfile);
 
 
-        TextView name = (TextView) toolbar.findViewById(R.id.name);
-        TextView description = (TextView) toolbar.findViewById(R.id.description);
+        name = (TextView) toolbar.findViewById(R.id.name);
+        description = (TextView) toolbar.findViewById(R.id.description);
         name.setText(contact.getName());
         description.setText(contact.getDescription());
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        ContactViewAdapter contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
                 null, getContext(), ContactViewAdapter.MODE_VIEW_CONTACT);
         recyclerView.setAdapter(contactAdapter);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) v
+        floatingActionButton = (FloatingActionButton) view
                 .findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -94,7 +102,7 @@ public class SingleContactFragment extends Fragment {
                 });
 
 
-        return v;
+        return view;
     }
 
     public void setContact(Contact contact){
