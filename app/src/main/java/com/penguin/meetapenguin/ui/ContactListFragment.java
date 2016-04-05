@@ -8,6 +8,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,17 +18,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.Contact;
 import com.penguin.meetapenguin.model.ContactInfo;
 import com.penguin.meetapenguin.model.contactInfoImpl.FacebookInfo;
 import com.penguin.meetapenguin.model.contactInfoImpl.LocationInfo;
+import com.penguin.meetapenguin.util.DataUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
@@ -40,6 +44,8 @@ public class ContactListFragment extends Fragment {
     private boolean searchController;
     private View searchTip;
     private TextView queryText;
+    private Toolbar mToolbar;
+    private View toolbarView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -127,6 +133,23 @@ public class ContactListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
         setHasOptionsMenu(true);
+
+        Contact contact = DataUtil.getMockContact();
+        mToolbar = mListener.getToolBar();
+        inflater.inflate(R.layout.share_fragment_toolbar, mToolbar, true);
+        toolbarView = mToolbar.findViewById(R.id.share_fragment_toolbar);
+
+        CircularImageView imageProfile = (CircularImageView) mToolbar.findViewById(R.id.profile_picture);
+        Picasso.with(getContext())
+                .load(contact.getPhotoUrl())
+                .placeholder(R.drawable.placeholder)
+                .into(imageProfile);
+
+        TextView name = (TextView) mToolbar.findViewById(R.id.name);
+        TextView description = (TextView) mToolbar.findViewById(R.id.description);
+        name.setText(contact.getName());
+        description.setText(contact.getDescription());
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         final View closeSearchFilter = view.findViewById(R.id.close_search_filter);
         queryText = (TextView) view.findViewById(R.id.query_text);
@@ -243,6 +266,13 @@ public class ContactListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
+        mToolbar.removeView(toolbarView);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -250,5 +280,7 @@ public class ContactListFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Contact item);
+
+        Toolbar getToolBar();
     }
 }
