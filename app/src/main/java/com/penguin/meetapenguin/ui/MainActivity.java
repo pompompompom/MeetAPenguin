@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
     private void displayFragment(Fragment fragment, String title) {
         getFragmentManager().beginTransaction().replace(R.id
-                .main_content_frame, fragment).commit();
+                .main_content_frame, fragment).addToBackStack(null).commit();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
