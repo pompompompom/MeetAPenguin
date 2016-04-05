@@ -26,6 +26,9 @@ public class SettingsFragment extends Fragment {
 
     private Contact contact;
     private View toolbarView;
+    private RecyclerView recyclerView;
+    private ContactViewAdapter contactAdapter;
+    private Button save;
 
     @Nullable
     @Override
@@ -34,18 +37,18 @@ public class SettingsFragment extends Fragment {
 
         contact = DataUtil.getMockContact();
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list);
+        recyclerView = (RecyclerView) v.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        ContactViewAdapter contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
                 null, getContext());
         recyclerView.setAdapter(contactAdapter);
 
-        Button save = (Button) v.findViewById(R.id.save_button);
+        save = (Button) v.findViewById(R.id.save_button);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                // TODO Add settings functionality.
             }
         });
 

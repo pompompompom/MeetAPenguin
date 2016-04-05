@@ -40,6 +40,13 @@ public class PrepareShareFragment extends Fragment {
     private View toolbarView;
     private View viewDescription;
     private View viewProfile;
+    private CircularImageView imageProfile;
+    private TextView name;
+    private TextView description;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private Button shareBt;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,25 +84,25 @@ public class PrepareShareFragment extends Fragment {
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
-        CircularImageView imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
+        imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
         Picasso.with(getContext())
                 .load(mContact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
                 .into(imageProfile);
 
-        TextView name = (TextView) toolbar.findViewById(R.id.name);
-        TextView description = (TextView) toolbar.findViewById(R.id.description);
+        name = (TextView) toolbar.findViewById(R.id.name);
+        description = (TextView) toolbar.findViewById(R.id.description);
         name.setText(mContact.getName());
         description.setText(mContact.getDescription());
 
-        DrawerLayout drawer = ((MainActivity) getActivity()).getDrawereLayout();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = ((MainActivity) getActivity()).getDrawereLayout();
+        toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
 
-        Button shareBt = (Button) view.findViewById(R.id.share_button);
+        shareBt = (Button) view.findViewById(R.id.share_button);
         shareBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +110,7 @@ public class PrepareShareFragment extends Fragment {
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         contactAdapter = new ContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
         recyclerView.setAdapter(contactAdapter);

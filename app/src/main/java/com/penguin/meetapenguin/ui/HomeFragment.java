@@ -32,6 +32,11 @@ public class HomeFragment extends Fragment {
     private Toolbar toolbar;
     private View toolbarView;
     private boolean dialogShown = false;
+    private TextView name;
+    private TextView description;
+    private RecyclerView recyclerView;
+    private ContactViewAdapter contactAdapter;
+    private Button saveButton;
 
     public HomeFragment() {
 
@@ -86,19 +91,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView name = (TextView) toolbar.findViewById(R.id.name);
-        TextView description = (TextView) toolbar.findViewById(R.id.description);
+        name = (TextView) toolbar.findViewById(R.id.name);
+        description = (TextView) toolbar.findViewById(R.id.description);
         name.setText(contact.getName());
         description.setText(contact.getDescription());
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.list);
+        recyclerView = (RecyclerView) v.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        ContactViewAdapter contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
                 null, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         recyclerView.setAdapter(contactAdapter);
 
-        Button saveButton = (Button) v.findViewById(R.id.save_button);
+        saveButton = (Button) v.findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
