@@ -11,6 +11,11 @@ import java.util.ArrayList;
  * Data Utilities
  */
 public class DataUtil {
+
+    /**
+     * Makes a fake contact for testing purposes.
+     * @return Contact.
+     */
     public static Contact getMockContact() {
         Contact contact = new Contact();
         contact.setName("Tom Brady");
