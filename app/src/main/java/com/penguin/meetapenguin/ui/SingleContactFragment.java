@@ -22,7 +22,7 @@ import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 
 /**
- * Fragment to view a contact.
+ * Fragment to view a single contact, accessed from the Contact List.
  */
 public class SingleContactFragment extends Fragment {
 
@@ -31,6 +31,9 @@ public class SingleContactFragment extends Fragment {
     private View toolbarView;
     private boolean dialogShown = false;
 
+    /**
+     * Default no-args constructor.
+     */
     public SingleContactFragment() {
 
     }
