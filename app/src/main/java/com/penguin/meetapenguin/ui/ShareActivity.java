@@ -27,6 +27,11 @@ public class ShareActivity extends AppCompatActivity {
 
     private static final int WHITE = 0xFF44B4D9;
     private static final int BLACK = 0xFF000000;
+    private ImageView qrCodeImageView;
+    private TextView name;
+    private TextView description;
+    private CircularImageView imageProfile;
+    private Button editShare;
 
     private static String guessAppropriateEncoding(CharSequence contents) {
         // Very crude at the moment
@@ -54,27 +59,27 @@ public class ShareActivity extends AppCompatActivity {
             throw new IllegalArgumentException("You should give a contact object to share");
         }
 
-        ImageView imageView = (ImageView) findViewById(R.id.qrcode);
+        qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         ViewGroup view = (ViewGroup) findViewById(R.id.activity_container);
         try {
             Bitmap bitmap = encodeAsBitmap("testando", BarcodeFormat.QR_CODE, 900, 600);
-            imageView.setImageBitmap(bitmap);
+            qrCodeImageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }
         RelativeLayout toolbar = (RelativeLayout) getLayoutInflater().inflate(R.layout.share_activity_toolbar, view);
-        TextView name = (TextView) toolbar.findViewById(R.id.name);
-        TextView description = (TextView) toolbar.findViewById(R.id.description);
+        name = (TextView) toolbar.findViewById(R.id.name);
+        description = (TextView) toolbar.findViewById(R.id.description);
 
         name.setText(contact.getName());
         description.setText(contact.getDescription());
-        CircularImageView imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
+        imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
         Picasso.with(this)
                 .load(contact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
                 .into(imageProfile);
 
-        Button editShare = (Button) findViewById(R.id.edit_share_button);
+        editShare = (Button) findViewById(R.id.edit_share_button);
         editShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
