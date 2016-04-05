@@ -12,4 +12,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="edit_sharing_contacts">Edit Sharing Information</string>
     <string name="nav_menu_message">Meet a Penguin</string>
+    <string name="save_changes">Save Changes</string>
 </resources>
