@@ -24,6 +24,7 @@ public class InboxFragment extends Fragment {
 
     private ArrayList<InboxMessage> messages;
     private InboxFragmentAdapter inboxAdapter;
+    private OnListInboxFragmentInteractionListener mListener;
 
     /**
      * default no-args constructor.
@@ -48,7 +49,8 @@ public class InboxFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         ArrayList<InboxMessage> dataset = new ArrayList<InboxMessage>();
         dataset.addAll(messages);
-        inboxAdapter = new InboxFragmentAdapter(dataset, getContext());
+        inboxAdapter = new InboxFragmentAdapter(dataset, mListener, getContext
+                ());
         recyclerView.setAdapter(inboxAdapter);
 
         return view;
@@ -75,10 +77,31 @@ public class InboxFragment extends Fragment {
         contact8.setName("Wozniak");
         contact8.setDescription("Engineer");
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
-        tempMessage.setMessage("Email for this contact has expired.");
+        tempMessage.setMessage("Contact is requesting Email update.");
         tempMessage.setTimeStamp("4/1/2016");
 
         return temp;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListInboxFragmentInteractionListener) {
+            mListener = (OnListInboxFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnShareFragmentInteraction");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnListInboxFragmentInteractionListener {
+        void onListInboxFragmentInteraction(InboxMessage message);
     }
 
 }

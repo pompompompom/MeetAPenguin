@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DataUtil {
     public static Contact getMockContact() {
         Contact contact = new Contact();
-        contact.setName("Tom Brandy");
+        contact.setName("Tom Brady");
         contact.setDescription("Player");
         contact.setPhotoUrl("http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2330.png&w=350&h=254");
         ContactInfo contactInfo = new FacebookInfo();

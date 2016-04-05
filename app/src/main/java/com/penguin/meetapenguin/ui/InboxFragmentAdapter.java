@@ -18,10 +18,15 @@ import java.util.ArrayList;
 public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdapter.ViewHolder> {
 
     private final ArrayList<InboxMessage> mValues;
+    private final InboxFragment.OnListInboxFragmentInteractionListener
+            mListener;
     private Context mContext;
 
-    public InboxFragmentAdapter(ArrayList<InboxMessage> items, Context context) {
+    public InboxFragmentAdapter(ArrayList<InboxMessage> items, InboxFragment
+            .OnListInboxFragmentInteractionListener listener, Context
+            context) {
         mValues = items;
+        mListener = listener;
         mContext = context;
     }
 
@@ -43,7 +48,20 @@ public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdap
                 .into(holder.mPersonPhoto);
         holder.mTimestamp.setText(mValues.get(position).getTimeStamp());
 
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListInboxFragmentInteraction(holder.mItem);
+                }
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.ViewHolder> {
     public static final int MODE_SHARE_CONTACT = 0;
     public static final int MODE_EDIT_CONTACT = 1;
+    public static final int MODE_VIEW_CONTACT = 2;
 
     private final ArrayList<ContactInfo> mValues;
     private final PrepareShareFragment.OnShareFragmentInteraction mListener;
@@ -47,6 +48,9 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         } else if (mMode == MODE_EDIT_CONTACT) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.edit_contact_item, parent, false);
+        } else if (mMode == MODE_VIEW_CONTACT){
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.view_contact_item, parent, false);
         }
         return new ViewHolder(view);
     }
@@ -61,7 +65,10 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         } else if (mMode == MODE_EDIT_CONTACT) {
             holder.mEditContactInfo.setText(mValues.get(position).getAtrributeValue());
             holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId()));
-        }
+        }else if (mMode == MODE_VIEW_CONTACT) {
+            holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
+            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues
+                    .get(position).getIconResId()));}
     }
 
     @Override
@@ -90,11 +97,14 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                 mContactInfo = (TextView) view.findViewById(R.id.contact_info);
                 mContactCheckBox = (CheckBox) view.findViewById(R.id.share_checkbox);
                 mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
-            } else {
+            } else if(mMode == MODE_EDIT_CONTACT){
                 mEditContactInfo = (EditText) view.findViewById(R.id.edit_contact_info);
                 mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
                 mSaveButton = (Button) view.findViewById(R.id.save_contact);
                 // TODO set onclicklistener to this save button
+            } else if (mMode == MODE_VIEW_CONTACT){
+                mContactInfo = (TextView) view.findViewById(R.id.contact_info);
+                mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
             }
         }
 

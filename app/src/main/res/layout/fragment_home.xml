@@ -11,7 +11,6 @@
         android:name="com.penguin.meetapenguin.ui.ContactFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/share_button"
         android:layout_marginTop="10dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.ContactListFragment"

@@ -1,6 +1,8 @@
 package com.penguin.meetapenguin.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,19 +16,27 @@ import android.view.MenuItem;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.model.Contact;
 import com.penguin.meetapenguin.model.ContactInfo;
+import com.penguin.meetapenguin.model.InboxMessage;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ContactListFragment.OnListFragmentInteractionListener, PrepareShareFragment.OnShareFragmentInteraction {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        ContactListFragment.OnListFragmentInteractionListener,
+        PrepareShareFragment.OnShareFragmentInteraction, InboxFragment
+                .OnListInboxFragmentInteractionListener {
 
     private Fragment homeFragment;
     private Fragment settingsFragment = new SettingsFragment();
     private Fragment contactFragment = new ContactListFragment();
     private Fragment shareFragment = new PrepareShareFragment();
     private Fragment inboxFragment = new InboxFragment();
+    private Fragment singleContactFragment;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
+
+    //TODO: Bad design? Bring up with groupmates.
+    public Contact tempContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeFragment = new HomeFragment(toolbar);
+        singleContactFragment = new SingleContactFragment(toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -54,7 +65,12 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(getFragmentManager().getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            }
+            else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -100,7 +116,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void displayFragment(Fragment fragment, String title) {
-        getFragmentManager().beginTransaction().replace(R.id.main_content_frame, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id
+                .main_content_frame, fragment).commit();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
@@ -108,7 +125,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Contact item) {
-
+        tempContact = item;
+        displayFragment(singleContactFragment, item.getName());
     }
 
     @Override
@@ -128,5 +146,19 @@ public class MainActivity extends AppCompatActivity
 
     public DrawerLayout getDrawereLayout() {
         return mDrawer;
+    }
+
+    @Override
+    public void onListInboxFragmentInteraction(InboxMessage message) {
+        new AlertDialog.Builder(this).setMessage
+                ("TODO: Do you allow this contact to receive your up to date " +
+                        "information?")
+                .setPositiveButton("Renew", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton("Cancel",null).show();
     }
 }
