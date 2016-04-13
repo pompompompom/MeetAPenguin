@@ -1,14 +1,22 @@
 package com.penguin.meetapenguin.entities;
 
+import android.content.Context;
+
 /**
- * Created by urbano on 4/2/16.
+ * Contact Info class.
  */
-public interface ContactInfo {
-    String getAttribute();
+public abstract class ContactInfo {
+    public abstract Attribute getAttribute();
 
-    String getExtraDescription();
+    public abstract String getExtraDescription();
 
-    String getAtrributeValue();
+    public String getAtrributeName() {
+        return getAttribute().getName();
+    }
 
-    int getIconResId();
+    public abstract String getAtrributeValue();
+
+    public int getIconResId(Context context) {
+        return context.getResources().getIdentifier(getAttribute().getIconPath(), null, context.getPackageName());
+    }
 }

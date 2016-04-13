@@ -4,12 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
 /**
- * Created by urbano on 4/2/16.
+ * Facebook contact info
  */
-public class FacebookInfo implements ContactInfo, Parcelable {
+public class FacebookInfo extends ContactInfo implements Parcelable {
 
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<FacebookInfo> CREATOR = new Parcelable.Creator<FacebookInfo>() {
@@ -23,8 +24,6 @@ public class FacebookInfo implements ContactInfo, Parcelable {
             return new FacebookInfo[size];
         }
     };
-
-    private final static int ResId = R.drawable.facebook;
 
     protected FacebookInfo(Parcel in) {
 
@@ -44,8 +43,8 @@ public class FacebookInfo implements ContactInfo, Parcelable {
     }
 
     @Override
-    public String getAttribute() {
-        return "Facebook";
+    public Attribute getAttribute() {
+        return new Attribute("Facebook", "drawable/facebook");
     }
 
     @Override
@@ -56,10 +55,5 @@ public class FacebookInfo implements ContactInfo, Parcelable {
     @Override
     public String getAtrributeValue() {
         return "www.facebook.com/teste";
-    }
-
-    @Override
-    public int getIconResId() {
-        return ResId;
     }
 }

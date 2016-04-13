@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
+import org.w3c.dom.Attr;
+
 /**
- * Created by urbano on 4/2/16.
+ * Location contact info.
  */
-public class LocationInfo implements ContactInfo, Parcelable {
+public class LocationInfo extends ContactInfo implements Parcelable {
 
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<LocationInfo> CREATOR = new Parcelable.Creator<LocationInfo>() {
@@ -23,8 +26,6 @@ public class LocationInfo implements ContactInfo, Parcelable {
             return new LocationInfo[size];
         }
     };
-
-    private final static int ResId = R.drawable.ic_place_black_24dp;
 
     public LocationInfo() {
 
@@ -45,8 +46,8 @@ public class LocationInfo implements ContactInfo, Parcelable {
     }
 
     @Override
-    public String getAttribute() {
-        return "Location";
+    public Attribute getAttribute() {
+        return new Attribute("Location", "drawable/ic_place_black_24dp");
     }
 
     @Override
@@ -57,10 +58,5 @@ public class LocationInfo implements ContactInfo, Parcelable {
     @Override
     public String getAtrributeValue() {
         return "Cupertino - CA";
-    }
-
-    @Override
-    public int getIconResId() {
-        return ResId;
     }
 }

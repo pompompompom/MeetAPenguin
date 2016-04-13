@@ -61,14 +61,14 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
         if (mMode == MODE_SHARE_CONTACT) {
             holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
-            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId()));
+            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId(mContext)));
         } else if (mMode == MODE_EDIT_CONTACT) {
             holder.mEditContactInfo.setText(mValues.get(position).getAtrributeValue());
-            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId()));
+            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId(mContext)));
         } else if (mMode == MODE_VIEW_CONTACT) {
             holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
             holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues
-                    .get(position).getIconResId()));
+                    .get(position).getIconResId(mContext)));
         }
     }
 
