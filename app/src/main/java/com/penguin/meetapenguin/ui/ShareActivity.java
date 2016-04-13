@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.exceptions.ShareException;
 import com.penguin.meetapenguin.model.Contact;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +58,11 @@ public class ShareActivity extends AppCompatActivity {
         }
 
         if (contact == null) {
-            throw new IllegalArgumentException("You should give a contact object to share");
+            try {
+                throw new ShareException("You should give a contact object to share");
+            } catch (ShareException e) {
+                Log.d("MeetAPenguin", e.getMessage());
+            }
         }
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);

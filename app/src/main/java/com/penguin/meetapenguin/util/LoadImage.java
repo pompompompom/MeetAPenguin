@@ -3,6 +3,9 @@ package com.penguin.meetapenguin.util;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import com.penguin.meetapenguin.exceptions.BitmapException;
 
 /**
  * Created by urbano on 4/2/16.
@@ -11,6 +14,13 @@ public class LoadImage {
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
+        if (res == null || resId == 0 || reqWidth <= 0 || reqHeight <= 0) {
+            try {
+                throw new BitmapException("Bitmap input invalid");
+            } catch (BitmapException e) {
+                Log.d("MeetAPenguin", e.getMessage());
+            }
+        }
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -26,6 +36,15 @@ public class LoadImage {
 
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
+
+        if (options == null || reqWidth <= 0 || reqHeight <= 0) {
+            try {
+                throw new BitmapException("Bitmap input invalid");
+            } catch (BitmapException e) {
+                Log.d("MeetAPenguin", e.getMessage());
+            }
+        }
+
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
