@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.model;
+package com.penguin.meetapenguin.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;

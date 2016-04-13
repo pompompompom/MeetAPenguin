@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.model.InboxMessage;
+import com.penguin.meetapenguin.entities.InboxMessage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

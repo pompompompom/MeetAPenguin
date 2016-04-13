@@ -1,9 +1,9 @@
 package com.penguin.meetapenguin.util;
 
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.model.ContactInfo;
-import com.penguin.meetapenguin.model.contactInfoImpl.FacebookInfo;
-import com.penguin.meetapenguin.model.contactInfoImpl.LocationInfo;
+import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.entities.contactInfoImpl.FacebookInfo;
+import com.penguin.meetapenguin.entities.contactInfoImpl.LocationInfo;
 
 import java.util.ArrayList;
 

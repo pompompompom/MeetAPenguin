@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.model;
+package com.penguin.meetapenguin.entities;
 
 /**
  * Created by Prin Oungpasuk on 4/3/2016.

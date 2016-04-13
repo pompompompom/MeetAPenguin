@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.ContactInfo;
+import com.penguin.meetapenguin.entities.ContactInfo;
 
 import java.util.ArrayList;
 

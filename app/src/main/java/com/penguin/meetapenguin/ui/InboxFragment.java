@@ -9,11 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.model.InboxMessage;
+import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.InboxMessage;
 
 import java.util.ArrayList;
 

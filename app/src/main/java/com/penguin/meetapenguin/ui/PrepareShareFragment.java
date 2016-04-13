@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.model.ContactInfo;
+import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 

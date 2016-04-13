@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.model;
+package com.penguin.meetapenguin.entities;
 
 /**
  * Created by urbano on 4/2/16.

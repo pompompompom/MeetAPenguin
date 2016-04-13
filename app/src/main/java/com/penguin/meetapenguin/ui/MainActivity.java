@@ -14,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.Contact;
-import com.penguin.meetapenguin.model.ContactInfo;
-import com.penguin.meetapenguin.model.InboxMessage;
+import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.entities.InboxMessage;
 
 import java.util.ArrayList;
 

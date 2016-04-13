@@ -1,36 +1,37 @@
-package com.penguin.meetapenguin.model.contactInfoImpl;
+package com.penguin.meetapenguin.entities.contactInfoImpl;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.model.ContactInfo;
+import com.penguin.meetapenguin.entities.ContactInfo;
 
 /**
  * Created by urbano on 4/2/16.
  */
-public class FacebookInfo implements ContactInfo, Parcelable {
+public class LocationInfo implements ContactInfo, Parcelable {
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<FacebookInfo> CREATOR = new Parcelable.Creator<FacebookInfo>() {
+    public static final Parcelable.Creator<LocationInfo> CREATOR = new Parcelable.Creator<LocationInfo>() {
         @Override
-        public FacebookInfo createFromParcel(Parcel in) {
-            return new FacebookInfo(in);
+        public LocationInfo createFromParcel(Parcel in) {
+            return new LocationInfo(in);
         }
 
         @Override
-        public FacebookInfo[] newArray(int size) {
-            return new FacebookInfo[size];
+        public LocationInfo[] newArray(int size) {
+            return new LocationInfo[size];
         }
     };
 
-    private final static int ResId = R.drawable.facebook;
+    private final static int ResId = R.drawable.ic_place_black_24dp;
 
-    protected FacebookInfo(Parcel in) {
+    public LocationInfo() {
 
     }
 
-    public FacebookInfo() {
+    protected LocationInfo(Parcel in) {
+
     }
 
     @Override
@@ -45,7 +46,7 @@ public class FacebookInfo implements ContactInfo, Parcelable {
 
     @Override
     public String getAttribute() {
-        return "Facebook";
+        return "Location";
     }
 
     @Override
@@ -55,7 +56,7 @@ public class FacebookInfo implements ContactInfo, Parcelable {
 
     @Override
     public String getAtrributeValue() {
-        return "www.facebook.com/teste";
+        return "Cupertino - CA";
     }
 
     @Override
