@@ -99,12 +99,11 @@ public class ContactListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (searchController == false) return true;
+                if (!searchController) return true;
                 performSearch(newText);
                 return true;
             }
         });
-        return;
     }
 
     private void performSearch(String text) {

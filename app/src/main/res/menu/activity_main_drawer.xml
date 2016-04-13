@@ -5,32 +5,32 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="Profile" />
+            android:title="@string/profile" />
         <item
             android:id="@+id/nav_contacts"
             android:icon="@drawable/ic_group_black_24dp"
-            android:title="Contact List" />
+            android:title="@string/contact_list" />
         <item
             android:id="@+id/nav_inbox"
             android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Renewal Inbox" />
+            android:title="@string/renewal_inbox" />
 
         <item
             android:id="@+id/share"
             android:icon="@drawable/ic_group_black_24dp"
-            android:title="Share" />
+            android:title="@string/share" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settings" />
+            android:title="@string/settings" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_mail"
                 android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
+                android:title="@string/contact_us" />
         </menu>
     </item>
 

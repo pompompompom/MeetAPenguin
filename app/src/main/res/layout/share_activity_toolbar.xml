@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="name"
+            android:text="@string/name"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/white" />
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="description"
+            android:text="@string/contact_description"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/white" />
     </LinearLayout>

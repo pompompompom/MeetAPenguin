@@ -11,7 +11,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_weight="1"
-        android:src="@drawable/placeholder"/>
+        android:src="@drawable/placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="name"
+            android:text="@string/name"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="description"
+            android:text="@string/contact_description"
             android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 
@@ -53,16 +53,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
-            android:text="time"
-            android:textAppearance="?attr/textAppearanceListItem"
-            />
+            android:text="@string/time"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
         <TextView
             android:id="@+id/blank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textAppearance="?attr/textAppearanceListItem"
-            />
+            android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 
 

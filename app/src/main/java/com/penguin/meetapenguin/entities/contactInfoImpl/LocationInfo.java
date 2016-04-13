@@ -3,11 +3,8 @@ package com.penguin.meetapenguin.entities.contactInfoImpl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
-
-import org.w3c.dom.Attr;
 
 /**
  * Location contact info.

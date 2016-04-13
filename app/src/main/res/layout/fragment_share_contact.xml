@@ -22,5 +22,5 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:padding="10dp"
-        android:text="Share" />
+        android:text="@string/share" />
 </RelativeLayout>

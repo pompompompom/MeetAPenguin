@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:text="description"
+        android:text="@string/description"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 </LinearLayout>

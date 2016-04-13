@@ -28,13 +28,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:text="Expiration Date" />
+            android:text="@string/expiration_date" />
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="2 Years" />
+            android:text="@string/_2_years" />
     </LinearLayout>
 
     <Button
@@ -43,5 +43,5 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:padding="10dp"
-        android:text="Save" />
+        android:text="@string/save" />
 </RelativeLayout>
