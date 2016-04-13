@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.dblayout.AttributeController;
+import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
@@ -55,6 +57,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         displayFragment(homeFragment, "Main Page");
+
+        setupDatabase();
+    }
+
+    private void setupDatabase() {
+        // Load attribute table
+        AttributeController attributeController = new AttributeController(getApplicationContext());
+        attributeController.create(new Attribute("Facebook", "drawable/facebook"));
+        attributeController.create(new Attribute("Location", "drawable/ic_place_black_24dp"));
     }
 
     @Override
@@ -63,10 +74,9 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(getFragmentManager().getBackStackEntryCount() == 0) {
+            if (getFragmentManager().getBackStackEntryCount() == 0) {
                 super.onBackPressed();
-            }
-            else {
+            } else {
                 getFragmentManager().popBackStack();
             }
         }
@@ -104,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.share) {
             displayFragment(shareFragment, title);
         } else if (id == R.id.nav_mail) {
-        } else if (id == R.id.nav_inbox){
+        } else if (id == R.id.nav_inbox) {
             displayFragment(inboxFragment, title);
         }
 
@@ -157,6 +167,6 @@ public class MainActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int which) {
 
                             }
-                        }).setNegativeButton("Cancel",null).show();
+                        }).setNegativeButton("Cancel", null).show();
     }
 }
