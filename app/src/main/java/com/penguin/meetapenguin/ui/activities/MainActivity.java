@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.activities;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -19,6 +19,12 @@ import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
+import com.penguin.meetapenguin.ui.fragments.ContactListFragment;
+import com.penguin.meetapenguin.ui.fragments.HomeFragment;
+import com.penguin.meetapenguin.ui.fragments.InboxFragment;
+import com.penguin.meetapenguin.ui.fragments.PrepareShareFragment;
+import com.penguin.meetapenguin.ui.fragments.SettingsFragment;
+import com.penguin.meetapenguin.ui.fragments.SingleContactFragment;
 
 import java.util.ArrayList;
 

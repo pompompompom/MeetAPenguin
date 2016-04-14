@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 
 /**

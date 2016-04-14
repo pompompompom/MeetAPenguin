@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.activities;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

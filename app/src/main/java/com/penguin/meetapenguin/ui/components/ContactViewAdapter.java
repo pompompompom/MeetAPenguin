@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.components;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.ui.fragments.PrepareShareFragment;
 
 import java.util.ArrayList;
 

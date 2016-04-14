@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -19,6 +19,9 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
+import com.penguin.meetapenguin.ui.activities.MainActivity;
+import com.penguin.meetapenguin.ui.activities.ShareActivity;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 

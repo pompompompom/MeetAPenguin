@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.fragments;
 
 import android.app.Fragment;
 import android.app.SearchManager;
@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.ui.components.ContactListViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 

@@ -14,7 +14,7 @@
         android:layout_above="@+id/share_button"
         android:layout_marginTop="10dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.ContactListFragment"
+        tools:context=".ui.fragments.ContactListFragment"
         tools:listitem="@layout/fragment_contact" />
 
     <Button

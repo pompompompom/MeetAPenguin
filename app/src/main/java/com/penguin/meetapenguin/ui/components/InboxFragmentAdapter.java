@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.components;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,18 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.InboxMessage;
+import com.penguin.meetapenguin.ui.fragments.InboxFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListViewAdapter.ViewHolder> {
+public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdapter.ViewHolder> {
 
-    private final ArrayList<Contact> mValues;
-    private final ContactListFragment.OnListFragmentInteractionListener mListener;
+    private final ArrayList<InboxMessage> mValues;
+    private final InboxFragment.OnListInboxFragmentInteractionListener
+            mListener;
     private Context mContext;
 
-    public ContactListViewAdapter(ArrayList<Contact> items, ContactListFragment.OnListFragmentInteractionListener listener, Context context) {
+    public InboxFragmentAdapter(ArrayList<InboxMessage> items, InboxFragment
+            .OnListInboxFragmentInteractionListener listener, Context
+            context) {
         mValues = items;
         mListener = listener;
         mContext = context;
@@ -29,19 +33,20 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_contact, parent, false);
+                .inflate(R.layout.fragment_message, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getName());
-        holder.mContentView.setText(mValues.get(position).getDescription());
+        holder.mIdView.setText(mValues.get(position).getContact().getName());
+        holder.mContentView.setText(mValues.get(position).getMessage());
         Picasso.with(mContext)
-                .load(mValues.get(position).getPhotoUrl())
+                .load(mValues.get(position).getContact().getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
                 .into(holder.mPersonPhoto);
+        holder.mTimestamp.setText(mValues.get(position).getTimeStamp());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,18 +54,21 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListInboxFragmentInteraction(holder.mItem);
                 }
             }
         });
+
     }
+
+
 
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
-    public void setDataSet(ArrayList<Contact> dataSet) {
+    public void setDataSet(ArrayList<InboxMessage> dataSet) {
         mValues.clear();
         mValues.addAll(dataSet);
     }
@@ -70,7 +78,8 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
         public final ImageView mPersonPhoto;
         public final TextView mIdView;
         public final TextView mContentView;
-        public Contact mItem;
+        public final TextView mTimestamp;
+        public InboxMessage mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -78,6 +87,7 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
             mPersonPhoto = (ImageView) view.findViewById(R.id.person_image);
+            mTimestamp = (TextView) view.findViewById((R.id.timestamp));
         }
 
         @Override

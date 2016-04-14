@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.ui;
+package com.penguin.meetapenguin.ui.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.InboxMessage;
+import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
 
 import java.util.ArrayList;
 

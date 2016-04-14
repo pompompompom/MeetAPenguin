@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.penguin.meetapenguin.ui.ShareActivity"
+    tools:context=".ui.activities.ShareActivity"
     android:id="@+id/activity_container"
     android:background="@color/colorPrimary">
 
