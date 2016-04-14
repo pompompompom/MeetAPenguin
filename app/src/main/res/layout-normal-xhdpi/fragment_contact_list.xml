@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/search_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#23b7b4"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/query_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="2dp" />
+
+        <ImageView
+            android:id="@+id/close_search_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_clear_black_24dp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.penguin.meetapenguin.ui.ContactFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_tip"
+        android:layout_marginTop="10dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".ui.ContactListFragment"
+        tools:listitem="@layout/fragment_contact" />
+</RelativeLayout>
