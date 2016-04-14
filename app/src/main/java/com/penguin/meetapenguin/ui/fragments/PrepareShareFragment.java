@@ -19,9 +19,10 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
-import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
+import com.penguin.meetapenguin.ui.activities.ShareActivityIntent;
+import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
@@ -123,7 +124,8 @@ public class PrepareShareFragment extends Fragment {
 
     private void launchShareActivity(Contact mContact) {
         Intent intent = new Intent(getActivity(), ShareActivity.class);
-        intent.putExtra("Contact", mContact);
+        ShareActivityIntent bundle = new ShareActivityIntent(mContact);
+        intent.putExtra(ShareActivityIntent.ShareActivityIntentBundle, bundle);
         startActivity(intent);
     }
 

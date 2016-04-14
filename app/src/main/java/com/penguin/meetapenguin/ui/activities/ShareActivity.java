@@ -18,8 +18,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.exceptions.ShareException;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.exceptions.ShareException;
 import com.squareup.picasso.Picasso;
 
 import java.util.EnumMap;
@@ -50,20 +50,21 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        Contact contact = null;
+        ShareActivityIntent shareActivityIntent = null;
         if (savedInstanceState != null) {
-            contact = savedInstanceState.getParcelable("Contact");
+            shareActivityIntent = savedInstanceState.getParcelable(ShareActivityIntent.ShareActivityIntentBundle);
         } else {
-            contact = getIntent().getExtras().getParcelable("Contact");
+            shareActivityIntent = getIntent().getExtras().getParcelable(ShareActivityIntent.ShareActivityIntentBundle);
         }
 
-        if (contact == null) {
+        if (shareActivityIntent == null) {
             try {
                 throw new ShareException("You should give a contact object to share");
             } catch (ShareException e) {
                 Log.d("MeetAPenguin", e.getMessage());
             }
         }
+        Contact contact = shareActivityIntent.getContact();
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         ViewGroup view = (ViewGroup) findViewById(R.id.activity_container);
