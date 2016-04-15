@@ -22,4 +22,8 @@ public class BitmapException extends Exception {
     public String toString() {
         return message;
     }
+
+    public void fix() {
+        android.util.Log.e("MeetAPenguin", "Please address the issue " + message);
+    }
 }

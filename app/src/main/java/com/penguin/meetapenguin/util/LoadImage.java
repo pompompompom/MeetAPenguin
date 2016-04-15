@@ -42,6 +42,7 @@ public class LoadImage {
                 throw new BitmapException("Bitmap input invalid");
             } catch (BitmapException e) {
                 Log.d("MeetAPenguin", e.getMessage());
+                e.fix();
             }
         }
 

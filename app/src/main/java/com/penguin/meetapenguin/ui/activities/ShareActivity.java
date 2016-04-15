@@ -62,6 +62,7 @@ public class ShareActivity extends AppCompatActivity {
                 throw new ShareException("You should give a contact object to share");
             } catch (ShareException e) {
                 Log.d("MeetAPenguin", e.getMessage());
+                e.fix();
             }
         }
         Contact contact = shareActivityIntent.getContact();
