@@ -37,6 +37,7 @@ public class SingleContactFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
 
     private boolean dialogShown = false;
+    private View view;
 
     /**
      * Default no-args constructor.
@@ -54,7 +55,7 @@ public class SingleContactFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dialogShown = false;
-        View view = inflater.inflate(R.layout.fragment_single_contact,
+        view = inflater.inflate(R.layout.fragment_single_contact,
                 container, false);
 
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);

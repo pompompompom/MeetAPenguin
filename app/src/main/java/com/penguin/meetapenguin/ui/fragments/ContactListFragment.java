@@ -47,6 +47,8 @@ public class ContactListFragment extends Fragment {
     private CircularImageView imageProfile;
     private TextView name;
     private TextView description;
+    private View view;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -131,7 +133,7 @@ public class ContactListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
+        view = inflater.inflate(R.layout.fragment_contact_list, container, false);
         setHasOptionsMenu(true);
 
         Contact contact = DataUtil.getMockContact();
@@ -150,7 +152,7 @@ public class ContactListFragment extends Fragment {
         name.setText(contact.getName());
         description.setText(contact.getDescription());
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
         final View closeSearchFilter = view.findViewById(R.id.close_search_filter);
         queryText = (TextView) view.findViewById(R.id.query_text);
         searchTip = view.findViewById(R.id.search_tip);

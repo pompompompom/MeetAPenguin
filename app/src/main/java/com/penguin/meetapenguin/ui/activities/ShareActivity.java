@@ -34,6 +34,9 @@ public class ShareActivity extends AppCompatActivity {
     private TextView description;
     private CircularImageView imageProfile;
     private Button editShare;
+    private ShareActivityIntent shareActivityIntent;
+    private ViewGroup view;
+    private RelativeLayout toolbar;
 
     private static String guessAppropriateEncoding(CharSequence contents) {
         // Very crude at the moment
@@ -50,7 +53,7 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        ShareActivityIntent shareActivityIntent = null;
+        shareActivityIntent = null;
         if (savedInstanceState != null) {
             shareActivityIntent = savedInstanceState.getParcelable(ShareActivityIntent.ShareActivityIntentBundle);
         } else {
@@ -68,14 +71,15 @@ public class ShareActivity extends AppCompatActivity {
         Contact contact = shareActivityIntent.getContact();
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
-        ViewGroup view = (ViewGroup) findViewById(R.id.activity_container);
+        view = (ViewGroup) findViewById(R.id.activity_container);
         try {
             Bitmap bitmap = encodeAsBitmap("testando", BarcodeFormat.QR_CODE, 900, 600);
             qrCodeImageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }
-        RelativeLayout toolbar = (RelativeLayout) getLayoutInflater().inflate(R.layout.share_activity_toolbar, view);
+
+        toolbar = (RelativeLayout) getLayoutInflater().inflate(R.layout.share_activity_toolbar, view);
         name = (TextView) toolbar.findViewById(R.id.name);
         description = (TextView) toolbar.findViewById(R.id.description);
 

@@ -25,11 +25,12 @@ public class SettingsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ContactViewAdapter contactAdapter;
     private Button save;
+    private View v;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        v = inflater.inflate(R.layout.fragment_settings, container, false);
 
         contact = DataUtil.getMockContact();
 

@@ -51,6 +51,7 @@ public class PrepareShareFragment extends Fragment {
     private ActionBarDrawerToggle toggle;
     private Button shareBt;
     private RecyclerView recyclerView;
+    private View view;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,7 +80,7 @@ public class PrepareShareFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_share_contact, container, false);
+        view = inflater.inflate(R.layout.fragment_share_contact, container, false);
         mContact = DataUtil.getMockContact();
         setHasOptionsMenu(true);
 

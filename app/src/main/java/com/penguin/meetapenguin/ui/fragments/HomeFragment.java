@@ -38,6 +38,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ContactViewAdapter contactAdapter;
     private Button saveButton;
+    private View v;
+    private CircularImageView imageProfile;
 
     public HomeFragment() {
 
@@ -52,13 +54,13 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dialogShown = false;
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        v = inflater.inflate(R.layout.fragment_home, container, false);
 
         contact = DataUtil.getMockContact();
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
-        CircularImageView imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
+        imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
         Picasso.with(getContext())
                 .load(contact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
