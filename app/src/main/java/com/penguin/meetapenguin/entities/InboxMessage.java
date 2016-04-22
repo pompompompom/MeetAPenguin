@@ -5,17 +5,25 @@ package com.penguin.meetapenguin.entities;
  */
 public class InboxMessage {
 
+    private Integer id;
     private Contact contact;
     private String message;
     private long timeStamp;
     private boolean isDeleted;
     private boolean isReaded;
-
     /**
      * default no-args constructor.
      */
     public InboxMessage() {
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public boolean isDeleted() {
@@ -39,17 +47,17 @@ public class InboxMessage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        InboxMessage that = (InboxMessage) o;
+        InboxMessage message = (InboxMessage) o;
 
-        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
-        return message != null ? message.equals(that.message) : that.message == null;
+        if (id != null ? !id.equals(message.id) : message.id != null) return false;
+        return contact != null ? contact.equals(message.contact) : message.contact == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = contact != null ? contact.hashCode() : 0;
-        result = 31 * result + (message != null ? message.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (contact != null ? contact.hashCode() : 0);
         return result;
     }
 

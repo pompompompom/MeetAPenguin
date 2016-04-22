@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,6 +23,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
+import com.penguin.meetapenguin.ws.remote.AnswerInboxMessageRequest;
 import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 
 import java.util.ArrayList;
@@ -61,15 +63,29 @@ public class InboxFragment extends Fragment {
         mMessages = createFakeData();
         mListener = new OnListInboxFragmentInteractionListener() {
             @Override
-            public void onListInboxFragmentInteraction(InboxMessage message) {
+            public void onListInboxFragmentInteraction(final InboxMessage message) {
                 new AlertDialog.Builder(getContext()).setMessage
-                        ("TODO: Do you allow this contact to receive your up to date " +
+                        ("Do you allow this contact to receive your up to date " +
                                 "information?")
                         .setPositiveButton("Renew", new
                                 DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        AnswerInboxMessageRequest answerInboxMessageRequest = new AnswerInboxMessageRequest(message, true, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                    message.setDeleted(true);
+                                                onMessageDeleted();
+                                                mInboxAdapter.notifyDataSetChanged();
+                                                Toast.makeText(getContext(), getResources().getString(R.string.success_accepting_renew), Toast.LENGTH_LONG).show();
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getContext(), getResources().getString(R.string.error_accepting_renew), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                        mRequestQueue.add(answerInboxMessageRequest);
                                     }
                                 }).setNegativeButton("Cancel", null).show();
             }
@@ -149,6 +165,7 @@ public class InboxFragment extends Fragment {
         contact1.setName("John John");
         contact1.setDescription("Student");
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
+        tempMessage.setId(1);
         tempMessage.setContact(contact1);
         tempMessage.setMessage("Email for this contact has expired.");
 
@@ -165,6 +182,7 @@ public class InboxFragment extends Fragment {
         contact8.setDescription("Engineer");
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
         tempMessage2.setContact(contact8);
+        tempMessage2.setId(2);
         tempMessage2.setMessage("Contact is requesting Email update.");
 
         cal.add(Calendar.MONTH, -3);

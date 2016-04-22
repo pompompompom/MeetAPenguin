@@ -30,4 +30,6 @@
     <string name="contact_info_description">description</string>
     <string name="communicate">Communicate</string>
     <string name="no_message_available">Congrats, You read all your messages</string>
+    <string name="error_accepting_renew">Error while accepting the contact renew</string>
+    <string name="success_accepting_renew">Contact renewed</string>
 </resources>
