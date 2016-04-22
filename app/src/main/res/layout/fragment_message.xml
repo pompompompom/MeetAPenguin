@@ -1,68 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:orientation="horizontal"
-    android:weightSum="5">
-
-    <ImageView
-        android:id="@+id/person_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_weight="1"
-        android:src="@drawable/placeholder" />
-
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- Bottom View Start-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@color/red"
+        android:weightSum="1">
 
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="@string/name"
-            android:textAppearance="?attr/textAppearanceListItem" />
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/contact_description"
-            android:textAppearance="?attr/textAppearanceListItem" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/trash" />
     </LinearLayout>
+    <!-- Bottom View End-->
 
+    <!-- Surface View Start -->
     <LinearLayout
+        android:id="@+id/surface_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/timestamp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:text="@string/time"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
-        <TextView
-            android:id="@+id/blank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textAppearance="?attr/textAppearanceListItem" />
+            <ImageView
+                android:id="@+id/person_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_weight="1"
+                android:src="@drawable/placeholder" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/name"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/contact_description"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:text="@string/time"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/blank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="?attr/textAppearanceListItem" />
+            </LinearLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+    <!-- Surface View End -->
+</com.daimajia.swipe.SwipeLayout>

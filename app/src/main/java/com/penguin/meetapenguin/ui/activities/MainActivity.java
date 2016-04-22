@@ -1,8 +1,6 @@
 package com.penguin.meetapenguin.ui.activities;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +16,6 @@ import com.penguin.meetapenguin.dblayout.AttributeController;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
-import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.fragments.ContactListFragment;
 import com.penguin.meetapenguin.ui.fragments.HomeFragment;
 import com.penguin.meetapenguin.ui.fragments.InboxFragment;
@@ -31,8 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ContactListFragment.OnListFragmentInteractionListener,
-        PrepareShareFragment.OnShareFragmentInteraction, InboxFragment
-                .OnListInboxFragmentInteractionListener {
+        PrepareShareFragment.OnShareFragmentInteraction {
 
     private Fragment homeFragment;
     private Fragment settingsFragment = new SettingsFragment();
@@ -163,19 +159,5 @@ public class MainActivity extends AppCompatActivity
 
     public DrawerLayout getDrawereLayout() {
         return mDrawer;
-    }
-
-    @Override
-    public void onListInboxFragmentInteraction(InboxMessage message) {
-        new AlertDialog.Builder(this).setMessage
-                ("TODO: Do you allow this contact to receive your up to date " +
-                        "information?")
-                .setPositiveButton("Renew", new
-                        DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).setNegativeButton("Cancel", null).show();
     }
 }

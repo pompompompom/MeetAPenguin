@@ -29,4 +29,5 @@
     <string name="save">Save</string>
     <string name="contact_info_description">description</string>
     <string name="communicate">Communicate</string>
+    <string name="no_message_available">Congrats, You read all your messages</string>
 </resources>

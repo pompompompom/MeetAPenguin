@@ -22,15 +22,18 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+    private Integer id;
     private String name;
     private ArrayList<ContactInfo> contactInfoArrayList;
     private String description;
     private Date expiration;
     private String photoUrl;
+
     public Contact() {
     }
 
     protected Contact(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
         name = in.readString();
         if (in.readByte() == 0x01) {
             contactInfoArrayList = new ArrayList<ContactInfo>();
@@ -42,6 +45,35 @@ public class Contact implements Parcelable {
         long tmpExpiration = in.readLong();
         expiration = tmpExpiration != -1 ? new Date(tmpExpiration) : null;
         photoUrl = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        if (id != null ? !id.equals(contact.id) : contact.id != null) return false;
+        if (name != null ? !name.equals(contact.name) : contact.name != null) return false;
+        return description != null ? description.equals(contact.description) : contact.description == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getExpiration() {
@@ -91,6 +123,12 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
         dest.writeString(name);
         if (contactInfoArrayList == null) {
             dest.writeByte((byte) (0x00));

@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,17 +42,41 @@ public class RetrieveEntityRequest<T> extends Request<T> {
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
+        String json = "";
         try {
-            String json = new String(
+            json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(
-                    gson.fromJson(json, clazz),
+            return (Response<T>) Response.success(
+                    gson.fromJson(json, new ListOfJson<T>(clazz)),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             return Response.error(new ParseError(e));
+        }
+    }
+
+    public class ListOfJson<T> implements ParameterizedType {
+        private Class<?> wrapped;
+
+        public ListOfJson(Class<T> wrapper) {
+            this.wrapped = wrapper;
+        }
+
+        @Override
+        public Type[] getActualTypeArguments() {
+            return new Type[]{wrapped};
+        }
+
+        @Override
+        public Type getRawType() {
+            return List.class;
+        }
+
+        @Override
+        public Type getOwnerType() {
+            return null;
         }
     }
 }
