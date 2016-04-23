@@ -21,8 +21,8 @@ public class InboxMessageController {
         return DatabaseConnector.getInstance(mContext).insertInboxMessage(message);
     }
 
-    public InboxMessage read() {
-        return null;
+    public InboxMessage read(int cloudId) {
+        return DatabaseConnector.getInstance(mContext).readInboxMessage(cloudId).get(0);
     }
 
     public void update(InboxMessage message) {

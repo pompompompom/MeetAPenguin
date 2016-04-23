@@ -97,7 +97,13 @@ public class DatabaseConnector {
         ArrayList<InboxMessage> inboxMessageArrayList = new ArrayList<>();
         open();
         if (database != null) {
-            Cursor cursor = database.rawQuery(DBUtil.SELECT_ALL_INBOXMESSAGES, null);
+            Cursor cursor;
+            if (id == null) {
+                cursor = database.rawQuery(DBUtil.SELECT_ALL_INBOXMESSAGES, null);
+            } else {
+                cursor = database.rawQuery(DBUtil.SELECT_INBOXMESSAGE_USING_CLOUD_ID, new String[]{String.valueOf(id)});
+            }
+
             if (cursor.moveToFirst()) {
                 do {
 

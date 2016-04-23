@@ -148,6 +148,10 @@ public class InboxFragment extends Fragment {
         mInboxAdapter = new InboxFragmentAdapter(mMessages, mListener, getContext());
         mRecyclerView.setAdapter(mInboxAdapter);
 
+        if (mMessages.size() == 0) {
+            mAllMessageReader.setVisibility(View.VISIBLE);
+        }
+
         return mView;
     }
 
