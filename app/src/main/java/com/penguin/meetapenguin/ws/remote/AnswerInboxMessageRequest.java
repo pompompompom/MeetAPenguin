@@ -18,7 +18,7 @@ import java.util.Map;
 public class AnswerInboxMessageRequest extends Request<String> {
 
 
-    private static final String URL = "http://10.1.10.26:8080/rest";
+    private static final String URL = "http://10.0.3.2:8080/rest";
     private final Response.Listener<String> mListener;
     Map<String, String> mParams;
 

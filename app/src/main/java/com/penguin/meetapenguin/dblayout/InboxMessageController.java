@@ -1,24 +1,39 @@
 package com.penguin.meetapenguin.dblayout;
 
+import android.content.Context;
+
 import com.penguin.meetapenguin.entities.InboxMessage;
+
+import java.util.ArrayList;
 
 /**
  * InboxMessage controller for InboxMessage CRUD.
  */
 public class InboxMessageController {
-    public void create(InboxMessage message) {
 
+    private final Context mContext;
+
+    public InboxMessageController(Context context) {
+        mContext = context;
+    }
+
+    public long create(InboxMessage message) {
+        return DatabaseConnector.getInstance(mContext).insertInboxMessage(message);
     }
 
     public InboxMessage read() {
         return null;
     }
 
-    public void update() {
-
+    public void update(InboxMessage message) {
+        DatabaseConnector.getInstance(mContext).updateInboxMessage(message);
     }
 
     public void delete(InboxMessage message) {
 
+    }
+
+    public ArrayList<InboxMessage> readAll() {
+        return DatabaseConnector.getInstance(mContext).readInboxMessage(null);
     }
 }

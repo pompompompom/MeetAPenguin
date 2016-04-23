@@ -28,7 +28,7 @@ public class ProfileManager {
      * @return
      */
     public Integer getUserId() {
-        return 10;
+        return 1;
     }
 
 }

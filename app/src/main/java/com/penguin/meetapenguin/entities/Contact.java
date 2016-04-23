@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by urbano on 4/2/16.
@@ -22,11 +21,12 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
     private Integer id;
     private String name;
     private ArrayList<ContactInfo> contactInfoArrayList;
     private String description;
-    private Date expiration;
+    private long expiration;
     private String photoUrl;
 
     public Contact() {
@@ -42,8 +42,7 @@ public class Contact implements Parcelable {
             contactInfoArrayList = null;
         }
         description = in.readString();
-        long tmpExpiration = in.readLong();
-        expiration = tmpExpiration != -1 ? new Date(tmpExpiration) : null;
+        expiration = in.readLong();
         photoUrl = in.readString();
     }
 
@@ -76,11 +75,11 @@ public class Contact implements Parcelable {
         this.id = id;
     }
 
-    public Date getExpiration() {
+    public long getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(Date expiration) {
+    public void setExpiration(long expiration) {
         this.expiration = expiration;
     }
 
@@ -137,7 +136,7 @@ public class Contact implements Parcelable {
             dest.writeList(contactInfoArrayList);
         }
         dest.writeString(description);
-        dest.writeLong(expiration != null ? expiration.getTime() : -1L);
+        dest.writeLong(expiration);
         dest.writeString(photoUrl);
     }
 }

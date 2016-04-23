@@ -25,6 +25,7 @@ public class DBUtil {
             + "(cloudId INTEGER primary key,"
             + "name TEXT NOT NULL,"
             + "description TEXT NOT NULL,"
+            + "photoUrl TEXT,"
             + "expiration INTEGER NOT NULL);";
 
     public static final String CREATE_TABLE_CONTACT_INFO = "CREATE TABLE IF NOT EXISTS ContactInfo "
@@ -44,13 +45,23 @@ public class DBUtil {
             + "toContactId INTEGER NOT NULL,"
             + "message TEXT NOT NULL,"
             + "timestamp INTEGER NOT NULL,"
-            + "read INTEGER NOT NULL,"
+            + "read BOOLEAN NOT NULL,"
+            + "deleted BOOLEAN NOT NULL,"
             + "foreign key (fromContactId) references contact(cloudId) ON DELETE CASCADE,"
             + "foreign key (toContactId) references contact(cloudId) ON DELETE CASCADE"
             + ");";
+
 
     // call this in onOpen()
     public static final String TURN_ON_CONSTRAINT = "PRAGMA foreign_keys = ON;";
 
     public static final String SELECT_ALL_ATTRIBUTE = "SELECT * FROM Attribute;";
+
+    public static final String SELECT_ALL_INBOXMESSAGES = "SELECT * FROM InboxMessage;";
+
+    public static final String SELECT_INBOXMESSAGE_USING_CLOUD_ID = "SELECT * FROM InboxMessage WHERE cloudId = ?;";
+
+    public static final String SELECT_CONTACT = "SELECT * FROM Contact WHERE cloudId = ?;";
+
+    public static final String SELECT_ALL_CONTACT = "SELECT * FROM Contact;";
 }

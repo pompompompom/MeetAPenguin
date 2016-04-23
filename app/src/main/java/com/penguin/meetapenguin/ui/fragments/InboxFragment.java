@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.dblayout.ContactController;
+import com.penguin.meetapenguin.dblayout.InboxMessageController;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
@@ -38,6 +42,7 @@ public class InboxFragment extends Fragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
     private static final String URL = "http://10.0.3.2:8080/rest/messages";
+    private static final String CREATE_FAKE_DATA = "fakedata";
     private ArrayList<InboxMessage> mMessages;
     private InboxFragmentAdapter mInboxAdapter;
     private OnListInboxFragmentInteractionListener mListener;
@@ -60,7 +65,8 @@ public class InboxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(getContext());
-        mMessages = createFakeData();
+        createFakeData();
+        mMessages = loadMessagesFromDB();
         mListener = new OnListInboxFragmentInteractionListener() {
             @Override
             public void onListInboxFragmentInteraction(final InboxMessage message) {
@@ -74,7 +80,7 @@ public class InboxFragment extends Fragment {
                                         AnswerInboxMessageRequest answerInboxMessageRequest = new AnswerInboxMessageRequest(message, true, new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
-                                                    message.setDeleted(true);
+                                                message.setDeleted(true);
                                                 onMessageDeleted();
                                                 mInboxAdapter.notifyDataSetChanged();
                                                 Toast.makeText(getContext(), getResources().getString(R.string.success_accepting_renew), Toast.LENGTH_LONG).show();
@@ -92,12 +98,34 @@ public class InboxFragment extends Fragment {
 
             @Override
             public void onMessageDeleted() {
+                saveMessages();
                 for (InboxMessage message : mMessages) {
                     if (!message.isDeleted()) return;
                 }
                 mAllMessageReader.setVisibility(View.VISIBLE);
             }
         };
+    }
+
+    private ArrayList<InboxMessage> loadMessagesFromDB() {
+        InboxMessageController inboxMessageController = new InboxMessageController(getContext());
+        return inboxMessageController.readAll();
+    }
+
+    private void saveMessages() {
+        InboxMessageController inboxMessageController = new InboxMessageController(getContext());
+        for (InboxMessage inboxMessage : mMessages) {
+            if (inboxMessage.getId() == null) {
+                int id = (int) inboxMessageController.create(inboxMessage);
+                if (id > 0) {
+                    inboxMessage.setId(id);
+                } else {
+                    Log.e(TAG, "saveMessages: Error while saving a inboxMessage into the database");
+                }
+            } else {
+                inboxMessageController.update(inboxMessage);
+            }
+        }
     }
 
     @Nullable
@@ -141,6 +169,7 @@ public class InboxFragment extends Fragment {
                 }
                 mSwipeContainer.setRefreshing(false);
                 mInboxAdapter.notifyDataSetChanged();
+                saveMessages();
             }
         };
 
@@ -155,43 +184,61 @@ public class InboxFragment extends Fragment {
         mRequestQueue.add(request);
     }
 
-    public ArrayList<InboxMessage> createFakeData() {
+    public void createFakeData() {
 
-        ArrayList<InboxMessage> temp = new ArrayList<>();
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean alreadyCreated = sharedPref.getBoolean(CREATE_FAKE_DATA, false);
+        if (alreadyCreated)
+            return;
 
         //Adding first face message
-        InboxMessage tempMessage = new InboxMessage();
+        InboxMessage inboxMessage1 = new InboxMessage();
         Contact contact1 = new Contact();
         contact1.setName("John John");
         contact1.setDescription("Student");
+        contact1.setId(1);
+        contact1.setExpiration(new Date().getTime());
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
-        tempMessage.setId(1);
-        tempMessage.setContact(contact1);
-        tempMessage.setMessage("Email for this contact has expired.");
+
+        ContactController contactController = new ContactController(getContext());
+        contactController.create(contact1);
+
+        inboxMessage1.setId(1);
+        inboxMessage1.setCloudId(1);
+        inboxMessage1.setContact(contact1);
+        inboxMessage1.setMessage("Email for this contact has expired.");
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         Date fakeDate = cal.getTime();
-        tempMessage.setTimeStamp(fakeDate.getTime());
-        temp.add(tempMessage);
+        inboxMessage1.setTimeStamp(fakeDate.getTime());
+
+        InboxMessageController inboxMessageController = new InboxMessageController(getContext());
+        inboxMessageController.create(inboxMessage1);
 
         //Adding second face message
-        InboxMessage tempMessage2 = new InboxMessage();
+        InboxMessage inboxMessage2 = new InboxMessage();
         Contact contact8 = new Contact();
         contact8.setName("Wozniak");
         contact8.setDescription("Engineer");
+        contact8.setId(2);
+        contact8.setExpiration(new Date().getTime());
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
-        tempMessage2.setContact(contact8);
-        tempMessage2.setId(2);
-        tempMessage2.setMessage("Contact is requesting Email update.");
+        contactController.create(contact8);
+        inboxMessage2.setContact(contact8);
+        inboxMessage2.setId(2);
+        inboxMessage1.setCloudId(2);
+        inboxMessage2.setMessage("Contact is requesting Email update.");
 
         cal.add(Calendar.MONTH, -3);
         Date fakeDate2 = cal.getTime();
 
-        tempMessage2.setTimeStamp(fakeDate2.getTime());
-        temp.add(tempMessage2);
+        inboxMessage2.setTimeStamp(fakeDate2.getTime());
+        inboxMessageController.create(inboxMessage2);
 
-        return temp;
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(CREATE_FAKE_DATA, true);
+        editor.commit();
     }
 
     @Override

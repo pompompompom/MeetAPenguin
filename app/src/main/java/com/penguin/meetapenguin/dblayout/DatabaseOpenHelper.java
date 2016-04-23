@@ -16,10 +16,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
 
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(DBUtil.DROP_TABLE_INBOX_MESSAGE);
-        db.execSQL(DBUtil.DROP_TABLE_CONTACT_INFO);
-        db.execSQL(DBUtil.DROP_TABLE_CONTACT);
-        db.execSQL(DBUtil.DROP_TABLE_ATTRIBUTE);
+//        db.execSQL(DBUtil.DROP_TABLE_INBOX_MESSAGE);
+//        db.execSQL(DBUtil.DROP_TABLE_CONTACT_INFO);
+//        db.execSQL(DBUtil.DROP_TABLE_CONTACT);
+//        db.execSQL(DBUtil.DROP_TABLE_ATTRIBUTE);
 
         db.execSQL(DBUtil.CREATE_TABLE_ATTRIBUTE);
         db.execSQL(DBUtil.CREATE_TABLE_CONTACT);

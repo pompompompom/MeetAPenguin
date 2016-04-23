@@ -6,6 +6,7 @@ package com.penguin.meetapenguin.entities;
 public class InboxMessage {
 
     private Integer id;
+    private Integer cloudId;
     private Contact contact;
     private String message;
     private long timeStamp;
@@ -16,6 +17,14 @@ public class InboxMessage {
      */
     public InboxMessage() {
 
+    }
+
+    public Integer getCloudId() {
+        return cloudId;
+    }
+
+    public void setCloudId(Integer cloudId) {
+        this.cloudId = cloudId;
     }
 
     public Integer getId() {
@@ -47,18 +56,15 @@ public class InboxMessage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        InboxMessage message = (InboxMessage) o;
+        InboxMessage that = (InboxMessage) o;
 
-        if (id != null ? !id.equals(message.id) : message.id != null) return false;
-        return contact != null ? contact.equals(message.contact) : message.contact == null;
+        return cloudId != null ? cloudId.equals(that.cloudId) : that.cloudId == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (contact != null ? contact.hashCode() : 0);
-        return result;
+        return cloudId != null ? cloudId.hashCode() : 0;
     }
 
     /**
