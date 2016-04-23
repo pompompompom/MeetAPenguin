@@ -32,4 +32,8 @@
     <string name="no_message_available">Congrats, You read all your messages</string>
     <string name="error_accepting_renew">Error while accepting the contact renew</string>
     <string name="success_accepting_renew">Contact renewed</string>
+    <string name="register">register</string>
+    <string name="name_login">Your name</string>
+    <string name="create_your_profile">Create your profile</string>
+    <string name="email_login">Your email</string>
 </resources>

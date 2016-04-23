@@ -138,19 +138,6 @@ public class ContactListFragment extends Fragment {
 
         Contact contact = DataUtil.getMockContact();
         mToolbar = mListener.getToolBar();
-        inflater.inflate(R.layout.share_fragment_toolbar, mToolbar, true);
-        toolbarView = mToolbar.findViewById(R.id.share_fragment_toolbar);
-
-        imageProfile = (CircularImageView) mToolbar.findViewById(R.id.profile_picture);
-        Picasso.with(getContext())
-                .load(contact.getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(imageProfile);
-
-        name = (TextView) mToolbar.findViewById(R.id.name);
-        description = (TextView) mToolbar.findViewById(R.id.description);
-        name.setText(contact.getName());
-        description.setText(contact.getDescription());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         final View closeSearchFilter = view.findViewById(R.id.close_search_filter);
