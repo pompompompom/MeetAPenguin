@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
@@ -42,7 +43,6 @@ public class HomeFragment extends Fragment {
     private CircularImageView imageProfile;
 
     public HomeFragment() {
-
     }
 
     @SuppressLint("ValidFragment")
@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
         dialogShown = false;
         v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        toolbar = ((MainActivity)getActivity()).getToolBar();
         contact = DataUtil.getMockContact();
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
