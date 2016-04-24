@@ -20,6 +20,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
+import com.penguin.meetapenguin.ui.activities.ScanActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivityIntent;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
@@ -50,6 +51,7 @@ public class PrepareShareFragment extends Fragment {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Button shareBt;
+    private Button scanBt;
     private RecyclerView recyclerView;
     private View view;
 
@@ -115,12 +117,27 @@ public class PrepareShareFragment extends Fragment {
             }
         });
 
+        scanBt = (Button) view.findViewById(R.id.scan_button);
+        scanBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchScanActivity(mContact);
+            }
+        });
+
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         contactAdapter = new ContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
+    }
+
+    private void launchScanActivity(Contact mContact) {
+        Intent intent = new Intent(getActivity(), ScanActivity.class);
+        ShareActivityIntent bundle = new ShareActivityIntent(mContact);
+        intent.putExtra(ShareActivityIntent.ShareActivityIntentBundle, bundle);
+        startActivity(intent);
     }
 
     private void launchShareActivity(Contact mContact) {

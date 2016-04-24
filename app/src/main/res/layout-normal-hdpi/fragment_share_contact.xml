@@ -23,4 +23,12 @@
         android:layout_alignParentBottom="true"
         android:padding="10dp"
         android:text="@string/share" />
+
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@id/share_button"
+        android:padding="10dp"
+        android:text="@string/scan" />
 </RelativeLayout>
