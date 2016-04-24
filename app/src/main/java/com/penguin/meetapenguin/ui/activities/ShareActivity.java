@@ -72,8 +72,10 @@ public class ShareActivity extends AppCompatActivity {
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         view = (ViewGroup) findViewById(R.id.activity_container);
+
+        String contactJson = contact.toJson();
         try {
-            Bitmap bitmap = encodeAsBitmap("testando", BarcodeFormat.QR_CODE, 900, 600);
+            Bitmap bitmap = encodeAsBitmap(contactJson, BarcodeFormat.QR_CODE, 900, 600);
             qrCodeImageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();

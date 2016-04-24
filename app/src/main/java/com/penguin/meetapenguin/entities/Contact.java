@@ -3,6 +3,12 @@ package com.penguin.meetapenguin.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +27,8 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private Integer id;
     private String name;
@@ -138,5 +146,18 @@ public class Contact implements Parcelable {
         dest.writeString(description);
         dest.writeLong(expiration);
         dest.writeString(photoUrl);
+    }
+
+    public String toJson() {
+        return GSON.toJson(this);
+    }
+
+    public static Contact fromJson(String json) {
+        JsonObject jsonObject = new JsonParser().parse(new StringReader(json)).getAsJsonObject();
+        return fromJson(jsonObject);
+    }
+
+    public static Contact fromJson(JsonObject jsonObject) {
+        return GSON.fromJson(jsonObject, Contact.class);
     }
 }
