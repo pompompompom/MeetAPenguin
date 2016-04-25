@@ -3,31 +3,61 @@ package com.penguin.meetapenguin.ui.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.SurfaceView;
 
-import com.penguin.meetapenguin.R;
+import com.google.zxing.Result;
+import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
 
-import github.nisrulz.qreader.QRDataListener;
-import github.nisrulz.qreader.QREader;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ScanActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+
+    private static final String TAG = "ScanActivity";
+
+    private ZXingScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
 
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.camera_view);
-        QREader.start(this, surfaceView, new QRDataListener() {
-            @Override
-            public void onDetected(final String data) {
-                Log.d("QREader", "Value : " + data);
-                Contact c = Contact.fromJson(data);
-                if (c != null) {
-                    Log.d("MITA", "contact: " + c.toString());
-                }
-            }
-        });
+        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        setContentView(mScannerView);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+        mScannerView.startCamera();          // Start camera on resume
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.stopCamera();           // Stop camera on pause
+    }
+
+    @Override
+    public void handleResult(Result rawResult) {
+        // Do something with the result here
+        Log.v(TAG, rawResult.getText()); // Prints scan results
+        Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
+
+        Contact c = Contact.fromJson(rawResult.getText());
+        if (c != null) {
+            Log.d(TAG, "contact: " + c.toString() + "|" + c.getName());
+
+            ContactController controller = new ContactController(this);
+            Log.d(TAG, "before: " + controller.readAll());
+            controller.create(c);
+            Log.d(TAG, "--------------------------");
+            Log.d(TAG, "after: " + controller.readAll());
+        }
+
+
+        finish();
+
+        // If you would like to resume scanning, call this method below:
+        // mScannerView.resumeCameraPreview(this);
     }
 }

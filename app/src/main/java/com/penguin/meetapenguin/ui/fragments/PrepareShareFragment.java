@@ -1,5 +1,6 @@
 package com.penguin.meetapenguin.ui.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -66,7 +67,6 @@ public class PrepareShareFragment extends Fragment {
     public static PrepareShareFragment newInstance(Contact contact) {
         PrepareShareFragment fragment = new PrepareShareFragment();
         Bundle args = new Bundle();
-        //args.putParcelable("Contact", contact);
         args.putSerializable("Contact", contact);
         fragment.setArguments(args);
         return fragment;
@@ -76,7 +76,6 @@ public class PrepareShareFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            //mContact = savedInstanceState.getParcelable("Contact");
             mContact = (Contact)savedInstanceState.getSerializable("Contact");
         }
     }

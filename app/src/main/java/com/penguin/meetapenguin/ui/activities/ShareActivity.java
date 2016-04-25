@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui.activities;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,14 +52,15 @@ public class ShareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share);
 
         Contact contact = (Contact) getIntent().getSerializableExtra("Contact");
-        android.util.Log.d("ShareActivity", "Sharing contact: " + contact.toJson());
+        android.util.Log.d("MITA", "contact name: " + contact.getName());
+        Log.d("MITA", "!!!!!!!!!Sharing contact: " + contact.toJson());
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         view = (ViewGroup) findViewById(R.id.activity_container);
 
         String contactJson = contact.toJson();
         try {
-            Bitmap bitmap = encodeAsBitmap(contactJson, BarcodeFormat.QR_CODE, 900, 600);
+            Bitmap bitmap = encodeAsBitmap(contactJson, BarcodeFormat.QR_CODE, 1350, 900);
             qrCodeImageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
