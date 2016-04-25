@@ -37,7 +37,7 @@ public class SettingsFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactAdapter = new ContactViewAdapter(recyclerView, contact.getContactInfoArrayList(),
                 null, getContext());
         recyclerView.setAdapter(contactAdapter);
 

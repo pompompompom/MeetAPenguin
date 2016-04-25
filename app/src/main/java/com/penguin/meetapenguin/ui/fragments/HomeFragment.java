@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
@@ -41,7 +42,7 @@ public class HomeFragment extends Fragment {
     private TextView name;
     private TextView description;
     private RecyclerView recyclerView;
-    private ContactViewAdapter contactAdapter;
+    private ContactViewAdapter mContactAdapter;
     private Button saveButton;
     private View view;
     private CircularImageView imageProfile;
@@ -109,24 +110,43 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
         contactInfoList = contact.getContactInfoArrayList();
-        contactAdapter = new ContactViewAdapter(contactInfoList,
+        mContactAdapter = new ContactViewAdapter(recyclerView, contactInfoList,
                 null, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
-        recyclerView.setAdapter(contactAdapter);
+        recyclerView.setAdapter(mContactAdapter);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view
+        final FloatingActionMenu floatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fab);
+
+        FloatingActionButton floatingActionButtonAddNew = (FloatingActionButton) view
                 .findViewById(R.id.add_new_contact_info);
-        floatingActionButton.setOnClickListener(
+        floatingActionButtonAddNew.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        contactInfoList.add(new ContactInfo(null, "", ""));
-                        contactAdapter.notifyDataSetChanged();
+                        ContactInfo emptyContactInfo = new ContactInfo(null, "", "");
+                        emptyContactInfo.setEditing(true);
+                        contactInfoList.add(emptyContactInfo);
+                        mContactAdapter.saveState();
+                        mContactAdapter.notifyDataSetChanged();
+                        floatingActionMenu.close(true);
+                    }
+                });
+
+        FloatingActionButton floatingActionButtonSave = (FloatingActionButton) view
+                .findViewById(R.id.save);
+        floatingActionButtonSave.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContactAdapter.removeEmpty();
+                        mContactAdapter.saveContact();
+                        mContactAdapter.notifyDataSetChanged();
+                        floatingActionMenu.close(true);
+                        recyclerView.invalidate();
                     }
                 });
 
         return view;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -134,5 +154,6 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onDestroyView() called with: " + "");
         //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(toolbarView);
+        mContactAdapter.removeEmpty();
     }
 }

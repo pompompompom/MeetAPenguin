@@ -1,6 +1,5 @@
 package com.penguin.meetapenguin.ui.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.activities.ScanActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
-import com.penguin.meetapenguin.ui.activities.ShareActivityIntent;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
@@ -76,7 +74,7 @@ public class PrepareShareFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mContact = (Contact)savedInstanceState.getSerializable("Contact");
+            mContact = (Contact) savedInstanceState.getSerializable("Contact");
         }
     }
 
@@ -128,7 +126,7 @@ public class PrepareShareFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new ContactViewAdapter(mContact.getContactInfoArrayList(), mListener, getContext());
+        contactAdapter = new ContactViewAdapter(recyclerView, mContact.getContactInfoArrayList(), mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;

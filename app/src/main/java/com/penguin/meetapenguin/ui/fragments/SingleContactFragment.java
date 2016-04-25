@@ -76,7 +76,7 @@ public class SingleContactFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactAdapter = new ContactViewAdapter(recyclerView, contact.getContactInfoArrayList(),
                 null, getContext(), ContactViewAdapter.MODE_VIEW_CONTACT);
         recyclerView.setAdapter(contactAdapter);
 

@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui.components;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.penguin.meetapenguin.ui.fragments.PrepareShareFragment;
 import com.penguin.meetapenguin.util.AttributesHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.ViewHolder> {
     public static final int MODE_SHARE_CONTACT = 0;
@@ -31,16 +33,18 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
     private final ArrayList<ContactInfo> mValues;
     private final PrepareShareFragment.OnShareFragmentInteraction mListener;
+    private final RecyclerView mRecycleView;
     int mMode;
     private Context mContext;
 
-    public ContactViewAdapter(ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
                               Context context) {
-        this(items, listener, context, MODE_SHARE_CONTACT);
+        this(recycleView, items, listener, context, MODE_SHARE_CONTACT);
     }
 
-    public ContactViewAdapter(ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
                               Context context, int mode) {
+        mRecycleView = recycleView;
         mValues = items;
         mListener = listener;
         mContext = context;
@@ -49,7 +53,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        if (mValues.get(position).getAtrributeValue().isEmpty()) {
+        if (mValues.get(position).isEditing()) {
             return NEW_ITEM;
         } else {
             return FILLED_ITEM;
@@ -78,20 +82,24 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Log.d(TAG, "onBindViewHolder: " + position);
         holder.mItem = mValues.get(position);
 
         if (mMode == MODE_SHARE_CONTACT) {
             holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
             holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId(mContext)));
         } else if (mMode == MODE_EDIT_CONTACT) {
+            holder.mEditContactInfo.setText(mValues.get(position).getAtrributeValue());
             if (holder.mType == FILLED_ITEM) {
-                holder.mEditContactInfo.setText(mValues.get(position).getAtrributeValue());
                 holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues.get(position).getIconResId(mContext)));
             } else {
+                mValues.get(position).setAttribute(holder.mAttributesList.get(holder.mSelectedAttribute));
                 holder.mSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        holder.mSelectedAttribute = pos;
                         holder.mEditContactInfo.setHint(((Attribute) holder.mSpiner.getSelectedItem()).getName());
+                        mValues.get(position).setAttribute(holder.mAttributesList.get(pos));
                     }
 
                     @Override
@@ -107,11 +115,52 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                     notifyDataSetChanged();
                 }
             });
+
         } else if (mMode == MODE_VIEW_CONTACT) {
             holder.mContactInfo.setText(mValues.get(position).getAtrributeValue());
             holder.mContactIcon.setImageDrawable(mContext.getDrawable(mValues
                     .get(position).getIconResId(mContext)));
         }
+    }
+
+    public void saveState() {
+        for (int i = 0; i < getItemCount(); i++) {
+            ViewHolder holder = (ViewHolder) mRecycleView.findViewHolderForPosition(i);
+
+            if (holder != null) {
+                if (mMode == MODE_EDIT_CONTACT) {
+                    mValues.get(i).setAttributeValue(holder.mEditContactInfo.getText().toString());
+                }
+            }
+        }
+    }
+
+    public void saveContact() {
+        for (int i = 0; i < getItemCount(); i++) {
+            ViewHolder holder = (ViewHolder) mRecycleView.findViewHolderForPosition(i);
+
+            if (holder != null) {
+                if (mMode == MODE_EDIT_CONTACT) {
+                    mValues.get(i).setAttributeValue(holder.mEditContactInfo.getText().toString());
+                    mValues.get(i).setEditing(false);
+                }
+            }
+        }
+    }
+
+    public void removeEmpty() {
+        List<ContactInfo> toRemove = new ArrayList<>();
+        for (int i = 0; i < getItemCount(); i++) {
+            ViewHolder holder = (ViewHolder) mRecycleView.findViewHolderForPosition(i);
+            if (holder != null) {
+                if (mMode == MODE_EDIT_CONTACT) {
+                    if (mValues.get(i).getAtrributeValue().isEmpty() && holder.mEditContactInfo.getText().toString().isEmpty()) {
+                        toRemove.add(mValues.get(i));
+                    }
+                }
+            }
+        }
+        mValues.removeAll(toRemove);
     }
 
     @Override
@@ -134,6 +183,8 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         public Spinner mSpiner = null;
         public ImageView mDelete = null;
         public int mType;
+        public List<Attribute> mAttributesList;
+        public int mSelectedAttribute;
 
         public ViewHolder(View view, int type) {
             super(view);
@@ -150,7 +201,8 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                 if (type == NEW_ITEM) {
                     mDelete.setColorFilter(mContext.getResources().getColor(R.color.greysigh), PorterDuff.Mode.SRC_IN);
 
-                    AttributeSpinAdapter adapter = new AttributeSpinAdapter(mContext, AttributesHelper.getAllAttributes());
+                    mAttributesList = AttributesHelper.getAllAttributes();
+                    AttributeSpinAdapter adapter = new AttributeSpinAdapter(mContext, mAttributesList);
                     mSpiner = (Spinner) view.findViewById(R.id.spinner);
                     mSpiner.setAdapter(adapter);
                 }
