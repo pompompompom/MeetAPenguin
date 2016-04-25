@@ -6,13 +6,14 @@
     android:orientation="horizontal"
     android:weightSum="2">
 
-    <ImageView
-        android:id="@+id/contact_info_icon"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="39dp"
         android:layout_height="39dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/ic_group_black_24dp" />
+        android:background="@null"
+        android:drawSelectorOnTop="true" />
 
     <EditText
         android:id="@+id/edit_contact_info"
@@ -21,8 +22,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_weight="2"
-        android:text="@string/description"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:hint="@string/description"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/greysigh" />
 
     <ImageView
         android:id="@+id/delete_contact_info"

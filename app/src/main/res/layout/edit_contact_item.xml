@@ -25,6 +25,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <ImageView
+        android:id="@+id/delete_contact_info"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"

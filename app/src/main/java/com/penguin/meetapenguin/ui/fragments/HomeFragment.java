@@ -16,13 +16,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Fragment to display main screen.
@@ -39,8 +43,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ContactViewAdapter contactAdapter;
     private Button saveButton;
-    private View v;
+    private View view;
     private CircularImageView imageProfile;
+    private ArrayList<ContactInfo> contactInfoList;
 
     public HomeFragment() {
     }
@@ -54,9 +59,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dialogShown = false;
-        v = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        toolbar = ((MainActivity)getActivity()).getToolBar();
+        toolbar = ((MainActivity) getActivity()).getToolBar();
         contact = DataUtil.getMockContact();
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
@@ -100,30 +105,26 @@ public class HomeFragment extends Fragment {
         name.setText(contact.getName());
         description.setText(contact.getDescription());
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         // TODO add interaction adapter
-        contactAdapter = new ContactViewAdapter(contact.getContactInfoArrayList(),
+        contactInfoList = contact.getContactInfoArrayList();
+        contactAdapter = new ContactViewAdapter(contactInfoList,
                 null, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         recyclerView.setAdapter(contactAdapter);
 
-        saveButton = (Button) v.findViewById(R.id.save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(inflater.getContext()).setMessage
-                        ("Changes saved!")
-                        .setPositiveButton("Okay", new
-                                DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view
+                .findViewById(R.id.add_new_contact_info);
+        floatingActionButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        contactInfoList.add(new ContactInfo(null, "", ""));
+                        contactAdapter.notifyDataSetChanged();
+                    }
+                });
 
-                                    }
-                                }).show();
-            }
-        });
-
-        return v;
+        return view;
     }
 
 
