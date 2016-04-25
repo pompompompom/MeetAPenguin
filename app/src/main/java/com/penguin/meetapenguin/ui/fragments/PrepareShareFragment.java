@@ -66,7 +66,8 @@ public class PrepareShareFragment extends Fragment {
     public static PrepareShareFragment newInstance(Contact contact) {
         PrepareShareFragment fragment = new PrepareShareFragment();
         Bundle args = new Bundle();
-        args.putParcelable("Contact", contact);
+        //args.putParcelable("Contact", contact);
+        args.putSerializable("Contact", contact);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +76,8 @@ public class PrepareShareFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mContact = savedInstanceState.getParcelable("Contact");
+            //mContact = savedInstanceState.getParcelable("Contact");
+            mContact = (Contact)savedInstanceState.getSerializable("Contact");
         }
     }
 
@@ -135,15 +137,15 @@ public class PrepareShareFragment extends Fragment {
 
     private void launchScanActivity(Contact mContact) {
         Intent intent = new Intent(getActivity(), ScanActivity.class);
-        ShareActivityIntent bundle = new ShareActivityIntent(mContact);
-        intent.putExtra(ShareActivityIntent.ShareActivityIntentBundle, bundle);
+        intent.putExtra("Contact", mContact);
+
         startActivity(intent);
     }
 
     private void launchShareActivity(Contact mContact) {
         Intent intent = new Intent(getActivity(), ShareActivity.class);
-        ShareActivityIntent bundle = new ShareActivityIntent(mContact);
-        intent.putExtra(ShareActivityIntent.ShareActivityIntentBundle, bundle);
+        intent.putExtra("Contact", mContact);
+
         startActivity(intent);
     }
 

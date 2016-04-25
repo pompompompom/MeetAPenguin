@@ -8,13 +8,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
  * Created by urbano on 4/2/16.
  */
-public class Contact implements Parcelable {
+public class Contact implements Serializable{
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
         @Override
@@ -28,7 +29,8 @@ public class Contact implements Parcelable {
         }
     };
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting().create();
 
     private Integer id;
     private String name;
@@ -121,31 +123,6 @@ public class Contact implements Parcelable {
 
     public void setContactInfoArrayList(ArrayList<ContactInfo> contactInfoArrayList) {
         this.contactInfoArrayList = contactInfoArrayList;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(id);
-        }
-        dest.writeString(name);
-        if (contactInfoArrayList == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(contactInfoArrayList);
-        }
-        dest.writeString(description);
-        dest.writeLong(expiration);
-        dest.writeString(photoUrl);
     }
 
     public String toJson() {

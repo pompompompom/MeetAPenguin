@@ -1,9 +1,11 @@
 package com.penguin.meetapenguin.entities;
 
+import java.io.Serializable;
+
 /**
  * Attribute, a field of ContactInfo
  */
-public class Attribute {
+public class Attribute implements Serializable{
 
     private String name;
     private String iconPath;

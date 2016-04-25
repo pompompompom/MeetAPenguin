@@ -3,7 +3,6 @@ package com.penguin.meetapenguin.ui.activities;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import com.google.zxing.common.BitMatrix;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
-import com.penguin.meetapenguin.exceptions.ShareException;
 import com.squareup.picasso.Picasso;
 
 import java.util.EnumMap;
@@ -34,7 +32,6 @@ public class ShareActivity extends AppCompatActivity {
     private TextView description;
     private CircularImageView imageProfile;
     private Button editShare;
-    private ShareActivityIntent shareActivityIntent;
     private ViewGroup view;
     private RelativeLayout toolbar;
 
@@ -53,22 +50,8 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        shareActivityIntent = null;
-        if (savedInstanceState != null) {
-            shareActivityIntent = savedInstanceState.getParcelable(ShareActivityIntent.ShareActivityIntentBundle);
-        } else {
-            shareActivityIntent = getIntent().getExtras().getParcelable(ShareActivityIntent.ShareActivityIntentBundle);
-        }
-
-        if (shareActivityIntent == null) {
-            try {
-                throw new ShareException("You should give a contact object to share");
-            } catch (ShareException e) {
-                Log.d("MeetAPenguin", e.getMessage());
-                e.fix();
-            }
-        }
-        Contact contact = shareActivityIntent.getContact();
+        Contact contact = (Contact) getIntent().getSerializableExtra("Contact");
+        android.util.Log.d("ShareActivity", "Sharing contact: " + contact.toJson());
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         view = (ViewGroup) findViewById(R.id.activity_container);

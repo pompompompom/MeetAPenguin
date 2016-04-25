@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.entities.Contact;
 
 import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
@@ -22,6 +23,10 @@ public class ScanActivity extends AppCompatActivity {
             @Override
             public void onDetected(final String data) {
                 Log.d("QREader", "Value : " + data);
+                Contact c = Contact.fromJson(data);
+                if (c != null) {
+                    Log.d("MITA", "contact: " + c.toString());
+                }
             }
         });
     }
