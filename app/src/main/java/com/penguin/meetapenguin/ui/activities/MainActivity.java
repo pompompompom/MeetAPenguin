@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.dblayout.AttributeController;
-import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.fragments.ContactListFragment;
@@ -62,15 +60,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         displayFragment(homeFragment, "Main Page");
-
-        setupDatabase();
-    }
-
-    private void setupDatabase() {
-        // Load attribute table
-        AttributeController attributeController = new AttributeController(getApplicationContext());
-        attributeController.create(new Attribute("Facebook", "drawable/facebook"));
-        attributeController.create(new Attribute("Location", "drawable/ic_place_black_24dp"));
     }
 
     @Override

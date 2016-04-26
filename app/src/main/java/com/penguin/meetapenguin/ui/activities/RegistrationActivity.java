@@ -146,6 +146,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Contact getUser() {
         Contact contact = new Contact();
         contact.setName(mEditTextName.getText().toString());
+        contact.setDescription("");
         ArrayList<ContactInfo> contactInfoArrayList = new ArrayList<>();
         ContactInfo contactInfo = new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Email), "", mEditTextEmail.getText().toString());
         contactInfoArrayList.add(contactInfo);

@@ -4,6 +4,11 @@ package com.penguin.meetapenguin.util;
  * Created by urbano on 4/22/16.
  */
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.penguin.meetapenguin.MeetAPenguim;
+import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
 
 /**
@@ -12,8 +17,10 @@ import com.penguin.meetapenguin.entities.Contact;
  */
 public class ProfileManager {
 
+    public static String USER_PROFILE_ID = "USER_PROFILE_ID";
     private static ProfileManager mInstance;
-    private Contact mContact;
+    private static Contact mContact;
+    private static ContactController mContactController;
 
     private ProfileManager() {
     }
@@ -21,9 +28,16 @@ public class ProfileManager {
     public static ProfileManager getInstance() {
         if (mInstance == null) {
             mInstance = new ProfileManager();
+            mContactController = new ContactController(MeetAPenguim.getAppContext());
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MeetAPenguim.getAppContext());
+            int userId = sharedPref.getInt(USER_PROFILE_ID, 0);
+            if (userId != 0)
+                mContact = mContactController.read(userId);
         }
         return mInstance;
     }
+
 
     /**
      * Return a generic user ID.
@@ -35,6 +49,16 @@ public class ProfileManager {
     }
 
     public void saveContact(Contact contact) {
+        if (mContact != null) {
+            mContactController.update(contact);
+        } else {
+            int result = mContactController.create(contact);
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MeetAPenguim.getAppContext());
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(USER_PROFILE_ID, result);
+            editor.commit();
+        }
         mContact = contact;
     }
 

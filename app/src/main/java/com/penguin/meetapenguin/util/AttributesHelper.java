@@ -23,25 +23,52 @@ public class AttributesHelper {
     public static Attribute getAttribute(AttributeType type) {
         switch (type) {
             case Nickname:
-                return new Attribute("Nickname", "drawable/ic_account_box_black_24dp");
+                return new Attribute(1, "Nickname", "drawable/ic_account_box_black_24dp");
             case Email:
-                return new Attribute("Email", "drawable/ic_mail_outline_black_24dp");
+                return new Attribute(2, "Email", "drawable/ic_mail_outline_black_24dp");
             case Phone:
-                return new Attribute("Phone", "drawable/ic_phone_black_24dp");
+                return new Attribute(3, "Phone", "drawable/ic_phone_black_24dp");
             case Facebook:
-                return new Attribute("Facebook", "drawable/facebook");
+                return new Attribute(4, "Facebook", "drawable/facebook");
             case Twitter:
-                return new Attribute("Twitter", "drawable/twitter_squared");
+                return new Attribute(5, "Twitter", "drawable/twitter_squared");
             case LinkedIn:
-                return new Attribute("LinkedIn", "drawable/facebook");
+                return new Attribute(6, "LinkedIn", "drawable/facebook");
             case Birthday:
-                return new Attribute("Birthday", "drawable/ic_cake_black_24dp");
+                return new Attribute(7, "Birthday", "drawable/ic_cake_black_24dp");
             case Address:
-                return new Attribute("Address", "drawable/ic_home_black_24dp");
+                return new Attribute(8, "Address", "drawable/ic_home_black_24dp");
             case Website:
-                return new Attribute("Website", "drawable/ic_public_black_24dp");
+                return new Attribute(9, "Website", "drawable/ic_public_black_24dp");
             case Location:
-                return new Attribute("Location", "drawable/ic_place_black_24dp");
+                return new Attribute(10, "Location", "drawable/ic_place_black_24dp");
+            default:
+                return null;
+        }
+    }
+
+    public static Attribute getAttributeById(int id) {
+        switch (id) {
+            case 1:
+                return new Attribute(1, "Nickname", "drawable/ic_account_box_black_24dp");
+            case 2:
+                return new Attribute(2, "Email", "drawable/ic_mail_outline_black_24dp");
+            case 3:
+                return new Attribute(3, "Phone", "drawable/ic_phone_black_24dp");
+            case 4:
+                return new Attribute(4, "Facebook", "drawable/facebook");
+            case 5:
+                return new Attribute(5, "Twitter", "drawable/twitter_squared");
+            case 6:
+                return new Attribute(6, "LinkedIn", "drawable/facebook");
+            case 7:
+                return new Attribute(7, "Birthday", "drawable/ic_cake_black_24dp");
+            case 8:
+                return new Attribute(8, "Address", "drawable/ic_home_black_24dp");
+            case 9:
+                return new Attribute(9, "Website", "drawable/ic_public_black_24dp");
+            case 10:
+                return new Attribute(10, "Location", "drawable/ic_place_black_24dp");
             default:
                 return null;
         }

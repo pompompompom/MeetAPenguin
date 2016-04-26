@@ -30,15 +30,22 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:background="@color/contact_info_row"
-        android:name="com.penguin.meetapenguin.ui.ContactFragment"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer_contact_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search_tip"
-        android:layout_marginTop="10dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.ContactListFragment"
-        tools:listitem="@layout/fragment_contact" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.penguin.meetapenguin.ui.ContactFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_tip"
+            android:layout_marginTop="10dp"
+            android:background="@color/contact_info_row"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.ContactListFragment"
+            tools:listitem="@layout/fragment_contact" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

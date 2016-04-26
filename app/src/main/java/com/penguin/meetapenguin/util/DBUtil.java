@@ -17,7 +17,7 @@ public class DBUtil {
     public static final String DROP_TABLE_INBOX_MESSAGE = "DROP TABLE IF EXISTS InboxMessage;";
 
     public static final String CREATE_TABLE_ATTRIBUTE = "CREATE TABLE IF NOT EXISTS Attribute "
-            + "(id INTEGER primary key autoincrement,"
+            + "(id INTEGER primary key,"
             + "name TEXT NOT NULL,"
             + "iconPath TEXT NOT NULL);";
 
@@ -62,6 +62,8 @@ public class DBUtil {
     public static final String SELECT_INBOXMESSAGE_USING_CLOUD_ID = "SELECT * FROM InboxMessage WHERE cloudId = ?;";
 
     public static final String SELECT_CONTACT = "SELECT * FROM Contact WHERE cloudId = ?;";
+
+    public static final String SELECT_CONTACT_INFO_FROM_USER = "SELECT * FROM ContactInfo WHERE contactId = ?;";
 
     public static final String SELECT_ALL_CONTACT = "SELECT * FROM Contact;";
 }

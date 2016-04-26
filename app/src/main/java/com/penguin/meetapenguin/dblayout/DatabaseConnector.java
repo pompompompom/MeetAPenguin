@@ -9,7 +9,9 @@ import android.util.Log;
 
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
+import com.penguin.meetapenguin.util.AttributesHelper;
 import com.penguin.meetapenguin.util.DBUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
 
@@ -48,15 +50,18 @@ public class DatabaseConnector {
         }
     }
 
-    public void insertAttribute(Attribute attribute) {
+    public long insertAttribute(Attribute attribute) {
         ContentValues newAttribute = new ContentValues();
+        newAttribute.put("id", attribute.getId());
         newAttribute.put("name", attribute.getName());
         newAttribute.put("iconPath", attribute.getIconPath());
         open();
+        long result = -1;
         if (database != null) {
-            database.insert("Attribute", null, newAttribute);
+            result = database.insert("Attribute", null, newAttribute);
         }
         close();
+        return result;
     }
 
     public void printAllAttribute() {
@@ -180,6 +185,40 @@ public class DatabaseConnector {
                     contact.setExpiration(cursor.getInt(4));
                     contactList.add(contact);
 
+                } while (cursor.moveToNext());
+            }
+        }
+        return contactList;
+    }
+
+    public long insertContactInfo(int contactId, ContactInfo info) {
+        ContentValues newAttribute = new ContentValues();
+        newAttribute.put("cloudId", info.getId());
+        newAttribute.put("attributeId", info.getAttribute().getId());
+        newAttribute.put("value", info.getAttributeValue());
+        newAttribute.put("contactId", contactId);
+        open();
+        long result = -1;
+
+        if (database != null) {
+            result = database.insert("ContactInfo", null, newAttribute);
+        }
+        close();
+
+        return result;
+    }
+
+    public ArrayList<ContactInfo> readContactInfoFromUser(Integer contactId) {
+        ArrayList<ContactInfo> contactList = new ArrayList<>();
+        open();
+        if (database != null) {
+            Cursor cursor = database.rawQuery(DBUtil.SELECT_CONTACT_INFO_FROM_USER, new String[]{String.valueOf(contactId)});
+            if (cursor.moveToFirst()) {
+                do {
+                    Attribute attribute = AttributesHelper.getAttributeById(cursor.getInt(2));
+                    ContactInfo contact = new ContactInfo(attribute, "", cursor.getString(3));
+                    contact.setId(cursor.getInt(1));
+                    contactList.add(contact);
                 } while (cursor.moveToNext());
             }
         }

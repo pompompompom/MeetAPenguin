@@ -1,6 +1,5 @@
 package com.penguin.meetapenguin.util;
 
-import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
@@ -12,10 +11,10 @@ import java.util.ArrayList;
 public class DataUtil {
 
     private static final ContactInfo FACEBOOK_INFO =
-            new ContactInfo(new Attribute("Facebook", "drawable/facebook"), "", "www.facebook.com/teste");
+            new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Facebook), "", "www.facebook.com/teste");
 
     private static final ContactInfo LOCATION_INFO =
-            new ContactInfo(new Attribute("Location", "drawable/ic_place_black_24dp"), "", "Cupertino - CA");
+            new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Location), "", "Cupertino - CA");
 
     private static final ArrayList<ContactInfo> DEFAULT_CONTACT_INFO_LIST = new ArrayList<>();
 

@@ -7,16 +7,26 @@ import java.io.Serializable;
  */
 public class Attribute implements Serializable {
 
+    private int id;
     private String name;
     private String iconPath;
 
-    public Attribute(String name, String iconPath) {
+    public Attribute(int id, String name, String iconPath) {
+        this.id = id;
         this.name = name;
         this.iconPath = iconPath;
     }
 
     public Attribute() {
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,7 +61,7 @@ public class Attribute implements Serializable {
         return name != null ? name.hashCode() : 0;
     }
 
-    public enum AttributeTypes{
+    public enum AttributeTypes {
 
     }
 }
