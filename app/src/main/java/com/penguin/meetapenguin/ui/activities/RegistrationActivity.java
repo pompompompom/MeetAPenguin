@@ -1,5 +1,6 @@
 package com.penguin.meetapenguin.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -21,6 +22,7 @@ import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.util.AttributesHelper;
 import com.penguin.meetapenguin.util.ProfileManager;
+import com.penguin.meetapenguin.util.ServerConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,15 +45,14 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputLayout mWrapperName;
     private TextInputLayout mWrapperEmail;
     private RequestQueue mRequestQueue;
-    private Response.Listener mOnLoginSuccess;
-    private Response.ErrorListener mOnLoginError;
     private Contact mContact;
     private String TAG = RegistrationActivity.class.getSimpleName();
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (ProfileManager.getInstance().getUserId() != 1) {
+        if (ProfileManager.getInstance().getContact() != null && ProfileManager.getInstance().getUserId() != 1) {
             launchMainActivity();
         }
 
@@ -64,27 +65,17 @@ public class RegistrationActivity extends AppCompatActivity {
         mEditTextEmail = (EditText) findViewById(R.id.input_email);
         mRequestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
-        mOnLoginSuccess = new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                saveUserProfile();
-                launchMainActivity();
-            }
-        };
-
-
-        mOnLoginError = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.login_error), Toast.LENGTH_SHORT);
-            }
-        };
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!validateLoginInput()) return;
                 mContact = getUser();
+
+                mProgressDialog = new ProgressDialog(RegistrationActivity.this, ProgressDialog.STYLE_SPINNER);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setTitle(getResources().getString(R.string.loading));
+                mProgressDialog.setMessage(getResources().getString(R.string.please_wait));
+                mProgressDialog.show();
 
                 final Gson gson = new Gson();
                 String json = gson.toJson(mContact);
@@ -96,19 +87,23 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
 
                 /*Json Request*/
-                String url = "http://10.0.3.2:8080/rest/contacts";
+                String url = ServerConstants.SERVER_URL + "/contacts";
                 JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 mContact = gson.fromJson(response.toString(), Contact.class);
                                 saveUserProfile();
+                                mProgressDialog.dismiss();
+                                mProgressDialog = null;
                                 launchMainActivity();
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                mProgressDialog.dismiss();
+                                mProgressDialog = null;
                                 Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -172,6 +167,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mRequestQueue.cancelAll(TAG);
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.penguin.meetapenguin.dblayout.InboxMessageController;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
+import com.penguin.meetapenguin.util.ServerConstants;
 import com.penguin.meetapenguin.ws.remote.AnswerInboxMessageRequest;
 import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 
@@ -41,7 +42,7 @@ import java.util.List;
 public class InboxFragment extends Fragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
-    private static final String URL = "http://10.0.3.2:8080/rest/messages";
+    private static final String URL = ServerConstants.SERVER_URL + "/messages";
     private static final String CREATE_FAKE_DATA = "fakedata";
     private ArrayList<InboxMessage> mMessages;
     private InboxFragmentAdapter mInboxAdapter;

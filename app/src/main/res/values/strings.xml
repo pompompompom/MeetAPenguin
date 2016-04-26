@@ -40,4 +40,7 @@
     <string name="user_information">User information</string>
     <string name="your_notes">Your notes</string>
     <string name="login_error">Error during your login</string>
+    <string name="error_update_profile_on_cloud">Error while pushing your new profile information to the cloud</string>
+    <string name="loading">Loading</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

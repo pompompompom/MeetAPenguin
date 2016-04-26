@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.util.ProfileManager;
+import com.penguin.meetapenguin.util.ServerConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class AnswerInboxMessageRequest extends Request<String> {
 
 
-    private static final String URL = "http://10.0.3.2:8080/rest";
+    private static final String URL = ServerConstants.SERVER_URL;
     private final Response.Listener<String> mListener;
     Map<String, String> mParams;
 

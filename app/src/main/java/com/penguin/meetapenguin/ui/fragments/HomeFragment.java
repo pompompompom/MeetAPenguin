@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,9 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
@@ -24,7 +33,11 @@ import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
 import com.penguin.meetapenguin.util.ProfileManager;
+import com.penguin.meetapenguin.util.ServerConstants;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -45,6 +58,8 @@ public class HomeFragment extends Fragment {
     private View mFragmentRootView;
     private CircularImageView mToolBarImageProfile;
     private ArrayList<ContactInfo> contactInfoList;
+    private RequestQueue mRequestQueue;
+    private ProgressDialog mProgressDialog;
 
     public HomeFragment() {
     }
@@ -99,6 +114,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        mRequestQueue = Volley.newRequestQueue(getContext());
+
         mTVName = (TextView) toolbar.findViewById(R.id.name);
         mTVDescription = (TextView) toolbar.findViewById(R.id.description);
         mTVName.setText(mContact.getName());
@@ -145,16 +162,63 @@ public class HomeFragment extends Fragment {
                         mContactAdapter.notifyDataSetChanged();
                         floatingActionMenu.close(true);
                         mRecyclerView.invalidate();
+                        sendNewContactToCloud();
                     }
                 });
 
         return mFragmentRootView;
     }
 
+    private void sendNewContactToCloud() {
+        mProgressDialog = new ProgressDialog(this.getActivity(), ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setTitle(getResources().getString(R.string.loading));
+        mProgressDialog.setMessage(getResources().getString(R.string.please_wait));
+        mProgressDialog.show();
+
+        final Gson gson = new Gson();
+        String json = gson.toJson(mContact);
+        JSONObject object = null;
+        try {
+            object = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        /*Json Request*/
+        String url = ServerConstants.SERVER_URL + "/contacts";
+        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        mContact = gson.fromJson(response.toString(), Contact.class);
+                        mProgressDialog.dismiss();
+                        mProgressDialog = null;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mProgressDialog.dismiss();
+                        mProgressDialog = null;
+                        Toast.makeText(HomeFragment.this.getContext(), getResources().getString(R.string.error_update_profile_on_cloud), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        loginRequest.setTag(TAG);
+        mRequestQueue.add(loginRequest);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         Log.d(TAG, "onDestroyView() called with: " + "");
+        mRequestQueue.cancelAll(TAG);
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
         //You added a lot of mFragmentRootView into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(mToolbarView);
         mContactAdapter.removeEmpty();
