@@ -1,8 +1,13 @@
 package com.penguin.meetapenguin.ui.activities;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
@@ -28,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         ContactListFragment.OnListFragmentInteractionListener,
         PrepareShareFragment.OnShareFragmentInteraction {
 
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 300;
     private Fragment homeFragment;
     private Fragment settingsFragment = new SettingsFragment();
     private Fragment contactFragment = new ContactListFragment();
@@ -139,6 +147,50 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onShare(Contact item, ArrayList<ContactInfo> selectedContactInfo) {
     }
+
+    public boolean handleCameraPermission(View view) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)) {
+                Snackbar snack = Snackbar.make(view, "Location access is required to show coffee shops nearby.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.READ_CONTACTS},
+                                        MY_PERMISSIONS_REQUEST_CAMERA);
+                            }
+                        });
+                snack.show();
+                return false;
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, getResources().getString(R.string.can_access_camera), Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(this, getResources().getString(R.string.cant_access_camera), Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+    }
+
 
     @Override
     public Toolbar getToolBar() {

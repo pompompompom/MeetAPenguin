@@ -1,11 +1,16 @@
 package com.penguin.meetapenguin.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +52,9 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment implements ContactViewAdapter.OnContactViewAdapterInteraction {
 
+    public static final int SELECT_PICTURE = 100;
     private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final int REQUEST_IMAGE_CAPTURE = 200;
     private Contact mContact;
     private Toolbar toolbar;
     private View mToolbarView;
@@ -94,19 +101,28 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     new AlertDialog.Builder(inflater.getContext()).setMessage("Change Profile Picture?").setPositiveButton("Camera", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO
+                            // Assume thisActivity is the current activity
+                            if (!((MainActivity) getActivity()).handleCameraPermission(mFragmentRootView)) {
+                                dialogShown = false;
+                                return;
+                            }
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                            }
                             dialogShown = false;
                         }
                     }).setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO
+                            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                            photoPickerIntent.setType("image/*");
+                            startActivityForResult(photoPickerIntent, SELECT_PICTURE);
                             dialogShown = false;
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO
                             dialogShown = false;
                         }
                     }).show();
@@ -124,6 +140,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
 
         mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
+
         // TODO add interaction adapter
         contactInfoList = mContact.getContactInfoArrayList();
         mContactAdapter = new ContactViewAdapter(mRecyclerView, contactInfoList,
@@ -210,6 +227,20 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
 
         loginRequest.setTag(TAG);
         mRequestQueue.add(loginRequest);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //TODO SEND THOSE IMAGES TO THE CLOUD, GET A LINK AND SAVE INTO THE PROFILE.
+        if (requestCode == HomeFragment.SELECT_PICTURE && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            mContact.setPhotoUrl(selectedImage.getPath());
+            ProfileManager.getInstance().saveContact(mContact);
+        } else if (requestCode == HomeFragment.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+        }
     }
 
     @Override
