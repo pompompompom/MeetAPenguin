@@ -34,12 +34,16 @@ public class ContactInfo implements Serializable {
         return extraDescription;
     }
 
-    public String getAtrributeName() {
-        return getAttribute().getName();
+    public void setExtraDescription(String extraDescription) {
+        this.extraDescription = extraDescription;
     }
 
-    public String getAtrributeValue() {
+    public String getAttributeValue() {
         return attributeValue;
+    }
+
+    public void setAttributeValue(String attributeValue) {
+        this.attributeValue = attributeValue;
     }
 
     public int getIconResId(Context context) {
@@ -52,9 +56,5 @@ public class ContactInfo implements Serializable {
 
     public void setEditing(boolean editing) {
         this.editing = editing;
-    }
-
-    public void setAttributeValue(String attributeValue) {
-        this.attributeValue = attributeValue;
     }
 }

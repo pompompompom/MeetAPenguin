@@ -50,4 +50,8 @@ public class Attribute implements Serializable {
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
     }
+
+    public enum AttributeTypes{
+
+    }
 }
