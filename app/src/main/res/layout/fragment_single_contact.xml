@@ -6,30 +6,68 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="com.penguin.meetapenguin.ui.SingleContactFragment"
+    <TextView
+        android:id="@+id/recycler_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/user_information" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/share_button"
-        android:layout_marginTop="10dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.fragments.ContactListFragment"
-        tools:listitem="@layout/fragment_contact" />
+        android:layout_below="@id/recycler_title"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.penguin.meetapenguin.ui.SingleContactFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/share_button"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/contact_info_row"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.ContactListFragment"
+            tools:listitem="@layout/fragment_contact" />
+
+        <TextView
+            android:id="@+id/recycler_notes_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/your_notes" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_notes"
+            android:name="com.penguin.meetapenguin.ui.SingleContactFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/share_button"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="@color/contact_info_row"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.ContactListFragment"
+            tools:listitem="@layout/fragment_contact" />
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        android:src="@android:drawable/ic_input_add"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginBottom="35dp"
         android:layout_marginEnd="33dp"
-        android:layout_alignBottom="@+id/list"
-        android:layout_alignParentEnd="true"
-        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:src="@android:drawable/ic_input_add"
         android:tint="@color/white"
-        />
+        app:backgroundTint="@color/colorPrimary" />
 </RelativeLayout>

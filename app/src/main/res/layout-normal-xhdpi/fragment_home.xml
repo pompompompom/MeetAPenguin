@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
+        android:background="@color/contact_info_row"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.ContactListFragment"
         tools:listitem="@layout/fragment_contact" />

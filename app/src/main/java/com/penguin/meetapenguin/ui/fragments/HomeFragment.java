@@ -123,10 +123,10 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (mContactAdapter.contactInfoAvaible()) {
+                            mContactAdapter.saveContact();
                             ContactInfo emptyContactInfo = new ContactInfo(mContactAdapter.getAttributeAvailable(), "", "");
                             emptyContactInfo.setEditing(true);
                             contactInfoList.add(emptyContactInfo);
-                            mContactAdapter.saveContact();
                             mContactAdapter.notifyDataSetChanged();
                             recyclerView.invalidate();
                             floatingActionMenu.close(true);

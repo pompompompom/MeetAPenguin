@@ -10,4 +10,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="red">#FFD10808</color>
     <color name="light_green">#FF8AEFA7</color>
+    <color name="contact_info_row">#dedddd</color>
 </resources>

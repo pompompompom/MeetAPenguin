@@ -37,4 +37,6 @@
     <string name="name_login">Your name</string>
     <string name="create_your_profile">Create your profile</string>
     <string name="email_login">Your email</string>
+    <string name="user_information">User information</string>
+    <string name="your_notes">Your notes</string>
 </resources>

@@ -4,6 +4,7 @@
     android:layout_height="60dp"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
+    android:background="@color/contact_info_row"
     android:weightSum="2">
 
     <Spinner

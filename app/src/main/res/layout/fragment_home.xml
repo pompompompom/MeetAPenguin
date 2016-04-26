@@ -11,6 +11,7 @@
         android:id="@+id/list"
         android:name="com.penguin.meetapenguin.ui.ContactFragment"
         android:layout_width="match_parent"
+        android:background="@color/contact_info_row"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         app:layoutManager="LinearLayoutManager"

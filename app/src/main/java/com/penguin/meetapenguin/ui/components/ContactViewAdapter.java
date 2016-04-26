@@ -153,7 +153,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         for (int i = 0; i < getItemCount(); i++) {
             ViewHolder holder = (ViewHolder) mRecycleView.findViewHolderForPosition(i);
             if (mMode == MODE_EDIT_CONTACT) {
-                if (mContactInfoList.get(i).getAtrributeValue().isEmpty() || holder.mEditContactInfo.getText().toString().isEmpty()) {
+                if (mContactInfoList.get(i).getAtrributeValue().isEmpty() || (holder != null && holder.mEditContactInfo.getText().toString().isEmpty())) {
                     toRemove.add(mContactInfoList.get(i));
                 }
             }
