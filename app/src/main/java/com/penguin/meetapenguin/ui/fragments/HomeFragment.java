@@ -28,6 +28,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.dblayout.ContactInfoController;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 /**
  * Fragment to display main screen.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ContactViewAdapter.OnContactViewAdapterInteraction {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private Contact mContact;
@@ -126,7 +127,7 @@ public class HomeFragment extends Fragment {
         // TODO add interaction adapter
         contactInfoList = mContact.getContactInfoArrayList();
         mContactAdapter = new ContactViewAdapter(mRecyclerView, contactInfoList,
-                null, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
+                this, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         mRecyclerView.setAdapter(mContactAdapter);
 
         final FloatingActionMenu floatingActionMenu = (FloatingActionMenu) mFragmentRootView.findViewById(R.id.fab);
@@ -193,6 +194,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         mContact = gson.fromJson(response.toString(), Contact.class);
+                        ProfileManager.getInstance().saveContact(mContact);
                         mProgressDialog.dismiss();
                         mProgressDialog = null;
                     }
@@ -222,5 +224,11 @@ public class HomeFragment extends Fragment {
         //You added a lot of mFragmentRootView into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(mToolbarView);
         mContactAdapter.removeEmpty();
+    }
+
+    @Override
+    public void onContactInfoDeleted(ContactInfo contactInfo) {
+        ContactInfoController contactInfoController = new ContactInfoController(getContext());
+        contactInfoController.delete(contactInfo);
     }
 }

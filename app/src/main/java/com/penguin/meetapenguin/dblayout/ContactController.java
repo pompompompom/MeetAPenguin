@@ -22,7 +22,8 @@ public class ContactController {
     public int create(Contact contact) {
         int result = (int) DatabaseConnector.getInstance(mContext).insertContact(contact);
         for (ContactInfo info : contact.getContactInfoArrayList()) {
-            DatabaseConnector.getInstance(mContext).insertContactInfo(contact.getId(), info);
+            int contactInfoResult = (int) DatabaseConnector.getInstance(mContext).insertContactInfo(contact.getId(), info);
+            info.setId(contactInfoResult);
         }
         return result;
     }
@@ -31,6 +32,7 @@ public class ContactController {
         List<Contact> contactList = DatabaseConnector.getInstance(mContext).readContact(contactId);
         if (contactList == null || contactList.size() == 0)
             return null;
+
         else {
             Contact contact = contactList.get(0);
             ArrayList<ContactInfo> contactInfoList = DatabaseConnector.getInstance(mContext).readContactInfoFromUser(contactId);
@@ -44,7 +46,15 @@ public class ContactController {
     }
 
     public void update(Contact contact) {
-
+        DatabaseConnector.getInstance(mContext).updateContact(contact);
+        for (ContactInfo info : contact.getContactInfoArrayList()) {
+            if (DatabaseConnector.getInstance(mContext).contactInfoExist(info.getId()))
+                DatabaseConnector.getInstance(mContext).updateContactInfo(contact.getId(), info);
+            else {
+                int contactInforesult = (int) DatabaseConnector.getInstance(mContext).insertContactInfo(contact.getId(), info);
+                info.setId(contactInforesult);
+            }
+        }
     }
 
     public void delete(Contact contact) {

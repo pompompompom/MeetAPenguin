@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
-import com.penguin.meetapenguin.ui.fragments.PrepareShareFragment;
 import com.penguin.meetapenguin.util.AttributesHelper;
 
 import java.util.ArrayList;
@@ -32,17 +31,17 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
     private static final int NEW_ITEM = 1;
 
     private final ArrayList<ContactInfo> mContactInfoList;
-    private final PrepareShareFragment.OnShareFragmentInteraction mListener;
+    private final OnContactViewAdapterInteraction mListener;
     private final RecyclerView mRecycleView;
     int mMode;
     private Context mContext;
 
-    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, OnContactViewAdapterInteraction listener,
                               Context context) {
         this(recycleView, items, listener, context, MODE_SHARE_CONTACT);
     }
 
-    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, PrepareShareFragment.OnShareFragmentInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, OnContactViewAdapterInteraction listener,
                               Context context, int mode) {
         mRecycleView = recycleView;
         mContactInfoList = items;
@@ -121,6 +120,9 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
             holder.mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onContactInfoDeleted(mContactInfoList.get(position));
+                    }
                     mContactInfoList.remove(position);
                     notifyDataSetChanged();
                 }
@@ -181,6 +183,10 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
     public Attribute getAttributeAvailable() {
         return getAvailableAttributes(null).get(0);
+    }
+
+    public interface OnContactViewAdapterInteraction {
+        void onContactInfoDeleted(ContactInfo contactInfo);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

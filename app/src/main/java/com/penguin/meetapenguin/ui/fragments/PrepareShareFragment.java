@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
@@ -126,7 +126,7 @@ public class PrepareShareFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new ContactViewAdapter(recyclerView, mContact.getContactInfoArrayList(), mListener, getContext());
+        contactAdapter = new ContactViewAdapter(recyclerView, mContact.getContactInfoArrayList(), null, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
@@ -172,9 +172,7 @@ public class PrepareShareFragment extends Fragment {
 
     public interface OnShareFragmentInteraction {
         void onContactInfoSelected(ContactInfo contactInfo);
-
         void onShare(Contact item, ArrayList<ContactInfo> selectedContactInfo);
-
         Toolbar getToolBar();
     }
 }

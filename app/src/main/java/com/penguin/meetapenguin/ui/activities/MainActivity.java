@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onShare(Contact item, ArrayList<ContactInfo> selectedContactInfo) {
-
     }
 
     @Override

@@ -224,4 +224,56 @@ public class DatabaseConnector {
         }
         return contactList;
     }
+
+    public void updateContact(Contact contact) {
+        ContentValues newAttribute = new ContentValues();
+        newAttribute.put("cloudId", contact.getId());
+        newAttribute.put("name", contact.getName());
+        newAttribute.put("description", contact.getDescription());
+        newAttribute.put("expiration", contact.getExpiration());
+        newAttribute.put("photoUrl", contact.getPhotoUrl());
+        open();
+        if (database != null) {
+            database.update("Contact", newAttribute, "cloudId=" + contact.getId(), null);
+        }
+        close();
+    }
+
+    public void updateContactInfo(Integer contactId, ContactInfo info) {
+        ContentValues newAttribute = new ContentValues();
+        newAttribute.put("cloudId", info.getId());
+        newAttribute.put("attributeId", info.getAttribute().getId());
+        newAttribute.put("value", info.getAttributeValue());
+        newAttribute.put("contactId", contactId);
+        open();
+        if (database != null) {
+            database.update("ContactInfo", newAttribute, "cloudId=" + info.getId(), null);
+        }
+        close();
+    }
+
+    public boolean contactInfoExist(int contactInfoCloudId) {
+        ArrayList<ContactInfo> contactList = new ArrayList<>();
+        open();
+        if (database != null) {
+            Cursor cursor = database.rawQuery(DBUtil.SELECT_CONTACT_INFO_BY_CLOUD_ID, new String[]{String.valueOf(contactInfoCloudId)});
+            if (cursor.moveToFirst()) {
+                do {
+                    Attribute attribute = AttributesHelper.getAttributeById(cursor.getInt(2));
+                    ContactInfo contact = new ContactInfo(attribute, "", cursor.getString(3));
+                    contact.setId(cursor.getInt(1));
+                    contactList.add(contact);
+                } while (cursor.moveToNext());
+            }
+        }
+        return contactList.size() > 0;
+    }
+
+    public void deleteContactInfo(ContactInfo contactInfo) {
+        open();
+        if (database != null) {
+            database.delete("ContactInfo", "cloudId=" + contactInfo.getId(), null);
+        }
+        close();
+    }
 }

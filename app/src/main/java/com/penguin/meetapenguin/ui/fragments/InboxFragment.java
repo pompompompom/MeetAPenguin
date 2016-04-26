@@ -25,6 +25,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.dblayout.InboxMessageController;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
 import com.penguin.meetapenguin.util.ServerConstants;
@@ -202,6 +203,7 @@ public class InboxFragment extends Fragment {
         contact1.setName("John John");
         contact1.setDescription("Student");
         contact1.setId(1);
+        contact1.setContactInfoArrayList(new ArrayList<ContactInfo>());
         contact1.setExpiration(new Date().getTime());
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
 
@@ -228,6 +230,7 @@ public class InboxFragment extends Fragment {
         contact8.setDescription("Engineer");
         contact8.setId(2);
         contact8.setExpiration(new Date().getTime());
+        contact8.setContactInfoArrayList(new ArrayList<ContactInfo>());
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
         contactController.create(contact8);
         inboxMessage2.setContact(contact8);
