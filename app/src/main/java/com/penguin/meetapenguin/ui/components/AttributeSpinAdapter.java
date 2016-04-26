@@ -36,6 +36,20 @@ public class AttributeSpinAdapter extends ArrayAdapter<Attribute> {
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void updateDataSet(List<Attribute> attributeList) {
+        if (attributeList.equals(values)) {
+            return;
+        }
+        values.clear();
+        values.addAll(attributeList);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return values.size();
+    }
+
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position, convertView, parent);

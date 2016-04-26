@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Attribute, a field of ContactInfo
  */
-public class Attribute implements Serializable{
+public class Attribute implements Serializable {
 
     private String name;
     private String iconPath;
@@ -33,5 +33,21 @@ public class Attribute implements Serializable{
 
     public void setIconPath(String iconPath) {
         this.iconPath = iconPath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attribute attribute = (Attribute) o;
+
+        return name != null ? name.equals(attribute.name) : attribute.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }

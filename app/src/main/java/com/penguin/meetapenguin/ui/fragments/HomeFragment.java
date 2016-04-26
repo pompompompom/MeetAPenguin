@@ -122,12 +122,17 @@ public class HomeFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ContactInfo emptyContactInfo = new ContactInfo(null, "", "");
-                        emptyContactInfo.setEditing(true);
-                        contactInfoList.add(emptyContactInfo);
-                        mContactAdapter.saveState();
-                        mContactAdapter.notifyDataSetChanged();
-                        floatingActionMenu.close(true);
+                        if (mContactAdapter.contactInfoAvaible()) {
+                            ContactInfo emptyContactInfo = new ContactInfo(mContactAdapter.getAttributeAvailable(), "", "");
+                            emptyContactInfo.setEditing(true);
+                            contactInfoList.add(emptyContactInfo);
+                            mContactAdapter.saveContact();
+                            mContactAdapter.notifyDataSetChanged();
+                            recyclerView.invalidate();
+                            floatingActionMenu.close(true);
+                        } else {
+
+                        }
                     }
                 });
 
@@ -137,8 +142,8 @@ public class HomeFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mContactAdapter.removeEmpty();
                         mContactAdapter.saveContact();
+                        mContactAdapter.removeEmpty();
                         mContactAdapter.notifyDataSetChanged();
                         floatingActionMenu.close(true);
                         recyclerView.invalidate();
