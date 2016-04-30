@@ -48,7 +48,7 @@ public class ContactController {
     public void update(Contact contact) {
         DatabaseConnector.getInstance(mContext).updateContact(contact);
         for (ContactInfo info : contact.getContactInfoArrayList()) {
-            if (DatabaseConnector.getInstance(mContext).contactInfoExist(info.getId()))
+            if (DatabaseConnector.getInstance(mContext).contactInfoExist(contact.getId(), info) != -1)
                 DatabaseConnector.getInstance(mContext).updateContactInfo(contact.getId(), info);
             else {
                 int contactInforesult = (int) DatabaseConnector.getInstance(mContext).insertContactInfo(contact.getId(), info);

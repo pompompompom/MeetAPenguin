@@ -45,7 +45,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -67,7 +66,6 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     private ContactViewAdapter mContactAdapter;
     private View mFragmentRootView;
     private CircularImageView mToolBarImageProfile;
-    private Set<ContactInfo> mContactInfoList;
     private RequestQueue mRequestQueue;
     private ProgressDialog mProgressDialog;
     private FloatingActionButton mFloatingActionButtonAddNew;
@@ -148,8 +146,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
 
-        mContactInfoList = mContact.getContactInfoArrayList();
-        mContactAdapter = new ContactViewAdapter(mRecyclerView, mContactInfoList,
+        mContactAdapter = new ContactViewAdapter(mRecyclerView, mContact.getContactInfoArrayList(),
                 this, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         mRecyclerView.setAdapter(mContactAdapter);
 
@@ -165,8 +162,8 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                             mContactAdapter.saveContact();
                             ContactInfo emptyContactInfo = new ContactInfo(mContactAdapter.getAttributeAvailable(), "", "");
                             emptyContactInfo.setEditing(true);
-                            mContactInfoList.add(emptyContactInfo);
-                            mContactAdapter.updateDataSet(mContactInfoList);
+                            mContact.getContactInfoArrayList().add(emptyContactInfo);
+                            mContactAdapter.updateDataSet(mContact.getContactInfoArrayList());
                             mRecyclerView.invalidate();
                             floatingActionMenu.close(true);
                         } else {
@@ -239,7 +236,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                         ProfileManager.getInstance().setProfileOutDate(true);
                         updateProfileColor();
                         mProgressDialog.dismiss();
-                        copyOldContactInfoForRollback(mContactInfoList);
+                        copyOldContactInfoForRollback(mContact.getContactInfoArrayList());
                         mContact.setContactInfoArrayList(mOldContactInfoList);
                         ProfileManager.getInstance().saveContact(mContact);
                         mProgressDialog = null;

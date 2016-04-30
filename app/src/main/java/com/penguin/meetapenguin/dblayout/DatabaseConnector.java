@@ -16,7 +16,6 @@ import com.penguin.meetapenguin.util.DBUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -250,12 +249,12 @@ public class DatabaseConnector {
         newAttribute.put("contactId", contactId);
         open();
         if (database != null) {
-            database.update("ContactInfo", newAttribute, "cloudId=" + info.getId(), null);
+            database.update("ContactInfo", newAttribute, "id=" + info.getId(), null);
         }
         close();
     }
 
-    public boolean contactInfoExist(int contactInfoCloudId) {
+    public boolean contactInfoExistById(int contactInfoCloudId) {
         ArrayList<ContactInfo> contactList = new ArrayList<>();
         open();
         if (database != null) {
@@ -270,6 +269,24 @@ public class DatabaseConnector {
             }
         }
         return contactList.size() > 0;
+    }
+
+    public int contactInfoExist(int contactId, ContactInfo contactInfo) {
+        int resultIndex = -1;
+        open();
+        if (database != null) {
+            Cursor cursor = database.rawQuery(DBUtil.SELECT_CONTACT_INFO, new String[]{String.valueOf(contactInfo.getAttribute().getId()), String.valueOf(contactId)});
+            if (cursor.moveToFirst()) {
+                do {
+                    Attribute attribute = AttributesHelper.getAttributeById(cursor.getInt(2));
+                    ContactInfo contact = new ContactInfo(attribute, "", cursor.getString(3));
+                    contact.setId(cursor.getInt(1));
+                    resultIndex = cursor.getInt(0);
+                    break;
+                } while (cursor.moveToNext());
+            }
+        }
+        return resultIndex;
     }
 
     public void deleteContactInfo(ContactInfo contactInfo) {

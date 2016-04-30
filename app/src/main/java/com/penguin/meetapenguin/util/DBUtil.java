@@ -68,4 +68,6 @@ public class DBUtil {
     public static final String SELECT_ALL_CONTACT = "SELECT * FROM Contact;";
 
     public static final String SELECT_CONTACT_INFO_BY_CLOUD_ID = "SELECT * FROM ContactInfo WHERE cloudId = ?;";
+
+    public static final String SELECT_CONTACT_INFO = "SELECT * FROM ContactInfo WHERE attributeId = ? AND contactId = ?;";
 }
