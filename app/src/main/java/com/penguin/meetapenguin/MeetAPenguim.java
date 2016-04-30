@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.penguin.meetapenguin.dblayout.AttributeController;
+import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.util.AttributesHelper;
+import com.penguin.meetapenguin.util.DataUtil;
 
 /**
  * Created by urbano on 4/26/16.
@@ -36,6 +38,11 @@ public class MeetAPenguim extends Application {
         attributeController.create(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Phone));
         attributeController.create(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Website));
         attributeController.create(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Address));
+
+        //DEMO DATA
+        ContactController contactController = new ContactController(getAppContext());
+        contactController.create(DataUtil.mockContact());
+        contactController.create(DataUtil.mockContact2());
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(DATA_INITIALIZED, true);

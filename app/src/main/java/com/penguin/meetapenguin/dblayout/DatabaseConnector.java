@@ -241,7 +241,7 @@ public class DatabaseConnector {
         close();
     }
 
-    public void updateContactInfo(Integer contactId, ContactInfo info) {
+    public void updateContactInfo(int index, Integer contactId, ContactInfo info) {
         ContentValues newAttribute = new ContentValues();
         newAttribute.put("cloudId", info.getId());
         newAttribute.put("attributeId", info.getAttribute().getId());
@@ -249,7 +249,7 @@ public class DatabaseConnector {
         newAttribute.put("contactId", contactId);
         open();
         if (database != null) {
-            database.update("ContactInfo", newAttribute, "id=" + info.getId(), null);
+            database.update("ContactInfo", newAttribute, "id=" + index, null);
         }
         close();
     }

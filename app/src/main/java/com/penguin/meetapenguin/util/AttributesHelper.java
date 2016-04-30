@@ -1,5 +1,8 @@
 package com.penguin.meetapenguin.util;
 
+import android.graphics.drawable.Drawable;
+
+import com.penguin.meetapenguin.MeetAPenguim;
 import com.penguin.meetapenguin.entities.Attribute;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ public class AttributesHelper {
             case Email:
                 return new Attribute(2, "Email", "drawable/ic_mail_outline_black_24dp");
             case Phone:
-                return new Attribute(3, "Phone", "drawable/ic_phone_black_24dp");
+                return new Attribute(3, "Phone Number", "drawable/ic_phone_black_24dp");
             case Facebook:
                 return new Attribute(4, "Facebook", "drawable/facebook");
             case Twitter:
@@ -54,7 +57,7 @@ public class AttributesHelper {
             case 2:
                 return new Attribute(2, "Email", "drawable/ic_mail_outline_black_24dp");
             case 3:
-                return new Attribute(3, "Phone", "drawable/ic_phone_black_24dp");
+                return new Attribute(3, "Phone Number", "drawable/ic_phone_black_24dp");
             case 4:
                 return new Attribute(4, "Facebook", "drawable/facebook");
             case 5:
@@ -72,6 +75,45 @@ public class AttributesHelper {
             default:
                 return null;
         }
+    }
+
+    public static Drawable getDrawable(int id) {
+        String path = "";
+        switch (id) {
+            case 1:
+                path = "drawable/ic_account_box_black_24dp";
+                break;
+            case 2:
+                path = "drawable/ic_mail_outline_black_24dp";
+                break;
+            case 3:
+                path = "drawable/ic_phone_black_24dp";
+                break;
+            case 4:
+                path = "drawable/facebook";
+                break;
+            case 5:
+                path = "drawable/twitter_squared";
+                break;
+            case 6:
+                path = "drawable/linkedin";
+                break;
+            case 7:
+                path = "drawable/ic_cake_black_24dp";
+                break;
+            case 8:
+                path = "drawable/ic_home_black_24dp";
+                break;
+            case 9:
+                path = "drawable/ic_public_black_24dp";
+                break;
+            case 10:
+                path = "drawable/ic_place_black_24dp";
+                break;
+            default:
+                return null;
+        }
+        return MeetAPenguim.getAppContext().getDrawable(MeetAPenguim.getAppContext().getResources().getIdentifier(path, null, MeetAPenguim.getAppContext().getPackageName()));
     }
 
     public enum AttributeType {

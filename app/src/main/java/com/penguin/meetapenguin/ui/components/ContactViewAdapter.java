@@ -127,8 +127,8 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
         } else if (mMode == MODE_VIEW_CONTACT) {
             holder.mContactInfo.setText(mContactInfoList.get(position).getAttributeValue());
-            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mContactInfoList
-                    .get(position).getIconResId(mContext)));
+            holder.mContactIcon.setImageDrawable(AttributesHelper.getDrawable(mContactInfoList
+                    .get(position).getAttribute().getId()));
         }
     }
 

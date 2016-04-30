@@ -15,6 +15,9 @@ public class ContactInfo implements Serializable, Cloneable {
     private String attributeValue;
     private boolean editing;
 
+    public ContactInfo() {
+    }
+
     public ContactInfo(Attribute attribute, String extraDescription, String attributeValue) {
 
         this.attribute = attribute;

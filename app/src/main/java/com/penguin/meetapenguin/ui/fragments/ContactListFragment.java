@@ -34,7 +34,6 @@ import com.penguin.meetapenguin.util.ServerConstants;
 import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,6 +99,7 @@ public class ContactListFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit() called with: " + "query = [" + query + "]");
                 performSearch(query);
+                performSearch(query);
                 searchView.clearFocus();
                 searchController = false;
                 if (query.isEmpty()) {
@@ -139,7 +139,9 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        original = DataUtil.createFakeData();
+        ContactController contactController = new ContactController(getContext());
+        original = (ArrayList<Contact>) contactController.readAll();
+        original.remove(ProfileManager.getInstance().getContact());
     }
 
     @Override
@@ -177,7 +179,7 @@ public class ContactListFragment extends Fragment {
     }
 
     private void updateContactInfo() {
-        final long currentTimeStamp = new Date().getTime();
+        final long currentTimeStamp = 0;
 
         mOnReceiveContactUpdate = new Response.Listener() {
             @Override
