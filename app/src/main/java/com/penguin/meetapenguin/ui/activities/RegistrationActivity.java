@@ -77,6 +77,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 mProgressDialog.setTitle(getResources().getString(R.string.loading));
                 mProgressDialog.setMessage(getResources().getString(R.string.please_wait));
                 mProgressDialog.show();
+                //TODO REMOVE THIS HARDCODE ID
+                mContact.setId(31);
 
                 final Gson gson = new Gson();
                 String json = gson.toJson(mContact);

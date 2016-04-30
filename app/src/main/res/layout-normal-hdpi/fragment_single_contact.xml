@@ -33,27 +33,6 @@
             app:layoutManager="LinearLayoutManager"
             tools:context=".ui.ContactListFragment"
             tools:listitem="@layout/fragment_contact" />
-
-        <TextView
-            android:id="@+id/recycler_notes_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/your_notes" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_notes"
-            android:name="com.penguin.meetapenguin.ui.SingleContactFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/share_button"
-            android:layout_marginTop="10dp"
-            android:layout_weight="2"
-            android:background="@color/contact_info_row"
-            app:layoutManager="LinearLayoutManager"
-            tools:context=".ui.ContactListFragment"
-            tools:listitem="@layout/fragment_contact" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -67,7 +46,7 @@
         android:layout_marginEnd="33dp"
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_mail_outline_black_24dp"
         android:tint="@color/white"
         app:backgroundTint="@color/colorPrimary" />
 </RelativeLayout>

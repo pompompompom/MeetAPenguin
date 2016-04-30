@@ -14,18 +14,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
+import com.penguin.meetapenguin.ws.remote.RequestContactRenew;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 /**
  * Fragment to view a single contact, accessed from the Contact List.
  */
 public class SingleContactFragment extends Fragment {
 
+    private static final String TAG = SingleContactFragment.class.getSimpleName();
     private Contact contact;
     private Toolbar toolbar;
     private View toolbarView;
@@ -35,6 +44,7 @@ public class SingleContactFragment extends Fragment {
     private RecyclerView recyclerView;
     private ContactViewAdapter contactAdapter;
     private FloatingActionButton floatingActionButton;
+    private RequestQueue mRequestQueue;
 
     private boolean dialogShown = false;
     private View view;
@@ -60,6 +70,7 @@ public class SingleContactFragment extends Fragment {
 
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
+        mRequestQueue = Volley.newRequestQueue(getContext());
 
         imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
         Picasso.with(getContext())
@@ -80,33 +91,51 @@ public class SingleContactFragment extends Fragment {
                 null, getContext(), ContactViewAdapter.MODE_VIEW_CONTACT);
         recyclerView.setAdapter(contactAdapter);
 
+
         floatingActionButton = (FloatingActionButton) view
                 .findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: add note taking feature here
-                        if (!dialogShown) {
-                            new AlertDialog.Builder(inflater.getContext()).setMessage
-                                    ("TODO: Add note feature here!")
-                                    .setPositiveButton("Add", new
-                                    DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialogShown = false;
-                                        }
-                                    }).show();
-                            dialogShown = true;
-                        }
+                        new AlertDialog.Builder(inflater.getContext()).setMessage
+                                ("Do you want to request the renew of this contact information?")
+                                .setPositiveButton("Add", new
+                                        DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                RequestContactRenew contactRenew = new RequestContactRenew(contact.getId(), new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        Toast.makeText(SingleContactFragment.this.getContext(), "Request for renewing information sent with success", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(SingleContactFragment.this.getContext(), "Error while sending your renew request", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                contactRenew.setTag(TAG);
+                                                mRequestQueue.add(contactRenew);
+                                            }
+                                        }).show();
                     }
                 });
+        if (contact.getExpiration() < new Date().getTime()) {
+            floatingActionButton.setVisibility(View.VISIBLE);
+        } else {
+            floatingActionButton.setVisibility(View.GONE);
+        }
 
 
         return view;
     }
 
-    public void setContact(Contact contact){
+    private void SendRenewMessage() {
+
+    }
+
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
@@ -115,5 +144,6 @@ public class SingleContactFragment extends Fragment {
         super.onDestroyView();
         //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(toolbarView);
+        mRequestQueue.cancelAll(TAG);
     }
 }

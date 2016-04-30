@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,14 +19,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.penguin.meetapenguin.R;
+import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.ui.components.ContactListViewAdapter;
+import com.penguin.meetapenguin.util.ContactSyncronizationHelper;
 import com.penguin.meetapenguin.util.DataUtil;
-import com.squareup.picasso.Picasso;
+import com.penguin.meetapenguin.util.ProfileManager;
+import com.penguin.meetapenguin.util.ServerConstants;
+import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -36,19 +47,20 @@ import java.util.ArrayList;
 public class ContactListFragment extends Fragment {
 
     private static final String TAG = ContactListFragment.class.getSimpleName();
+    private static final String URL = ServerConstants.SERVER_URL + "/contacts";
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Contact> original;
     private ContactListViewAdapter contactAdapter;
     private boolean searchController;
     private View searchTip;
     private TextView queryText;
-    private Toolbar mToolbar;
-    private View toolbarView;
-    private CircularImageView imageProfile;
-    private TextView name;
-    private TextView description;
     private View view;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout mSwipeContainer;
+    private RequestQueue mRequestQueue;
+    private Response.ErrorListener mErrorWhenContactUpdate;
+    private Response.Listener mOnReceiveContactUpdate;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -137,12 +149,19 @@ public class ContactListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Contact contact = DataUtil.getMockContact();
-        mToolbar = mListener.getToolBar();
+        mRequestQueue = Volley.newRequestQueue(getContext());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         final View closeSearchFilter = view.findViewById(R.id.close_search_filter);
         queryText = (TextView) view.findViewById(R.id.query_text);
         searchTip = view.findViewById(R.id.search_tip);
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer_contact_list);
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateContactInfo();
+            }
+        });
         closeSearchFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,12 +170,48 @@ public class ContactListFragment extends Fragment {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        ArrayList<Contact> dataset = new ArrayList<>();
-        dataset.addAll(original);
-        contactAdapter = new ContactListViewAdapter(dataset, mListener, getContext());
+        contactAdapter = new ContactListViewAdapter(original, mListener, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
+    }
+
+    private void updateContactInfo() {
+        final long currentTimeStamp = new Date().getTime();
+
+        mOnReceiveContactUpdate = new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                ContactSyncronizationHelper.setLastUpdateTime(currentTimeStamp);
+                Log.d(TAG, "onResponse() called with: " + "response = [" + response + "]");
+                mSwipeContainer.setRefreshing(false);
+
+                ArrayList<Contact> contactList = (ArrayList<Contact>) response;
+                ContactController contactController = new ContactController(getContext());
+                for (Contact contact : contactList) {
+                    contactController.update(contact);
+                    if (original.contains(contact)) {
+                        original.remove(contact);
+                        original.add(contact);
+                    }
+                }
+
+                contactAdapter.notifyDataSetChanged();
+            }
+        };
+
+        mErrorWhenContactUpdate = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mSwipeContainer.setRefreshing(false);
+            }
+        };
+
+        Map<String, String> header = new HashMap<>();
+        header.put("UserId", String.valueOf(ProfileManager.getInstance().getUserId()));
+        header.put("timestamp", String.valueOf(ContactSyncronizationHelper.getLastUpdatedTime()));
+        RetrieveEntityRequest request = new RetrieveEntityRequest(URL, Contact.class, header, mOnReceiveContactUpdate, mErrorWhenContactUpdate);
+        mRequestQueue.add(request);
     }
 
     @Override
@@ -173,8 +228,6 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
-        mToolbar.removeView(toolbarView);
     }
 
     @Override

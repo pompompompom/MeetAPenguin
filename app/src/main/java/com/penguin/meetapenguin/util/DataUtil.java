@@ -4,8 +4,10 @@ import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Data Utilities
@@ -42,15 +44,18 @@ public class DataUtil {
     public static ArrayList<Contact> createFakeData() {
         ArrayList dummyData = new ArrayList<>();
         Contact contact1 = new Contact();
+        contact1.setId(123123);
         contact1.setName("John John");
         contact1.setDescription("Student");
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
         contact1.setContactInfoArrayList(DEFAULT_CONTACT_INFO_LIST);
+        contact1.setExpiration(new Date().getTime() + TimeUnit.DAYS.toMillis(7));
         dummyData.add(contact1);
 
         Contact contact2 = new Contact();
         contact2.setName("Stuart Little");
         contact2.setDescription("Rat");
+        contact1.setId(9878742);
         contact2.setPhotoUrl("http://www.thehindu.com/thehindu/yw/2002/10/26/images/2002102600050201.jpg");
         contact2.setContactInfoArrayList(DEFAULT_CONTACT_INFO_LIST);
         dummyData.add(contact2);

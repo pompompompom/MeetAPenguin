@@ -53,18 +53,13 @@ public class Contact implements Serializable {
 
         Contact contact = (Contact) o;
 
-        if (id != null ? !id.equals(contact.id) : contact.id != null) return false;
-        if (name != null ? !name.equals(contact.name) : contact.name != null) return false;
-        return description != null ? description.equals(contact.description) : contact.description == null;
+        return id != null ? id.equals(contact.id) : contact.id == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     public Integer getId() {
