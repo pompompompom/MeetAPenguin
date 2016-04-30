@@ -46,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -193,7 +194,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     }
 
     private void copyOldContactInfoForRollback(Set<ContactInfo> contactInfoSet) {
-        mOldContactInfoList = new HashSet<>();
+        mOldContactInfoList = new LinkedHashSet<>();
         for (ContactInfo contactInfo : contactInfoSet) {
             try {
                 mOldContactInfoList.add((ContactInfo) contactInfo.clone());
