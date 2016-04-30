@@ -28,6 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -147,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Contact contact = new Contact();
         contact.setName(mEditTextName.getText().toString());
         contact.setDescription("");
-        ArrayList<ContactInfo> contactInfoArrayList = new ArrayList<>();
+        Set<ContactInfo> contactInfoArrayList = new LinkedHashSet<>();
         ContactInfo contactInfo = new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Email), "", mEditTextEmail.getText().toString());
         contactInfoArrayList.add(contactInfo);
         contact.setContactInfoArrayList(contactInfoArrayList);

@@ -33,7 +33,7 @@ public class AttributesHelper {
             case Twitter:
                 return new Attribute(5, "Twitter", "drawable/twitter_squared");
             case LinkedIn:
-                return new Attribute(6, "LinkedIn", "drawable/facebook");
+                return new Attribute(6, "LinkedIn", "drawable/linkedin");
             case Birthday:
                 return new Attribute(7, "Birthday", "drawable/ic_cake_black_24dp");
             case Address:
@@ -60,7 +60,7 @@ public class AttributesHelper {
             case 5:
                 return new Attribute(5, "Twitter", "drawable/twitter_squared");
             case 6:
-                return new Attribute(6, "LinkedIn", "drawable/facebook");
+                return new Attribute(6, "LinkedIn", "drawable/linkedin");
             case 7:
                 return new Attribute(7, "Birthday", "drawable/ic_cake_black_24dp");
             case 8:

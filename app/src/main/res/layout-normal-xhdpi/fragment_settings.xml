@@ -6,42 +6,72 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/expiration_date_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/expiration_date" />
+
+
+        <com.github.channguyen.rsv.RangeSliderView xmlns:rsv="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/rangeslide_expiration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            rsv:filledColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/expiration_date_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/_2_years"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:name="com.penguin.meetapenguin.ui.ContactFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/share_button"
+        android:layout_above="@+id/fullscreen_content_controls"
+        android:layout_below="@id/expiration_date_holder"
         android:layout_marginTop="10dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.ContactListFragment"
         tools:listitem="@layout/fragment_contact" />
 
     <LinearLayout
+        android:id="@+id/fullscreen_content_controls"
+        style="?metaButtonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/list"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:text="@string/expiration_date" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:text="@string/_2_years" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:text="@string/save" />
+        android:layout_below="@id/login_email"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/save_settings_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="12dp"
+            android:text="Save"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 </RelativeLayout>

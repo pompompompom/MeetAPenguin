@@ -5,8 +5,8 @@ import android.content.Context;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contact controller for contact CRUD.
@@ -35,7 +35,7 @@ public class ContactController {
 
         else {
             Contact contact = contactList.get(0);
-            ArrayList<ContactInfo> contactInfoList = DatabaseConnector.getInstance(mContext).readContactInfoFromUser(contactId);
+            Set<ContactInfo> contactInfoList = DatabaseConnector.getInstance(mContext).readContactInfoFromUser(contactId);
             contact.setContactInfoArrayList(contactInfoList);
             return contact;
         }

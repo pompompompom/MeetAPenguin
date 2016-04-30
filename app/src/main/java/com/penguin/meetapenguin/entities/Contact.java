@@ -3,19 +3,13 @@ package com.penguin.meetapenguin.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonObject;
-
 import java.io.Serializable;
-import java.io.StringReader;
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by urbano on 4/2/16.
  */
-public class Contact implements Serializable{
+public class Contact implements Serializable {
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
         @Override
@@ -29,12 +23,9 @@ public class Contact implements Serializable{
         }
     };
 
-    private static final Gson GSON = new GsonBuilder()
-            .setPrettyPrinting().create();
-
     private Integer id;
     private String name;
-    private ArrayList<ContactInfo> contactInfoArrayList;
+    private Set<ContactInfo> contactInfoArrayList;
     private String description;
     private long expiration;
     private String photoUrl;
@@ -46,8 +37,7 @@ public class Contact implements Serializable{
         id = in.readByte() == 0x00 ? null : in.readInt();
         name = in.readString();
         if (in.readByte() == 0x01) {
-            contactInfoArrayList = new ArrayList<ContactInfo>();
-            in.readList(contactInfoArrayList, ContactInfo.class.getClassLoader());
+            contactInfoArrayList = (Set) in.readValue(Set.class.getClassLoader());
         } else {
             contactInfoArrayList = null;
         }
@@ -117,24 +107,11 @@ public class Contact implements Serializable{
         this.name = name;
     }
 
-    public ArrayList<ContactInfo> getContactInfoArrayList() {
+    public Set<ContactInfo> getContactInfoArrayList() {
         return contactInfoArrayList;
     }
 
-    public void setContactInfoArrayList(ArrayList<ContactInfo> contactInfoArrayList) {
+    public void setContactInfoArrayList(Set<ContactInfo> contactInfoArrayList) {
         this.contactInfoArrayList = contactInfoArrayList;
-    }
-
-    public String toJson() {
-        return GSON.toJson(this);
-    }
-
-    public static Contact fromJson(String json) {
-        JsonObject jsonObject = new JsonParser().parse(new StringReader(json)).getAsJsonObject();
-        return fromJson(jsonObject);
-    }
-
-    public static Contact fromJson(JsonObject jsonObject) {
-        return GSON.fromJson(jsonObject, Contact.class);
     }
 }

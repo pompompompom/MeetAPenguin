@@ -19,6 +19,7 @@ import com.google.zxing.common.BitMatrix;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.util.EntitiesHelper.ContactHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.EnumMap;
@@ -53,12 +54,12 @@ public class ShareActivity extends AppCompatActivity {
 
         Contact contact = (Contact) getIntent().getSerializableExtra("Contact");
         android.util.Log.d("MITA", "contact name: " + contact.getName());
-        Log.d("MITA", "!!!!!!!!!Sharing contact: " + contact.toJson());
+        Log.d("MITA", "!!!!!!!!!Sharing contact: " + ContactHelper.toJson(contact));
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         view = (ViewGroup) findViewById(R.id.activity_container);
 
-        String contactJson = contact.toJson();
+        String contactJson = ContactHelper.toJson(contact);
         try {
             Bitmap bitmap = encodeAsBitmap(contactJson, BarcodeFormat.QR_CODE, 1350, 900);
             qrCodeImageView.setImageBitmap(bitmap);

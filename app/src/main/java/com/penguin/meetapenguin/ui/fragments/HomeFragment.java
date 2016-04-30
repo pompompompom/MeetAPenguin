@@ -45,7 +45,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Fragment to display main screen.
@@ -65,9 +66,11 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     private ContactViewAdapter mContactAdapter;
     private View mFragmentRootView;
     private CircularImageView mToolBarImageProfile;
-    private ArrayList<ContactInfo> contactInfoList;
+    private Set<ContactInfo> mContactInfoList;
     private RequestQueue mRequestQueue;
     private ProgressDialog mProgressDialog;
+    private FloatingActionButton mFloatingActionButtonAddNew;
+    private Set<ContactInfo> mOldContactInfoList;
 
     public HomeFragment() {
     }
@@ -85,6 +88,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
 
         toolbar = ((MainActivity) getActivity()).getToolBar();
         mContact = ProfileManager.getInstance().getContact();
+        copyOldContactInfoForRollback(mContact.getContactInfoArrayList());
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
         mToolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
@@ -143,17 +147,16 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         mRecyclerView = (RecyclerView) mFragmentRootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
 
-        // TODO add interaction adapter
-        contactInfoList = mContact.getContactInfoArrayList();
-        mContactAdapter = new ContactViewAdapter(mRecyclerView, contactInfoList,
+        mContactInfoList = mContact.getContactInfoArrayList();
+        mContactAdapter = new ContactViewAdapter(mRecyclerView, mContactInfoList,
                 this, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         mRecyclerView.setAdapter(mContactAdapter);
 
         final FloatingActionMenu floatingActionMenu = (FloatingActionMenu) mFragmentRootView.findViewById(R.id.fab);
 
-        FloatingActionButton floatingActionButtonAddNew = (FloatingActionButton) mFragmentRootView
+        mFloatingActionButtonAddNew = (FloatingActionButton) mFragmentRootView
                 .findViewById(R.id.add_new_contact_info);
-        floatingActionButtonAddNew.setOnClickListener(
+        mFloatingActionButtonAddNew.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -161,12 +164,13 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                             mContactAdapter.saveContact();
                             ContactInfo emptyContactInfo = new ContactInfo(mContactAdapter.getAttributeAvailable(), "", "");
                             emptyContactInfo.setEditing(true);
-                            contactInfoList.add(emptyContactInfo);
-                            mContactAdapter.notifyDataSetChanged();
+                            mContactInfoList.add(emptyContactInfo);
+                            mContactAdapter.updateDataSet(mContactInfoList);
                             mRecyclerView.invalidate();
                             floatingActionMenu.close(true);
                         } else {
-
+                            mFloatingActionButtonAddNew.hide(true);
+                            mFloatingActionButtonAddNew.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -179,7 +183,6 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     public void onClick(View v) {
                         mContactAdapter.saveContact();
                         mContactAdapter.removeEmpty();
-                        mContactAdapter.notifyDataSetChanged();
                         floatingActionMenu.close(true);
                         mRecyclerView.invalidate();
                         sendNewContactToCloud();
@@ -187,6 +190,17 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                 });
 
         return mFragmentRootView;
+    }
+
+    private void copyOldContactInfoForRollback(Set<ContactInfo> contactInfoSet) {
+        mOldContactInfoList = new HashSet<>();
+        for (ContactInfo contactInfo : contactInfoSet) {
+            try {
+                mOldContactInfoList.add((ContactInfo) contactInfo.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void updateProfileColor() {
@@ -221,10 +235,12 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     @Override
                     public void onResponse(JSONObject response) {
                         mContact = gson.fromJson(response.toString(), Contact.class);
-                        ProfileManager.getInstance().saveContact(mContact);
                         ProfileManager.getInstance().setProfileOutDate(true);
                         updateProfileColor();
                         mProgressDialog.dismiss();
+                        copyOldContactInfoForRollback(mContactInfoList);
+                        mContact.setContactInfoArrayList(mOldContactInfoList);
+                        ProfileManager.getInstance().saveContact(mContact);
                         mProgressDialog = null;
                     }
                 },
@@ -251,6 +267,11 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
             Uri selectedImage = data.getData();
             mContact.setPhotoUrl(selectedImage.getPath());
             ProfileManager.getInstance().saveContact(mContact);
+
+            Picasso.with(getContext())
+                    .load("http://qbyteit.com/wp-content/uploads/2016/02/the-cloud.jpg")
+                    .placeholder(R.drawable.placeholder)
+                    .into(mToolBarImageProfile);
         } else if (requestCode == HomeFragment.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -269,11 +290,14 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         //You added a lot of mFragmentRootView into the toolbar to customize it to this fragment. So remove it.
         toolbar.removeView(mToolbarView);
         mContactAdapter.removeEmpty();
+        mContact.setContactInfoArrayList(mOldContactInfoList);
     }
 
     @Override
     public void onContactInfoDeleted(ContactInfo contactInfo) {
         ContactInfoController contactInfoController = new ContactInfoController(getContext());
         contactInfoController.delete(contactInfo);
+        mContact.getContactInfoArrayList().remove(contactInfo);
+        mFloatingActionButtonAddNew.setVisibility(View.VISIBLE);
     }
 }

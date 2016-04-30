@@ -22,23 +22,26 @@ import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.activities.ScanActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
-import com.penguin.meetapenguin.ui.components.ContactViewAdapter;
+import com.penguin.meetapenguin.ui.components.SelectContactInfoAdapter;
 import com.penguin.meetapenguin.util.DataUtil;
+import com.penguin.meetapenguin.util.ProfileManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
 public class PrepareShareFragment extends Fragment {
 
     private static final String TAG = PrepareShareFragment.class.getSimpleName();
+    private Set<ContactInfo> mSelected;
     private OnShareFragmentInteraction mListener;
-    private ContactViewAdapter contactAdapter;
+    private SelectContactInfoAdapter contactAdapter;
     private Contact mContact;
     private Toolbar toolbar;
     private View toolbarView;
@@ -85,6 +88,8 @@ public class PrepareShareFragment extends Fragment {
         mContact = DataUtil.getMockContact();
         setHasOptionsMenu(true);
 
+        mSelected = ProfileManager.getInstance().getDefaultSharingPreferences();
+
         //You added a lot of view into the toolbar to customize it this fragment.
         toolbar = mListener.getToolBar();
         inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
@@ -126,7 +131,7 @@ public class PrepareShareFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new ContactViewAdapter(recyclerView, mContact.getContactInfoArrayList(), null, getContext());
+        contactAdapter = new SelectContactInfoAdapter(recyclerView, mContact.getContactInfoArrayList(), mSelected, null, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
@@ -172,7 +177,9 @@ public class PrepareShareFragment extends Fragment {
 
     public interface OnShareFragmentInteraction {
         void onContactInfoSelected(ContactInfo contactInfo);
+
         void onShare(Contact item, ArrayList<ContactInfo> selectedContactInfo);
+
         Toolbar getToolBar();
     }
 }

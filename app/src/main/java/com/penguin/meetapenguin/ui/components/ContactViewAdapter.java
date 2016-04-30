@@ -21,6 +21,7 @@ import com.penguin.meetapenguin.util.AttributesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.ViewHolder> {
     public static final int MODE_SHARE_CONTACT = 0;
@@ -29,22 +30,21 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
     private static final String TAG = ContactViewAdapter.class.getSimpleName();
     private static final int FILLED_ITEM = 2;
     private static final int NEW_ITEM = 1;
-
-    private final ArrayList<ContactInfo> mContactInfoList;
     private final OnContactViewAdapterInteraction mListener;
     private final RecyclerView mRecycleView;
     int mMode;
+    private ArrayList<ContactInfo> mContactInfoList;
     private Context mContext;
 
-    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, OnContactViewAdapterInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, Set<ContactInfo> items, OnContactViewAdapterInteraction listener,
                               Context context) {
         this(recycleView, items, listener, context, MODE_SHARE_CONTACT);
     }
 
-    public ContactViewAdapter(RecyclerView recycleView, ArrayList<ContactInfo> items, OnContactViewAdapterInteraction listener,
+    public ContactViewAdapter(RecyclerView recycleView, Set<ContactInfo> items, OnContactViewAdapterInteraction listener,
                               Context context, int mode) {
         mRecycleView = recycleView;
-        mContactInfoList = items;
+        mContactInfoList = new ArrayList<ContactInfo>(items);
         mListener = listener;
         mContext = context;
         mMode = mode;
@@ -84,10 +84,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         Log.d(TAG, "onBindViewHolder: " + position);
         holder.mItem = mContactInfoList.get(position);
 
-        if (mMode == MODE_SHARE_CONTACT) {
-            holder.mContactInfo.setText(mContactInfoList.get(position).getAttributeValue());
-            holder.mContactIcon.setImageDrawable(mContext.getDrawable(mContactInfoList.get(position).getIconResId(mContext)));
-        } else if (mMode == MODE_EDIT_CONTACT) {
+        if (mMode == MODE_EDIT_CONTACT) {
             if (holder.mType == FILLED_ITEM) {
                 holder.mEditContactInfo.setText(mContactInfoList.get(position).getAttributeValue());
                 holder.mSelectedAttribute = mContactInfoList.get(position).getAttribute();
@@ -160,7 +157,11 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                 }
             }
         }
+        for (ContactInfo contactInfo : toRemove) {
+            mListener.onContactInfoDeleted(contactInfo);
+        }
         mContactInfoList.removeAll(toRemove);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -185,6 +186,11 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
         return getAvailableAttributes(null).get(0);
     }
 
+    public void updateDataSet(Set<ContactInfo> contactInfoList) {
+        mContactInfoList = new ArrayList<ContactInfo>(contactInfoList);
+        notifyDataSetChanged();
+    }
+
     public interface OnContactViewAdapterInteraction {
         void onContactInfoDeleted(ContactInfo contactInfo);
     }
@@ -206,11 +212,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
             super(view);
             mView = view;
             mType = type;
-            if (mMode == MODE_SHARE_CONTACT) {
-                mContactInfo = (TextView) view.findViewById(R.id.contact_info);
-                mContactCheckBox = (CheckBox) view.findViewById(R.id.share_checkbox);
-                mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
-            } else if (mMode == MODE_EDIT_CONTACT) {
+            if (mMode == MODE_EDIT_CONTACT) {
                 mEditContactInfo = (EditText) view.findViewById(R.id.edit_contact_info);
                 mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
                 mDelete = (ImageView) view.findViewById(R.id.delete_contact_info);

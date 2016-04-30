@@ -16,7 +16,10 @@ import com.penguin.meetapenguin.util.DBUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Database utilities.
@@ -208,8 +211,8 @@ public class DatabaseConnector {
         return result;
     }
 
-    public ArrayList<ContactInfo> readContactInfoFromUser(Integer contactId) {
-        ArrayList<ContactInfo> contactList = new ArrayList<>();
+    public Set<ContactInfo> readContactInfoFromUser(Integer contactId) {
+        Set<ContactInfo> contactList = new LinkedHashSet<>();
         open();
         if (database != null) {
             Cursor cursor = database.rawQuery(DBUtil.SELECT_CONTACT_INFO_FROM_USER, new String[]{String.valueOf(contactId)});

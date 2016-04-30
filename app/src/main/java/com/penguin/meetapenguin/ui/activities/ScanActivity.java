@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.zxing.Result;
 import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.util.EntitiesHelper.ContactHelper;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -43,7 +44,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         Log.v(TAG, rawResult.getText()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
-        Contact c = Contact.fromJson(rawResult.getText());
+        Contact c = ContactHelper.fromJson(rawResult.getText());
         if (c != null) {
             Log.d(TAG, "contact: " + c.toString() + "|" + c.getName());
 

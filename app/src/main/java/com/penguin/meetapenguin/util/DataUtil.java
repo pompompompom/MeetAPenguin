@@ -4,6 +4,8 @@ import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Data Utilities
@@ -16,7 +18,7 @@ public class DataUtil {
     private static final ContactInfo LOCATION_INFO =
             new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Location), "", "Cupertino - CA");
 
-    private static final ArrayList<ContactInfo> DEFAULT_CONTACT_INFO_LIST = new ArrayList<>();
+    private static final Set<ContactInfo> DEFAULT_CONTACT_INFO_LIST = new LinkedHashSet<>();
 
     static {
         DEFAULT_CONTACT_INFO_LIST.add(FACEBOOK_INFO);

@@ -35,7 +35,10 @@ import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Fragment to display main screen.
@@ -203,7 +206,8 @@ public class InboxFragment extends Fragment {
         contact1.setName("John John");
         contact1.setDescription("Student");
         contact1.setId(1);
-        contact1.setContactInfoArrayList(new ArrayList<ContactInfo>());
+        contact1.setContactInfoArrayList(new LinkedHashSet<ContactInfo>() {
+        });
         contact1.setExpiration(new Date().getTime());
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
 
@@ -230,7 +234,7 @@ public class InboxFragment extends Fragment {
         contact8.setDescription("Engineer");
         contact8.setId(2);
         contact8.setExpiration(new Date().getTime());
-        contact8.setContactInfoArrayList(new ArrayList<ContactInfo>());
+        contact8.setContactInfoArrayList(new LinkedHashSet<ContactInfo>());
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
         contactController.create(contact8);
         inboxMessage2.setContact(contact8);
