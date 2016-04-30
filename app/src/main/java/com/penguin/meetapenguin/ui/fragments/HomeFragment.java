@@ -94,6 +94,8 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                 .placeholder(R.drawable.placeholder)
                 .into(mToolBarImageProfile);
 
+        updateProfileColor();
+
         mToolBarImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +189,14 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         return mFragmentRootView;
     }
 
+    private void updateProfileColor() {
+        if (!ProfileManager.getInstance().isProfileUpdated()) {
+            mToolBarImageProfile.setBorderColor(getResources().getColor(R.color.red));
+        } else {
+            mToolBarImageProfile.setBorderColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+    }
+
     private void sendNewContactToCloud() {
         mProgressDialog = new ProgressDialog(this.getActivity(), ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setIndeterminate(true);
@@ -212,6 +222,8 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     public void onResponse(JSONObject response) {
                         mContact = gson.fromJson(response.toString(), Contact.class);
                         ProfileManager.getInstance().saveContact(mContact);
+                        ProfileManager.getInstance().setProfileOutDate(true);
+                        updateProfileColor();
                         mProgressDialog.dismiss();
                         mProgressDialog = null;
                     }
@@ -221,7 +233,9 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     public void onErrorResponse(VolleyError error) {
                         mProgressDialog.dismiss();
                         mProgressDialog = null;
+                        ProfileManager.getInstance().setProfileOutDate(false);
                         Toast.makeText(HomeFragment.this.getContext(), getResources().getString(R.string.error_update_profile_on_cloud), Toast.LENGTH_SHORT).show();
+                        updateProfileColor();
                     }
                 });
 

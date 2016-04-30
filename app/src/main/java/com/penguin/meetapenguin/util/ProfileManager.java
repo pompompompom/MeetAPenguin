@@ -18,6 +18,7 @@ import com.penguin.meetapenguin.entities.Contact;
 public class ProfileManager {
 
     public static String USER_PROFILE_ID = "USER_PROFILE_ID";
+    public static String PROFILE_UPDATED = "RROFILE_UPDATED";
     private static ProfileManager mInstance;
     private static Contact mContact;
     private static ContactController mContactController;
@@ -60,6 +61,18 @@ public class ProfileManager {
             editor.commit();
         }
         mContact = contact;
+    }
+
+    public boolean isProfileUpdated() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MeetAPenguim.getAppContext());
+        return sharedPref.getBoolean(PROFILE_UPDATED, true);
+    }
+
+    public void setProfileOutDate(boolean status) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MeetAPenguim.getAppContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(PROFILE_UPDATED, status);
+        editor.commit();
     }
 
     public Contact getContact() {

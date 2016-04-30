@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity
             displayFragment(contactFragment, title);
         } else if (id == R.id.share) {
             displayFragment(shareFragment, title);
-        } else if (id == R.id.nav_mail) {
         } else if (id == R.id.nav_inbox) {
             displayFragment(inboxFragment, title);
         }
