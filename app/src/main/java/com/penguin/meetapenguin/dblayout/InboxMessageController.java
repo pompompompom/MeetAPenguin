@@ -36,4 +36,8 @@ public class InboxMessageController {
     public ArrayList<InboxMessage> readAll() {
         return DatabaseConnector.getInstance(mContext).readInboxMessage(null);
     }
+
+    public void deleteAll() {
+        DatabaseConnector.getInstance(mContext).deleteAllMessages();
+    }
 }

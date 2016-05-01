@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
+import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.components.ContactListViewAdapter;
 import com.penguin.meetapenguin.util.ContactSyncronizationHelper;
 import com.penguin.meetapenguin.util.DataUtil;
@@ -53,6 +54,7 @@ public class ContactListFragment extends Fragment {
     private boolean searchController;
     private View searchTip;
     private TextView queryText;
+    private Toolbar mToolbar;
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeContainer;
@@ -152,6 +154,9 @@ public class ContactListFragment extends Fragment {
 
         Contact contact = DataUtil.getMockContact();
         mRequestQueue = Volley.newRequestQueue(getContext());
+
+        mToolbar = ((MainActivity) getActivity()).getToolBar();
+        mToolbar.setTitle("Contact List");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         final View closeSearchFilter = view.findViewById(R.id.close_search_filter);

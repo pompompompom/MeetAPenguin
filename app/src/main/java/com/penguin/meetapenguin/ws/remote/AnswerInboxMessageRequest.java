@@ -10,8 +10,10 @@ import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.util.ProfileManager;
 import com.penguin.meetapenguin.util.ServerConstants;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by urbano on 4/22/16.
@@ -24,10 +26,11 @@ public class AnswerInboxMessageRequest extends Request<String> {
     Map<String, String> mParams;
 
     public AnswerInboxMessageRequest(InboxMessage message, boolean status, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super(Method.POST, String.format("%s/messages/%s/status", URL, message.getId()), errorListener);
+        super(Method.POST, String.format("%s/messages/%s/status", URL, message.getCloudId()), errorListener);
         mListener = listener;
         mParams = new HashMap<String, String>();
         mParams.put("accepted", String.valueOf(status));
+        mParams.put("newExpiration", String.valueOf(new Date().getTime() + TimeUnit.DAYS.toMillis(30 * ProfileManager.getInstance().getDefaultExpiration().getMonths())));
     }
 
     @Override

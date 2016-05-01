@@ -20,9 +20,9 @@ import java.util.ArrayList;
 
 public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdapter.ViewHolder> {
 
-    private final ArrayList<InboxMessage> mValues;
     private final InboxFragment.OnListInboxFragmentInteractionListener
             mListener;
+    private ArrayList<InboxMessage> mValues;
     private Context mContext;
 
     public InboxFragmentAdapter(ArrayList<InboxMessage> items, InboxFragment
@@ -91,8 +91,7 @@ public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdap
     }
 
     public void setDataSet(ArrayList<InboxMessage> dataSet) {
-        mValues.clear();
-        mValues.addAll(dataSet);
+        mValues = dataSet;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

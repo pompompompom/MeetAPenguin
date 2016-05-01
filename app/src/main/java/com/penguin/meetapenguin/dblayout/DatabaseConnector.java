@@ -296,4 +296,13 @@ public class DatabaseConnector {
         }
         close();
     }
+
+    public void deleteAllMessages() {
+        open();
+        long result = -1;
+        if (database != null) {
+            result = database.delete("InboxMessage", null, null);
+        }
+        close();
+    }
 }

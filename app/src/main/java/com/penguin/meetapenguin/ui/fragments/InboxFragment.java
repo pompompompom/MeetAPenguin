@@ -28,6 +28,8 @@ import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
+import com.penguin.meetapenguin.util.DataUtil;
+import com.penguin.meetapenguin.util.ProfileManager;
 import com.penguin.meetapenguin.util.ServerConstants;
 import com.penguin.meetapenguin.ws.remote.AnswerInboxMessageRequest;
 import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
@@ -35,10 +37,10 @@ import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Fragment to display main screen.
@@ -119,6 +121,7 @@ public class InboxFragment extends Fragment {
 
     private void saveMessages() {
         InboxMessageController inboxMessageController = new InboxMessageController(getContext());
+        inboxMessageController.deleteAll();
         for (InboxMessage inboxMessage : mMessages) {
             if (inboxMessage.getId() == null) {
                 int id = (int) inboxMessageController.create(inboxMessage);
@@ -147,8 +150,7 @@ public class InboxFragment extends Fragment {
             }
         });
 
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.list);
-
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.list_message);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         mInboxAdapter = new InboxFragmentAdapter(mMessages, mListener, getContext());
         mRecyclerView.setAdapter(mInboxAdapter);
@@ -166,17 +168,13 @@ public class InboxFragment extends Fragment {
             @Override
             public void onResponse(Object response) {
                 List<InboxMessage> inboxMessageList = (List<InboxMessage>) response;
-                boolean messageAdded = false;
-                for (InboxMessage message : inboxMessageList) {
-                    if (!mMessages.contains(message)) {
-                        mMessages.add(message);
-                        messageAdded = true;
-                    }
-                }
-                if (messageAdded == true) {
+                mMessages = (ArrayList<InboxMessage>) inboxMessageList;
+
+                if (!mMessages.isEmpty()) {
                     mAllMessageReader.setVisibility(View.GONE);
                 }
                 mSwipeContainer.setRefreshing(false);
+                mInboxAdapter.setDataSet(mMessages);
                 mInboxAdapter.notifyDataSetChanged();
                 saveMessages();
             }
@@ -189,7 +187,9 @@ public class InboxFragment extends Fragment {
             }
         };
 
-        RetrieveEntityRequest request = new RetrieveEntityRequest(URL, InboxMessage.class, null, mOnReceiveNewMessage, mErrorWhenReceivingNewmessages);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("userID", String.valueOf(ProfileManager.getInstance().getUserId()));
+        RetrieveEntityRequest request = new RetrieveEntityRequest(URL, InboxMessage.class, headers, mOnReceiveNewMessage, mErrorWhenReceivingNewmessages);
         mRequestQueue.add(request);
     }
 
@@ -202,10 +202,7 @@ public class InboxFragment extends Fragment {
 
         //Adding first face message
         InboxMessage inboxMessage1 = new InboxMessage();
-        Contact contact1 = new Contact();
-        contact1.setName("John John");
-        contact1.setDescription("Student");
-        contact1.setId(1);
+        Contact contact1 = DataUtil.mockContact();
         contact1.setContactInfoArrayList(new LinkedHashSet<ContactInfo>() {
         });
         contact1.setExpiration(new Date().getTime());
