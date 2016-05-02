@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -116,13 +117,13 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                 if (listener != null) {
                     listener.onChangeProfilePicCalled();
                 }
-                dialogShown = false;
+                mDialogShown = false;
                 dialog.dismiss();
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialogShown = false;
+                mDialogShown = false;
                 dialog.dismiss();
             }
         }).create();
@@ -132,7 +133,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
             public void onClick(View v) {
                 android.util.Log.d("MITA", "PROFILE CLICK!!!");
                 if (!mDialogShown) {
-                    mDialogShown.show();
+                    dialog.show();
                     mDialogShown = true;
                 }
             }

@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.util;
+package com.penguin.meetapenguin.util.entitiesHelper;
 
 import android.content.Context;
 import android.content.Intent;

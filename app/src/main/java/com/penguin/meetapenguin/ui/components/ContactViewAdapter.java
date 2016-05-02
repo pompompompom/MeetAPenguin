@@ -19,7 +19,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
-import com.penguin.meetapenguin.util.ContactInfoActionHelper;
+import com.penguin.meetapenguin.util.entitiesHelper.ContactInfoActionHelper;
 
 import java.util.ArrayList;
 import java.util.List;

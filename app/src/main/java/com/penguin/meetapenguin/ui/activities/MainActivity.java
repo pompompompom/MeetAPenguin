@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mHomeFragment = new HomeFragment(mToolbar);
+        mHomeFragment = new HomeFragment(mToolbar, this);
         mSingleContactFragment = new SingleContactFragment(mToolbar);
         setSupportActionBar(mToolbar);
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
         ProfileManager.getInstance().getContact().setProfilePicResId(resID);
         popFragmentByName("Profile");
         popFragmentByName("chooseProfilePic");
-        displayFragment(homeFragment, "Profile");
+        displayFragment(mHomeFragment, "Profile");
     }
 
     private void popFragmentByName(String name) {
