@@ -1,6 +1,11 @@
 package com.penguin.meetapenguin.ui.activities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,8 +27,13 @@ import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.util.entitiesHelper.ContactHelper;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.EnumMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import static android.location.LocationManager.GPS_PROVIDER;
 
 public class ShareActivity extends AppCompatActivity {
 
@@ -47,12 +57,36 @@ public class ShareActivity extends AppCompatActivity {
         return null;
     }
 
+    private String getZipCode() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(GPS_PROVIDER);
+
+        // Get zipcode
+        Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+        if (geocoder != null && location != null) {
+            try {
+                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                for (Address address : addresses) {
+                    if (address.getLocality() != null && address.getPostalCode() != null) {
+                        android.util.Log.d("MITA", "zip: " + address.getPostalCode());
+                        return address.getPostalCode();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "94043";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
         Contact contact = (Contact) getIntent().getSerializableExtra("Contact");
+        contact.setZipCode(getZipCode());
+
         android.util.Log.d("MITA", "contact name: " + contact.getName());
         Log.d("MITA", "!!!!!!!!!Sharing contact: " + ContactHelper.toJson(contact));
 

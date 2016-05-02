@@ -83,6 +83,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 final Gson gson = new Gson();
                 String json = gson.toJson(mContact);
+
+                android.util.Log.d("MITA", json);
                 JSONObject object = null;
                 try {
                     object = new JSONObject(json);

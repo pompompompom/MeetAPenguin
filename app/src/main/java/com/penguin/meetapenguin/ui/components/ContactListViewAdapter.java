@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.ui.fragments.ContactListFragment;
+import com.penguin.meetapenguin.util.ZipCodeHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getName());
         holder.mContentView.setText(mValues.get(position).getDescription());
+        holder.mZipView.setText(ZipCodeHelper.getZipCodeFromPrefs(mValues.get(position)));
         Picasso.with(mContext)
                 .load(mValues.get(position).getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
@@ -71,6 +73,8 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
         public final ImageView mPersonPhoto;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mZipView;
+
         public Contact mItem;
 
         public ViewHolder(View view) {
@@ -79,6 +83,7 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
             mPersonPhoto = (ImageView) view.findViewById(R.id.person_image);
+            mZipView = (TextView)view.findViewById(R.id.zip);
         }
 
         @Override

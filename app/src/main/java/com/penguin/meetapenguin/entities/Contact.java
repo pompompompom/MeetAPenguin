@@ -3,6 +3,8 @@ package com.penguin.meetapenguin.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.penguin.meetapenguin.R;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -29,6 +31,8 @@ public class Contact implements Serializable {
     private String description;
     private long expiration;
     private String photoUrl;
+    private String zipCode = "94043";
+    private int profilePicResId = R.drawable.penguin;
 
     public Contact() {
     }
@@ -108,5 +112,21 @@ public class Contact implements Serializable {
 
     public void setContactInfoArrayList(Set<ContactInfo> contactInfoArrayList) {
         this.contactInfoArrayList = contactInfoArrayList;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public int getProfilePicResId() {
+        return profilePicResId;
+    }
+
+    public void setProfilePicResId(int profilePicResId) {
+        this.profilePicResId = profilePicResId;
     }
 }

@@ -2,6 +2,7 @@ package com.penguin.meetapenguin.ui.activities;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,12 +22,14 @@ import android.widget.Toast;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.ui.fragments.ChooseProfilePicFragment;
 import com.penguin.meetapenguin.ui.fragments.ContactListFragment;
 import com.penguin.meetapenguin.ui.fragments.HomeFragment;
 import com.penguin.meetapenguin.ui.fragments.InboxFragment;
 import com.penguin.meetapenguin.ui.fragments.PrepareShareFragment;
 import com.penguin.meetapenguin.ui.fragments.SettingsFragment;
 import com.penguin.meetapenguin.ui.fragments.SingleContactFragment;
+import com.penguin.meetapenguin.util.ProfileManager;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ContactListFragment.OnListFragmentInteractionListener,
-        PrepareShareFragment.OnShareFragmentInteraction {
+        PrepareShareFragment.OnShareFragmentInteraction, HomeFragment.Listener, ChooseProfilePicFragment.Listener {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 300;
     private Fragment mHomeFragment;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private Fragment mContactFragment = new ContactListFragment();
     private Fragment mShareFragment = new PrepareShareFragment();
     private Fragment mInboxFragment = new InboxFragment();
+    private Fragment chooseProfilePicFragment = new ChooseProfilePicFragment(this);
     private SingleContactFragment mSingleContactFragment;
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
@@ -200,5 +204,22 @@ public class MainActivity extends AppCompatActivity
 
     public DrawerLayout getDrawereLayout() {
         return mDrawer;
+    }
+
+    @Override
+    public void onChangeProfilePicCalled() {
+        displayFragment(chooseProfilePicFragment, "chooseProfilePic");
+    }
+
+    @Override
+    public void onProfilePicSelected(int resID) {
+        ProfileManager.getInstance().getContact().setProfilePicResId(resID);
+        popFragmentByName("Profile");
+        popFragmentByName("chooseProfilePic");
+        displayFragment(homeFragment, "Profile");
+    }
+
+    private void popFragmentByName(String name) {
+        getFragmentManager().popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 }
