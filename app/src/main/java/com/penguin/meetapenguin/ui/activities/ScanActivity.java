@@ -7,10 +7,13 @@ import android.util.Log;
 import com.google.zxing.Result;
 import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
-import com.penguin.meetapenguin.util.EntitiesHelper.ContactHelper;
+import com.penguin.meetapenguin.util.entitiesHelper.ContactHelper;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * This a activity that allows the user to scan a QR Code while receiving a sharing contact.
+ */
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private static final String TAG = "ScanActivity";

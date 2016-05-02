@@ -49,7 +49,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Fragment to display main screen.
+ * Fragment to display the user personal profile where we can add and remove his own information.
  */
 public class HomeFragment extends Fragment implements ContactViewAdapter.OnContactViewAdapterInteraction {
 
@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     private Contact mContact;
     private Toolbar toolbar;
     private View mToolbarView;
-    private boolean dialogShown = false;
+    private boolean mDialogShown = false;
     private TextView mTVName;
     private TextView mTVDescription;
     private RecyclerView mRecyclerView;
@@ -70,6 +70,8 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     private ProgressDialog mProgressDialog;
     private FloatingActionButton mFloatingActionButtonAddNew;
     private Set<ContactInfo> mOldContactInfoList;
+    private FloatingActionMenu mFloatingActionMenu;
+    private FloatingActionButton mFloatingActionButtonSave;
 
     public HomeFragment() {
     }
@@ -82,7 +84,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        dialogShown = false;
+        mDialogShown = false;
         mFragmentRootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         toolbar = ((MainActivity) getActivity()).getToolBar();
@@ -102,20 +104,20 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         mToolBarImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!dialogShown) {
+                if (!mDialogShown) {
                     new AlertDialog.Builder(inflater.getContext()).setMessage("Change Profile Picture?").setPositiveButton("Camera", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Assume thisActivity is the current activity
                             if (!((MainActivity) getActivity()).handleCameraPermission(mFragmentRootView)) {
-                                dialogShown = false;
+                                mDialogShown = false;
                                 return;
                             }
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
                                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                             }
-                            dialogShown = false;
+                            mDialogShown = false;
                         }
                     }).setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
                         @Override
@@ -123,15 +125,15 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                             photoPickerIntent.setType("image/*");
                             startActivityForResult(photoPickerIntent, SELECT_PICTURE);
-                            dialogShown = false;
+                            mDialogShown = false;
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialogShown = false;
+                            mDialogShown = false;
                         }
                     }).show();
-                    dialogShown = true;
+                    mDialogShown = true;
                 }
             }
         });
@@ -150,7 +152,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                 this, getContext(), ContactViewAdapter.MODE_EDIT_CONTACT);
         mRecyclerView.setAdapter(mContactAdapter);
 
-        final FloatingActionMenu floatingActionMenu = (FloatingActionMenu) mFragmentRootView.findViewById(R.id.fab);
+        mFloatingActionMenu = (FloatingActionMenu) mFragmentRootView.findViewById(R.id.fab);
 
         mFloatingActionButtonAddNew = (FloatingActionButton) mFragmentRootView
                 .findViewById(R.id.add_new_contact_info);
@@ -165,7 +167,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                             mContact.getContactInfoArrayList().add(emptyContactInfo);
                             mContactAdapter.updateDataSet(mContact.getContactInfoArrayList());
                             mRecyclerView.invalidate();
-                            floatingActionMenu.close(true);
+                            mFloatingActionMenu.close(true);
                         } else {
                             mFloatingActionButtonAddNew.hide(true);
                             mFloatingActionButtonAddNew.setVisibility(View.GONE);
@@ -173,15 +175,15 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                     }
                 });
 
-        FloatingActionButton floatingActionButtonSave = (FloatingActionButton) mFragmentRootView
+        mFloatingActionButtonSave = (FloatingActionButton) mFragmentRootView
                 .findViewById(R.id.save);
-        floatingActionButtonSave.setOnClickListener(
+        mFloatingActionButtonSave.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mContactAdapter.saveContact();
                         mContactAdapter.removeEmpty();
-                        floatingActionMenu.close(true);
+                        mFloatingActionMenu.close(true);
                         mRecyclerView.invalidate();
                         sendNewContactToCloud();
                     }
@@ -260,7 +262,6 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //TODO SEND THOSE IMAGES TO THE CLOUD, GET A LINK AND SAVE INTO THE PROFILE.
         if (requestCode == HomeFragment.SELECT_PICTURE && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             mContact.setPhotoUrl(selectedImage.getPath());

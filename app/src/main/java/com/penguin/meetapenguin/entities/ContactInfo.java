@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.Serializable;
 
 /**
- * Contact Info class.
+ * Contact Info class. It holds a specific information for a user. Like a email for a user.
  */
 public class ContactInfo implements Serializable, Cloneable {
 

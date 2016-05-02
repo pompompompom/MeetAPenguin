@@ -1,8 +1,5 @@
 package com.penguin.meetapenguin.ui.components;
 
-/**
- * Created by urbano on 4/25/16.
- */
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -17,9 +14,10 @@ import com.penguin.meetapenguin.entities.Attribute;
 
 import java.util.List;
 
-/*****
- * Adapter class extends with ArrayAdapter
- ******/
+/**
+ * THis is a attribute spin adapter to present the options of attribute that a user can choose.
+ * Which contact info are available for him to choose.
+ */
 public class AttributeSpinAdapter extends ArrayAdapter<Attribute> {
 
     List<Attribute> values = null;

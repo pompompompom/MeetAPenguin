@@ -1,17 +1,26 @@
-package com.penguin.meetapenguin.util;
+package com.penguin.meetapenguin.util.testHelper;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.penguin.meetapenguin.MeetAPenguim;
+import com.penguin.meetapenguin.dblayout.ContactController;
+import com.penguin.meetapenguin.dblayout.InboxMessageController;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
+import com.penguin.meetapenguin.entities.InboxMessage;
+import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Data Utilities
+ * Data Utilities for creating fake data. It is used for test purpose.
  */
 public class DataUtil {
 
@@ -22,6 +31,9 @@ public class DataUtil {
             new ContactInfo(AttributesHelper.getAttribute(AttributesHelper.AttributeType.Location), "", "Cupertino - CA");
 
     private static final Set<ContactInfo> DEFAULT_CONTACT_INFO_LIST = new LinkedHashSet<>();
+
+    private static final String CREATE_FAKE_DATA = "fakedata";
+    private static final String TAG = DataUtil.class.getSimpleName();
 
     static {
         DEFAULT_CONTACT_INFO_LIST.add(FACEBOOK_INFO);
@@ -217,7 +229,7 @@ public class DataUtil {
         c.setName("Mita");
         c.setDescription("Google Employee");
         c.setPhotoUrl("mita photo");
-       c.setId(32);
+        c.setId(32);
 
         Set<ContactInfo> al = new LinkedHashSet<ContactInfo>();
         ContactInfo c1 = new ContactInfo();
@@ -248,5 +260,62 @@ public class DataUtil {
         c.setContactInfoArrayList(al);
 
         return c;
+    }
+
+    public static void createFakeDataForInboxMessage() {
+
+        SharedPreferences sharedPref = MeetAPenguim.getAppContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        boolean alreadyCreated = sharedPref.getBoolean(CREATE_FAKE_DATA, false);
+        if (alreadyCreated)
+            return;
+
+        //Adding first face message
+        InboxMessage inboxMessage1 = new InboxMessage();
+        Contact contact1 = DataUtil.mockContact();
+        contact1.setContactInfoArrayList(new LinkedHashSet<ContactInfo>() {
+        });
+        contact1.setExpiration(new Date().getTime());
+        contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
+
+        ContactController contactController = new ContactController(MeetAPenguim.getAppContext());
+        contactController.create(contact1);
+
+        inboxMessage1.setId(1);
+        inboxMessage1.setCloudId(1);
+        inboxMessage1.setContact(contact1);
+        inboxMessage1.setMessage("Email for this contact has expired.");
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        Date fakeDate = cal.getTime();
+        inboxMessage1.setTimeStamp(fakeDate.getTime());
+
+        InboxMessageController inboxMessageController = new InboxMessageController(MeetAPenguim.getAppContext());
+        inboxMessageController.create(inboxMessage1);
+
+        //Adding second face message
+        InboxMessage inboxMessage2 = new InboxMessage();
+        Contact contact8 = new Contact();
+        contact8.setName("Wozniak");
+        contact8.setDescription("Engineer");
+        contact8.setId(2);
+        contact8.setExpiration(new Date().getTime());
+        contact8.setContactInfoArrayList(new LinkedHashSet<ContactInfo>());
+        contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
+        contactController.create(contact8);
+        inboxMessage2.setContact(contact8);
+        inboxMessage2.setId(2);
+        inboxMessage1.setCloudId(2);
+        inboxMessage2.setMessage("Contact is requesting Email update.");
+
+        cal.add(Calendar.MONTH, -3);
+        Date fakeDate2 = cal.getTime();
+
+        inboxMessage2.setTimeStamp(fakeDate2.getTime());
+        inboxMessageController.create(inboxMessage2);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(CREATE_FAKE_DATA, true);
+        editor.commit();
     }
 }

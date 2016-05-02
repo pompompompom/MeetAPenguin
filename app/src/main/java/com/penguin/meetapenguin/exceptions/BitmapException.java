@@ -1,7 +1,7 @@
 package com.penguin.meetapenguin.exceptions;
 
 /**
- * Phone number exception
+ * Bitmap exception. Problem when loading a image.
  */
 public class BitmapException extends Exception {
     private static final long serialVersionUID = 1L;

@@ -30,24 +30,22 @@ import com.squareup.picasso.Picasso;
 import java.util.Date;
 
 /**
- * Fragment to view a single contact, accessed from the Contact List.
+ * Fragment to mView a single contact, accessed from the Contact List.
  */
 public class SingleContactFragment extends Fragment {
 
     private static final String TAG = SingleContactFragment.class.getSimpleName();
-    private Contact contact;
-    private Toolbar toolbar;
-    private View toolbarView;
-    private CircularImageView imageProfile;
-    private TextView name;
-    private TextView description;
-    private RecyclerView recyclerView;
-    private ContactViewAdapter contactAdapter;
-    private FloatingActionButton floatingActionButton;
+    private Contact mContact;
+    private Toolbar mToolbar;
+    private View mToolbarView;
+    private CircularImageView mImageProfile;
+    private TextView mName;
+    private TextView mDescription;
+    private RecyclerView mRecyclerView;
+    private ContactViewAdapter mContactAdapter;
+    private FloatingActionButton mFloatingActionButton;
     private RequestQueue mRequestQueue;
-
-    private boolean dialogShown = false;
-    private View view;
+    private View mView;
 
     /**
      * Default no-args constructor.
@@ -58,43 +56,41 @@ public class SingleContactFragment extends Fragment {
 
     @SuppressLint("ValidFragment")
     public SingleContactFragment(Toolbar toolbar) {
-        this.toolbar = toolbar;
+        this.mToolbar = toolbar;
     }
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        dialogShown = false;
-        view = inflater.inflate(R.layout.fragment_single_contact,
+        mView = inflater.inflate(R.layout.fragment_single_contact,
                 container, false);
 
-        inflater.inflate(R.layout.share_fragment_toolbar, toolbar, true);
-        toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
+        inflater.inflate(R.layout.share_fragment_toolbar, mToolbar, true);
+        mToolbarView = mToolbar.findViewById(R.id.share_fragment_toolbar);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
-        imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
+        mImageProfile = (CircularImageView) mToolbar.findViewById(R.id.profile_picture);
         Picasso.with(getContext())
-                .load(contact.getPhotoUrl())
+                .load(mContact.getPhotoUrl())
                 .placeholder(R.drawable.placeholder)
-                .into(imageProfile);
+                .into(mImageProfile);
 
 
-        name = (TextView) toolbar.findViewById(R.id.name);
-        description = (TextView) toolbar.findViewById(R.id.description);
-        name.setText(contact.getName());
-        description.setText(contact.getDescription());
+        mName = (TextView) mToolbar.findViewById(R.id.name);
+        mDescription = (TextView) mToolbar.findViewById(R.id.description);
+        mName.setText(mContact.getName());
+        mDescription.setText(mContact.getDescription());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        // TODO add interaction adapter
-        contactAdapter = new ContactViewAdapter(recyclerView, contact.getContactInfoArrayList(),
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
+        mContactAdapter = new ContactViewAdapter(mRecyclerView, mContact.getContactInfoArrayList(),
                 null, getContext(), ContactViewAdapter.MODE_VIEW_CONTACT);
-        recyclerView.setAdapter(contactAdapter);
+        mRecyclerView.setAdapter(mContactAdapter);
 
 
-        floatingActionButton = (FloatingActionButton) view
+        mFloatingActionButton = (FloatingActionButton) mView
                 .findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(
+        mFloatingActionButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -104,7 +100,7 @@ public class SingleContactFragment extends Fragment {
                                         DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                RequestContactRenew contactRenew = new RequestContactRenew(contact.getId(), new Response.Listener<String>() {
+                                                RequestContactRenew contactRenew = new RequestContactRenew(mContact.getId(), new Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {
                                                         Toast.makeText(SingleContactFragment.this.getContext(), "Request for renewing information sent with success", Toast.LENGTH_SHORT).show();
@@ -121,14 +117,14 @@ public class SingleContactFragment extends Fragment {
                                         }).show();
                     }
                 });
-        if (contact.getExpiration() < new Date().getTime()) {
-            floatingActionButton.setVisibility(View.VISIBLE);
+        if (mContact.getExpiration() < new Date().getTime()) {
+            mFloatingActionButton.setVisibility(View.VISIBLE);
         } else {
-            floatingActionButton.setVisibility(View.GONE);
+            mFloatingActionButton.setVisibility(View.GONE);
         }
 
 
-        return view;
+        return mView;
     }
 
     private void SendRenewMessage() {
@@ -136,14 +132,14 @@ public class SingleContactFragment extends Fragment {
     }
 
     public void setContact(Contact contact) {
-        this.contact = contact;
+        this.mContact = contact;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //You added a lot of view into the toolbar to customize it to this fragment. So remove it.
-        toolbar.removeView(toolbarView);
+        //You added a lot of mView into the toolbar to customize it to this fragment. So remove it.
+        mToolbar.removeView(mToolbarView);
         mRequestQueue.cancelAll(TAG);
     }
 }

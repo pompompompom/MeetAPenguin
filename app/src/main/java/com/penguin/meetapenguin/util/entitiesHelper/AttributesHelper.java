@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.util;
+package com.penguin.meetapenguin.util.entitiesHelper;
 
 import android.graphics.drawable.Drawable;
 
@@ -9,10 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by urbano on 4/25/16.
+ * A class that help to organize the attribute class. It hold its possible values.
  */
 public class AttributesHelper {
 
+    /**
+     * Get a list of all possible attributes.
+     *
+     * @return A list of attributes.
+     */
     public static List<Attribute> getAllAttributes() {
         List<Attribute> attributeList = new ArrayList<>();
 
@@ -23,6 +28,12 @@ public class AttributesHelper {
         return attributeList;
     }
 
+    /**
+     * It the specific attribute object based on its type.
+     *
+     * @param type The attribute type of the object that you want.
+     * @return The attribute object.
+     */
     public static Attribute getAttribute(AttributeType type) {
         switch (type) {
             case Nickname:
@@ -50,6 +61,12 @@ public class AttributesHelper {
         }
     }
 
+    /**
+     * Get a attribute based on its id.
+     *
+     * @param id the id of the attribute that you want.
+     * @return The attribute object.
+     */
     public static Attribute getAttributeById(int id) {
         switch (id) {
             case 1:
@@ -77,6 +94,12 @@ public class AttributesHelper {
         }
     }
 
+    /**
+     * Get the icon of a specific attribute.
+     *
+     * @param id The Id of the attribute that you are interested on.
+     * @return The drawable object.
+     */
     public static Drawable getDrawable(int id) {
         String path = "";
         switch (id) {
@@ -116,6 +139,9 @@ public class AttributesHelper {
         return MeetAPenguim.getAppContext().getDrawable(MeetAPenguim.getAppContext().getResources().getIdentifier(path, null, MeetAPenguim.getAppContext().getPackageName()));
     }
 
+    /**
+     * List of possible attribute type.
+     */
     public enum AttributeType {
         Nickname,
         Email,

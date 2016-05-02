@@ -14,12 +14,15 @@ import android.widget.TextView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
-import com.penguin.meetapenguin.util.AttributesHelper;
+import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A adapter that allows the user to select a specific contact information for a user.
+ */
 public class SelectContactInfoAdapter extends RecyclerView.Adapter<SelectContactInfoAdapter.ViewHolder> {
     public static final int MODE_SHARE_CONTACT = 0;
     public static final int MODE_EDIT_CONTACT = 1;

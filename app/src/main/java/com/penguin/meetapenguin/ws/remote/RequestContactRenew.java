@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by urbano on 4/22/16.
+ * A Network request for Renewing a Contact information of one of your contacts.
  */
 public class RequestContactRenew extends Request<String> {
 
@@ -22,6 +22,13 @@ public class RequestContactRenew extends Request<String> {
     private final Response.Listener<String> mListener;
     Map<String, String> mParams;
 
+    /**
+     * A Network request for Renewing a Contact information of one of your contacts.
+     *
+     * @param contactId     The contact ID of the user that you want to renew the information
+     * @param listener      A listener that handle the success case.
+     * @param errorListener A listener that handle te network error case.
+     */
     public RequestContactRenew(Integer contactId, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Method.POST, String.format("%s/messages?contactId=%d", URL, contactId), errorListener);
         mListener = listener;

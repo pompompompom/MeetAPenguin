@@ -1,7 +1,7 @@
 package com.penguin.meetapenguin.util;
 
 /**
- * Created by urbano on 4/29/16.
+ * This Class hold the expiration options that I user can chosse when sharing his information with another contact.
  */
 public enum ExpirationOptions {
     ONE_MONTH(0, 1),

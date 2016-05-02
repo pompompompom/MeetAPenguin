@@ -20,9 +20,9 @@ import com.google.gson.Gson;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
-import com.penguin.meetapenguin.util.AttributesHelper;
 import com.penguin.meetapenguin.util.ProfileManager;
 import com.penguin.meetapenguin.util.ServerConstants;
+import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,15 +33,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * This is a page that allows the user to login.
  */
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private EditText mEditTextName;
     private EditText mEditTextEmail;
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    private Pattern mPattern = Pattern.compile(EMAIL_PATTERN);
     private Matcher matcher;
     private TextInputLayout mWrapperName;
     private TextInputLayout mWrapperEmail;
@@ -49,6 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Contact mContact;
     private String TAG = RegistrationActivity.class.getSimpleName();
     private ProgressDialog mProgressDialog;
+    private Button mRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +59,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Button register = (Button) findViewById(R.id.registration);
+        mRegister = (Button) findViewById(R.id.registration);
         mWrapperName = (TextInputLayout) findViewById(R.id.name);
         mWrapperEmail = (TextInputLayout) findViewById(R.id.login_email);
         mEditTextName = (EditText) findViewById(R.id.input_name);
         mEditTextEmail = (EditText) findViewById(R.id.input_email);
         mRequestQueue = Volley.newRequestQueue(RegistrationActivity.this);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!validateLoginInput()) return;
@@ -77,7 +77,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 mProgressDialog.setTitle(getResources().getString(R.string.loading));
                 mProgressDialog.setMessage(getResources().getString(R.string.please_wait));
                 mProgressDialog.show();
-                //TODO REMOVE THIS HARDCODE ID
+
+                //REMOVE THIS HARDCODE ID FOR PRESENTATION PURPOSE.
                 mContact.setId(31);
 
                 final Gson gson = new Gson();
@@ -118,7 +119,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public boolean validateEmail(String email) {
-        matcher = pattern.matcher(email);
+        matcher = mPattern.matcher(email);
         return matcher.matches();
     }
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,34 +21,27 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.penguin.meetapenguin.R;
-import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.dblayout.InboxMessageController;
-import com.penguin.meetapenguin.entities.Contact;
-import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
 import com.penguin.meetapenguin.ui.components.InboxFragmentAdapter;
-import com.penguin.meetapenguin.util.DataUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
 import com.penguin.meetapenguin.util.ServerConstants;
+import com.penguin.meetapenguin.util.testHelper.DataUtil;
 import com.penguin.meetapenguin.ws.remote.AnswerInboxMessageRequest;
 import com.penguin.meetapenguin.ws.remote.RetrieveEntityRequest;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Fragment to display main screen.
+ * Fragment to display the Inbox Message page. It contains renew request from other users.
  */
 public class InboxFragment extends Fragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
     private static final String URL = ServerConstants.SERVER_URL + "/messages";
-    private static final String CREATE_FAKE_DATA = "fakedata";
     private ArrayList<InboxMessage> mMessages;
     private InboxFragmentAdapter mInboxAdapter;
     private OnListInboxFragmentInteractionListener mListener;
@@ -72,7 +64,7 @@ public class InboxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(getContext());
-        createFakeData();
+        DataUtil.createFakeDataForInboxMessage();
         mMessages = loadMessagesFromDB();
         mListener = new OnListInboxFragmentInteractionListener() {
             @Override
@@ -191,63 +183,6 @@ public class InboxFragment extends Fragment {
         headers.put("userID", String.valueOf(ProfileManager.getInstance().getUserId()));
         RetrieveEntityRequest request = new RetrieveEntityRequest(URL, InboxMessage.class, headers, mOnReceiveNewMessage, mErrorWhenReceivingNewmessages);
         mRequestQueue.add(request);
-    }
-
-    public void createFakeData() {
-
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        boolean alreadyCreated = sharedPref.getBoolean(CREATE_FAKE_DATA, false);
-        if (alreadyCreated)
-            return;
-
-        //Adding first face message
-        InboxMessage inboxMessage1 = new InboxMessage();
-        Contact contact1 = DataUtil.mockContact();
-        contact1.setContactInfoArrayList(new LinkedHashSet<ContactInfo>() {
-        });
-        contact1.setExpiration(new Date().getTime());
-        contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
-
-        ContactController contactController = new ContactController(getContext());
-        contactController.create(contact1);
-
-        inboxMessage1.setId(1);
-        inboxMessage1.setCloudId(1);
-        inboxMessage1.setContact(contact1);
-        inboxMessage1.setMessage("Email for this contact has expired.");
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
-        Date fakeDate = cal.getTime();
-        inboxMessage1.setTimeStamp(fakeDate.getTime());
-
-        InboxMessageController inboxMessageController = new InboxMessageController(getContext());
-        inboxMessageController.create(inboxMessage1);
-
-        //Adding second face message
-        InboxMessage inboxMessage2 = new InboxMessage();
-        Contact contact8 = new Contact();
-        contact8.setName("Wozniak");
-        contact8.setDescription("Engineer");
-        contact8.setId(2);
-        contact8.setExpiration(new Date().getTime());
-        contact8.setContactInfoArrayList(new LinkedHashSet<ContactInfo>());
-        contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
-        contactController.create(contact8);
-        inboxMessage2.setContact(contact8);
-        inboxMessage2.setId(2);
-        inboxMessage1.setCloudId(2);
-        inboxMessage2.setMessage("Contact is requesting Email update.");
-
-        cal.add(Calendar.MONTH, -3);
-        Date fakeDate2 = cal.getTime();
-
-        inboxMessage2.setTimeStamp(fakeDate2.getTime());
-        inboxMessageController.create(inboxMessage2);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(CREATE_FAKE_DATA, true);
-        editor.commit();
     }
 
     @Override

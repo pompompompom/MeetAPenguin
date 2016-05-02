@@ -1,7 +1,7 @@
 package com.penguin.meetapenguin.entities;
 
 /**
- * Created by Prin Oungpasuk on 4/3/2016.
+ * A message inbox entity that hold the information about renew request for other users.
  */
 public class InboxMessage {
 
@@ -12,6 +12,7 @@ public class InboxMessage {
     private long timeStamp;
     private boolean isDeleted;
     private boolean isReaded;
+
     /**
      * default no-args constructor.
      */

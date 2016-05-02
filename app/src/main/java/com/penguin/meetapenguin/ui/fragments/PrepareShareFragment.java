@@ -23,8 +23,8 @@ import com.penguin.meetapenguin.ui.activities.MainActivity;
 import com.penguin.meetapenguin.ui.activities.ScanActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
 import com.penguin.meetapenguin.ui.components.SelectContactInfoAdapter;
-import com.penguin.meetapenguin.util.DataUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
+import com.penguin.meetapenguin.util.testHelper.DataUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
@@ -45,8 +45,6 @@ public class PrepareShareFragment extends Fragment {
     private Contact mContact;
     private Toolbar toolbar;
     private View toolbarView;
-    private View viewDescription;
-    private View viewProfile;
     private CircularImageView imageProfile;
     private TextView name;
     private TextView description;

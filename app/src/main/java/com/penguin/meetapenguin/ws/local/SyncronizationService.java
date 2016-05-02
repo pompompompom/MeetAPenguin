@@ -75,10 +75,8 @@ public class SyncronizationService extends IntentService {
     }
 
     private void broadcastContactUpdate() {
-        //TODO SEND A BROADCAST TO SyncronizationBroadcastReceiver
     }
 
     private void broadcastMessageUpdate() {
-        //TODO SEND A BROADCAST TO SyncronizationBroadcastReceiver
     }
 }

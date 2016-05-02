@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+/**
+ * This a syncronization service broadcast receiver. It receives broadcast that the syncronization service run. Thus, it can notify the UI component that it should update itself.
+ */
 public class SyncronizationBroadcastReceiver {
 
     public static final String ENTITIES_REMOTE_UPDATED = "ENTITIES_REMOTELY UPDATED";
@@ -13,8 +16,6 @@ public class SyncronizationBroadcastReceiver {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO DO WHATEVER IS NECESSARY AND SENT IT TO UPDATE STATUS. CHECK IF UPDATE STATUS NEEDS ANY PARAMETER.
-            //TODO CHECK IF IT IS A CONTACT OR A MESSAGE UPDATE. THIS INFORMATION SHOULD COME ON THE INTENT.
             updateStatus(context);
         }
     };

@@ -1,7 +1,7 @@
 package com.penguin.meetapenguin.exceptions;
 
 /**
- * Phone number exception
+ * Sharing Exception. Problem when sharing a contact.
  */
 public class ShareException extends Exception {
     private static final long serialVersionUID = 1L;

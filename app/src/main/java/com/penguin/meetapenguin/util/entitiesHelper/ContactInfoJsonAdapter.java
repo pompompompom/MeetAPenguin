@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.util;
+package com.penguin.meetapenguin.util.entitiesHelper;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
  * Custom json adapter for abstract class contactInfo
  */
 public class ContactInfoJsonAdapter implements JsonSerializer<ContactInfo>, JsonDeserializer<ContactInfo> {
+
     @Override
     public ContactInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();

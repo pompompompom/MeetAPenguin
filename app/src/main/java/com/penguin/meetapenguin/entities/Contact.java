@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * Created by urbano on 4/2/16.
+ * A Contact. Represent a contact into your address book.
  */
 public class Contact implements Serializable {
     @SuppressWarnings("unused")

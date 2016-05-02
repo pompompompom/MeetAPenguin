@@ -19,7 +19,7 @@ import com.google.zxing.common.BitMatrix;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Contact;
-import com.penguin.meetapenguin.util.EntitiesHelper.ContactHelper;
+import com.penguin.meetapenguin.util.entitiesHelper.ContactHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.EnumMap;

@@ -11,7 +11,7 @@ import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.entities.InboxMessage;
-import com.penguin.meetapenguin.util.AttributesHelper;
+import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
 import com.penguin.meetapenguin.util.DBUtil;
 import com.penguin.meetapenguin.util.ProfileManager;
 

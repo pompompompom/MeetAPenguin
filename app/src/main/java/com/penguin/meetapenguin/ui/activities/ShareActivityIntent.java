@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.penguin.meetapenguin.entities.Contact;
 
 /**
- * Created by urbano on 4/14/16.
+ * This wrapper for the ShareActivity intent, specifying which object it expects.
  */
 public class ShareActivityIntent implements Parcelable {
     @SuppressWarnings("unused")

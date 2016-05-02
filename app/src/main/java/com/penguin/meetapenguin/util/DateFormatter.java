@@ -3,7 +3,7 @@ package com.penguin.meetapenguin.util;
 import java.text.SimpleDateFormat;
 
 /**
- * Created by urbano on 4/21/16.
+ * Data formatter helper.
  */
 public class DateFormatter {
 

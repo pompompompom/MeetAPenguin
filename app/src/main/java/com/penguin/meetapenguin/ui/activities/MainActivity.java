@@ -30,51 +30,53 @@ import com.penguin.meetapenguin.ui.fragments.SingleContactFragment;
 
 import java.util.ArrayList;
 
+/**
+ * This is the project main activity. It launchs different fragment from the drawer menu.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ContactListFragment.OnListFragmentInteractionListener,
         PrepareShareFragment.OnShareFragmentInteraction {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 300;
-    private Fragment homeFragment;
-    private Fragment settingsFragment = new SettingsFragment();
-    private Fragment contactFragment = new ContactListFragment();
-    private Fragment shareFragment = new PrepareShareFragment();
-    private Fragment inboxFragment = new InboxFragment();
-    private SingleContactFragment singleContactFragment;
+    private Fragment mHomeFragment;
+    private Fragment mSettingsFragment = new SettingsFragment();
+    private Fragment mContactFragment = new ContactListFragment();
+    private Fragment mShareFragment = new PrepareShareFragment();
+    private Fragment mInboxFragment = new InboxFragment();
+    private SingleContactFragment mSingleContactFragment;
     private DrawerLayout mDrawer;
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView mNavigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        homeFragment = new HomeFragment(toolbar);
-        singleContactFragment = new SingleContactFragment(toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mHomeFragment = new HomeFragment(mToolbar);
+        mSingleContactFragment = new SingleContactFragment(mToolbar);
+        setSupportActionBar(mToolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mToggle = new ActionBarDrawerToggle(
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.setDrawerListener(mToggle);
+        mToggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
-        displayFragment(homeFragment, "Main Page");
+        displayFragment(mHomeFragment, "Main Page");
     }
 
     @Override
     public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             if (getFragmentManager().getBackStackEntryCount() == 0) {
                 super.onBackPressed();
@@ -108,15 +110,15 @@ public class MainActivity extends AppCompatActivity
         String title = item.getTitle().toString();
 
         if (id == R.id.nav_home) {
-            displayFragment(homeFragment, title);
+            displayFragment(mHomeFragment, title);
         } else if (id == R.id.nav_settings) {
-            displayFragment(settingsFragment, title);
+            displayFragment(mSettingsFragment, title);
         } else if (id == R.id.nav_contacts) {
-            displayFragment(contactFragment, title);
+            displayFragment(mContactFragment, title);
         } else if (id == R.id.share) {
-            displayFragment(shareFragment, title);
+            displayFragment(mShareFragment, title);
         } else if (id == R.id.nav_inbox) {
-            displayFragment(inboxFragment, title);
+            displayFragment(mInboxFragment, title);
         }
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -134,8 +136,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Contact item) {
-        singleContactFragment.setContact(item);
-        displayFragment(singleContactFragment, item.getName());
+        mSingleContactFragment.setContact(item);
+        displayFragment(mSingleContactFragment, item.getName());
     }
 
     @Override
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Toolbar getToolBar() {
-        return toolbar;
+        return mToolbar;
     }
 
     public DrawerLayout getDrawereLayout() {

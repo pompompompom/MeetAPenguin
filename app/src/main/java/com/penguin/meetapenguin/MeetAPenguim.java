@@ -7,21 +7,30 @@ import android.preference.PreferenceManager;
 
 import com.penguin.meetapenguin.dblayout.AttributeController;
 import com.penguin.meetapenguin.dblayout.ContactController;
-import com.penguin.meetapenguin.util.AttributesHelper;
-import com.penguin.meetapenguin.util.DataUtil;
+import com.penguin.meetapenguin.util.entitiesHelper.AttributesHelper;
+import com.penguin.meetapenguin.util.testHelper.DataUtil;
 
 /**
- * Created by urbano on 4/26/16.
+ * The application class where we initialize classes and setup the database.
  */
 public class MeetAPenguim extends Application {
 
     private static final String DATA_INITIALIZED = "DATABASE_INITIALIZED";
     private static Context mContext;
 
+
+    /**
+     * Get a application context.
+     *
+     * @return The application context
+     */
     public static Context getAppContext() {
         return MeetAPenguim.mContext;
     }
 
+    /**
+     * Setup the attribute entity into the database and some dummyData.
+     */
     public void setupDatabase() {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);

@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * This is a Volley Request class that retrieves Entity Objects from our server.
+ *
+ * @param <T> The class of the object that you expect to receive.
+ */
 public class RetrieveEntityRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
     private final Class<T> clazz;

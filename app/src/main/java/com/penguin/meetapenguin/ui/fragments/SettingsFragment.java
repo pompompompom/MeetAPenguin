@@ -23,30 +23,29 @@ import com.penguin.meetapenguin.util.ProfileManager;
 import java.util.Set;
 
 /**
- * Fragment to display main screen.
+ * Fragment to display the settings/configuration for the user profile.
  */
 public class SettingsFragment extends Fragment {
 
-    private Contact contact;
-    private View toolbarView;
-    private RecyclerView recyclerView;
-    private SelectContactInfoAdapter contactAdapter;
-    private Button save;
-    private View v;
-    private RangeSliderView expirationSlider;
-    private TextView expirationTv;
+    private Contact mContact;
+    private RecyclerView mRecyclerView;
+    private SelectContactInfoAdapter mContactAdapter;
+    private Button mSaveButton;
+    private View mView;
+    private RangeSliderView mExpirationSlider;
+    private TextView mExpirationTv;
     private Set<ContactInfo> mSelectedContactInfo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_settings, container, false);
-        contact = ProfileManager.getInstance().getContact();
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        mContact = ProfileManager.getInstance().getContact();
         mSelectedContactInfo = ProfileManager.getInstance().getDefaultSharingPreferences();
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new SelectContactInfoAdapter(recyclerView, contact.getContactInfoArrayList(), mSelectedContactInfo,
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
+        mContactAdapter = new SelectContactInfoAdapter(mRecyclerView, mContact.getContactInfoArrayList(), mSelectedContactInfo,
                 new SelectContactInfoAdapter.OnContactViewAdapterInteraction() {
                     @Override
                     public void onContacInfoSelected(ContactInfo contactInfo, boolean isChecked) {
@@ -56,15 +55,15 @@ public class SettingsFragment extends Fragment {
                             mSelectedContactInfo.remove(contactInfo);
                     }
                 }, getContext());
-        recyclerView.setAdapter(contactAdapter);
+        mRecyclerView.setAdapter(mContactAdapter);
 
-        save = (Button) v.findViewById(R.id.save_settings_button);
-        expirationTv = (TextView) v.findViewById(R.id.expiration_date_tv);
-        expirationSlider = (RangeSliderView) v.findViewById(R.id.rangeslide_expiration);
+        mSaveButton = (Button) mView.findViewById(R.id.save_settings_button);
+        mExpirationTv = (TextView) mView.findViewById(R.id.expiration_date_tv);
+        mExpirationSlider = (RangeSliderView) mView.findViewById(R.id.rangeslide_expiration);
         int slidexIndex = ProfileManager.getInstance().getDefaultExpiration().getIndexValue();
-        expirationSlider.setInitialIndex(slidexIndex);
+        mExpirationSlider.setInitialIndex(slidexIndex);
         adjustSlider(slidexIndex);
-        expirationSlider.setOnSlideListener(new RangeSliderView.OnSlideListener() {
+        mExpirationSlider.setOnSlideListener(new RangeSliderView.OnSlideListener() {
             @Override
             public void onSlide(int index) {
                 adjustSlider(index);
@@ -72,7 +71,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ProfileManager.getInstance().saveDefaultSharingPreferences(mSelectedContactInfo);
@@ -80,25 +79,25 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        return v;
+        return mView;
     }
 
     private void adjustSlider(int index) {
         switch (index) {
             case 0:
-                expirationTv.setText(getString(R.string.one_month));
+                mExpirationTv.setText(getString(R.string.one_month));
                 break;
             case 1:
-                expirationTv.setText(getString(R.string.three_month));
+                mExpirationTv.setText(getString(R.string.three_month));
                 break;
             case 2:
-                expirationTv.setText(getString(R.string.six_month));
+                mExpirationTv.setText(getString(R.string.six_month));
                 break;
             case 3:
-                expirationTv.setText(getString(R.string.one_year));
+                mExpirationTv.setText(getString(R.string.one_year));
                 break;
             case 4:
-                expirationTv.setText(getString(R.string.two_year));
+                mExpirationTv.setText(getString(R.string.two_year));
                 break;
             default:
                 break;

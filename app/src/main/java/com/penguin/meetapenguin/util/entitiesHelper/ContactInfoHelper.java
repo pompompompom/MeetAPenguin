@@ -1,4 +1,4 @@
-package com.penguin.meetapenguin.util.EntitiesHelper;
+package com.penguin.meetapenguin.util.entitiesHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
