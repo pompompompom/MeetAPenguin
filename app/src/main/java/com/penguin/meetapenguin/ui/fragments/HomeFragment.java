@@ -3,6 +3,7 @@ package com.penguin.meetapenguin.ui.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -53,6 +54,10 @@ import java.util.Set;
  */
 public class HomeFragment extends Fragment implements ContactViewAdapter.OnContactViewAdapterInteraction {
 
+    public interface Listener {
+        public void onChangeProfilePicCalled();
+    }
+
     public static final int SELECT_PICTURE = 100;
     private static final String TAG = HomeFragment.class.getSimpleName();
     private static final int REQUEST_IMAGE_CAPTURE = 200;
@@ -70,13 +75,15 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
     private ProgressDialog mProgressDialog;
     private FloatingActionButton mFloatingActionButtonAddNew;
     private Set<ContactInfo> mOldContactInfoList;
+    private Listener listener;
 
     public HomeFragment() {
     }
 
     @SuppressLint("ValidFragment")
-    public HomeFragment(Toolbar toolbar) {
+    public HomeFragment(Toolbar toolbar, Listener listener) {
         this.toolbar = toolbar;
+        this.listener = listener;
     }
 
     @Nullable
@@ -92,45 +99,39 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         mToolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
         mToolBarImageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
-        Picasso.with(getContext())
-                .load(mContact.getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(mToolBarImageProfile);
-
+        if (mContact.getProfilePicResId() != 0) {
+            mToolBarImageProfile.setImageDrawable(inflater.getContext().getResources().getDrawable(mContact.getProfilePicResId()));
+        } else {
+            Picasso.with(getContext())
+                    .load(mContact.getPhotoUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(mToolBarImageProfile);
+        }
         updateProfileColor();
+
+        final Dialog dialog = new AlertDialog.Builder(inflater.getContext()).setMessage("Change Profile Picture?").setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (listener != null) {
+                    listener.onChangeProfilePicCalled();
+                }
+                dialogShown = false;
+                dialog.dismiss();
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialogShown = false;
+                dialog.dismiss();
+            }
+        }).create();
 
         mToolBarImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                android.util.Log.d("MITA", "PROFILE CLICK!!!");
                 if (!dialogShown) {
-                    new AlertDialog.Builder(inflater.getContext()).setMessage("Change Profile Picture?").setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Assume thisActivity is the current activity
-                            if (!((MainActivity) getActivity()).handleCameraPermission(mFragmentRootView)) {
-                                dialogShown = false;
-                                return;
-                            }
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                            }
-                            dialogShown = false;
-                        }
-                    }).setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                            photoPickerIntent.setType("image/*");
-                            startActivityForResult(photoPickerIntent, SELECT_PICTURE);
-                            dialogShown = false;
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialogShown = false;
-                        }
-                    }).show();
+                    dialog.show();
                     dialogShown = true;
                 }
             }
