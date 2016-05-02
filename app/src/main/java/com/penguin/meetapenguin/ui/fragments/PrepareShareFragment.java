@@ -30,14 +30,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Set;
 
+
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
-public class PrepareShareFragment extends Fragment {
+public class PrepareShareFragment extends Fragment implements SelectContactInfoAdapter.OnContactViewAdapterInteraction {
 
+    private static final boolean DEBUG = false;
     private static final String TAG = PrepareShareFragment.class.getSimpleName();
     private Set<ContactInfo> mSelected;
     private OnShareFragmentInteraction mListener;
@@ -85,7 +87,7 @@ public class PrepareShareFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_share_contact, container, false);
-        mContact = DataUtil.getMockContact();
+        mContact = ProfileManager.getInstance().getContact();
         setHasOptionsMenu(true);
 
         mSelected = ProfileManager.getInstance().getDefaultSharingPreferences();
@@ -131,7 +133,7 @@ public class PrepareShareFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        contactAdapter = new SelectContactInfoAdapter(recyclerView, mContact.getContactInfoArrayList(), mSelected, null, getContext());
+        contactAdapter = new SelectContactInfoAdapter(recyclerView, mContact.getContactInfoArrayList(), mSelected, this, getContext());
         recyclerView.setAdapter(contactAdapter);
 
         return view;
@@ -173,6 +175,25 @@ public class PrepareShareFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onContacInfoSelected(ContactInfo contactInfo, boolean isChecked) {
+        android.util.Log.d(TAG, "contactInfo: " + contactInfo.getAttribute().getName() + " | " + isChecked);
+        if (isChecked) {
+            mSelected.add(contactInfo);
+        } else {
+            if (mSelected.contains(contactInfo)) {
+                mSelected.remove(contactInfo);
+            }
+        }
+
+        if (DEBUG) {
+            android.util.Log.d(TAG, "printing set");
+            for (ContactInfo ci : mSelected) {
+                android.util.Log.d(TAG, ci.getAttribute().getName());
+            }
+        }
     }
 
     public interface OnShareFragmentInteraction {

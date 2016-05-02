@@ -50,4 +50,5 @@
     <string name="six_month">6 Months</string>
     <string name="one_year">1 Year</string>
     <string name="two_year">2 Years</string>
+    <string name="default_zip">94043</string>
 </resources>

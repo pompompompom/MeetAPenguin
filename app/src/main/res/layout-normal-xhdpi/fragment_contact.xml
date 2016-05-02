@@ -39,5 +39,13 @@
             android:layout_gravity="start"
             android:text="@string/contact_description"
             android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/default_zip"
+            android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 </LinearLayout>

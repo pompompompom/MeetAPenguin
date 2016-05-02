@@ -29,6 +29,7 @@ public class Contact implements Serializable {
     private String description;
     private long expiration;
     private String photoUrl;
+    private String zipCode = "94043";
 
     public Contact() {
     }
@@ -108,5 +109,13 @@ public class Contact implements Serializable {
 
     public void setContactInfoArrayList(Set<ContactInfo> contactInfoArrayList) {
         this.contactInfoArrayList = contactInfoArrayList;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 }

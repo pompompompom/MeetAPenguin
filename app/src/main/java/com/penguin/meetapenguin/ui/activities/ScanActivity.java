@@ -1,13 +1,17 @@
 package com.penguin.meetapenguin.ui.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.zxing.Result;
+import com.penguin.meetapenguin.MeetAPenguim;
 import com.penguin.meetapenguin.dblayout.ContactController;
 import com.penguin.meetapenguin.entities.Contact;
 import com.penguin.meetapenguin.util.EntitiesHelper.ContactHelper;
+import com.penguin.meetapenguin.util.ZipCodeHelper;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -21,7 +25,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        mScannerView = new ZXingScannerView(this);     // Programmatically initialize the scanner view
         setContentView(mScannerView);
     }
 
@@ -50,6 +54,10 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
             ContactController controller = new ContactController(this);
             Log.d(TAG, "before: " + controller.readAll());
+
+            // save added location
+            ZipCodeHelper.saveZipCodeToPrefs(c);
+
             controller.create(c);
             Log.d(TAG, "--------------------------");
             Log.d(TAG, "after: " + controller.readAll());
