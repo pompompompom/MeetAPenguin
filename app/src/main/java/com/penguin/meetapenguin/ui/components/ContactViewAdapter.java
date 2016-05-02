@@ -1,6 +1,7 @@
 package com.penguin.meetapenguin.ui.components;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.entities.Attribute;
 import com.penguin.meetapenguin.entities.ContactInfo;
 import com.penguin.meetapenguin.util.AttributesHelper;
+import com.penguin.meetapenguin.util.ContactInfoActionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +129,7 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
 
         } else if (mMode == MODE_VIEW_CONTACT) {
             holder.mContactInfo.setText(mContactInfoList.get(position).getAttributeValue());
+            holder.mContactInfo.setTag(mContactInfoList.get(position));
             holder.mContactIcon.setImageDrawable(AttributesHelper.getDrawable(mContactInfoList
                     .get(position).getAttribute().getId()));
         }
@@ -227,6 +230,19 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
             } else if (mMode == MODE_VIEW_CONTACT) {
                 mContactInfo = (TextView) view.findViewById(R.id.contact_info);
                 mContactIcon = (ImageView) view.findViewById(R.id.contact_info_icon);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mContactInfo.getTag() != null) {
+                            ContactInfo ci = (ContactInfo) mContactInfo.getTag();
+                            android.util.Log.d("MITA", "onclick: " + ci.getAttribute().getName());
+                            Intent i = ContactInfoActionHelper.getLaunchIntent(mView.getContext(), ci);
+                            if (i != null) {
+                                mView.getContext().startActivity(i);
+                            }
+                        }
+                    }
+                });
             }
         }
 
