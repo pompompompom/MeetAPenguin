@@ -1,12 +1,16 @@
 package com.penguin.meetapenguin.ui.activities;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +63,22 @@ public class ShareActivity extends AppCompatActivity {
 
     private String getZipCode() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            Snackbar snack = Snackbar.make(view, "Location access is required" +
+                    " to share information.", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ActivityCompat.requestPermissions(ShareActivity
+                                            .this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    0);
+                        }
+                    });
+            snack.show();
+            return "";
+        }
         Location location = lm.getLastKnownLocation(GPS_PROVIDER);
 
         // Get zipcode

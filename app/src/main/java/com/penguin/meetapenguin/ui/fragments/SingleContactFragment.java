@@ -70,11 +70,23 @@ public class SingleContactFragment extends Fragment {
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         mImageProfile = (CircularImageView) mToolbar.findViewById(R.id.profile_picture);
-        Picasso.with(getContext())
-                .load(mContact.getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(mImageProfile);
+        int photoID = 0;
+        try {
+            photoID = Integer.parseInt(mContact.getPhotoUrl());
+        }catch(Exception e){
+            photoID = 0;
+        }
 
+        if(photoID != 0){
+            mImageProfile.setImageDrawable(inflater.getContext()
+                    .getResources()
+                    .getDrawable(photoID));
+        }else {
+            Picasso.with(getContext())
+                    .load(mContact.getPhotoUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(mImageProfile);
+        }
 
         mName = (TextView) mToolbar.findViewById(R.id.name);
         mDescription = (TextView) mToolbar.findViewById(R.id.description);

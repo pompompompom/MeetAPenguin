@@ -48,10 +48,10 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
         }catch(Exception e){
             photoID = 0;
         }
-            if(photoID != 0){
+
+        if(photoID != 0){
             holder.mPersonPhoto.setImageDrawable(mContext.getResources()
                     .getDrawable(photoID));
-//            mToolBarImageProfile.setImageDrawable(inflater.getContext().getResources().getDrawable(mContact.getProfilePicResId()));
         }else {
             Picasso.with(mContext)
                     .load(mValues.get(position).getPhotoUrl())

@@ -53,11 +53,25 @@ public class InboxFragmentAdapter extends RecyclerView.Adapter<InboxFragmentAdap
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getContact().getName());
         holder.mContentView.setText(mValues.get(position).getMessage());
+
+        int photoID = 0;
+        try {
+            photoID = Integer.parseInt(mValues.get(position).getContact()
+                    .getPhotoUrl());
+        } catch (Exception e) {
+            photoID = 0;
+        }
+
         if (holder.mPersonPhoto != null) {
-            Picasso.with(mContext)
-                    .load(mValues.get(position).getContact().getPhotoUrl())
-                    .placeholder(R.drawable.placeholder)
-                    .into(holder.mPersonPhoto);
+            if (photoID != 0) {
+                holder.mPersonPhoto.setImageDrawable(mContext.getResources()
+                        .getDrawable(photoID));
+            } else {
+                Picasso.with(mContext)
+                        .load(mValues.get(position).getContact().getPhotoUrl())
+                        .placeholder(R.drawable.placeholder)
+                        .into(holder.mPersonPhoto);
+            }
         }
         holder.mTimestamp.setText(DateFormatter.convertTimeStampToDate(mValues.get(position).getTimeStamp()));
 

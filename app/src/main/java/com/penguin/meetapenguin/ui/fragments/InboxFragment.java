@@ -64,7 +64,7 @@ public class InboxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(getContext());
-        DataUtil.createFakeDataForInboxMessage();
+//        DataUtil.createFakeDataForInboxMessage();
         mMessages = loadMessagesFromDB();
         mListener = new OnListInboxFragmentInteractionListener() {
             @Override

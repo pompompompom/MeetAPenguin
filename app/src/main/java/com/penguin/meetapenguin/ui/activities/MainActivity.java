@@ -208,14 +208,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onChangeProfilePicCalled() {
-        displayFragment(chooseProfilePicFragment, "chooseProfilePic");
+        displayFragment(chooseProfilePicFragment, "Choose A Profile Picture");
     }
 
     @Override
     public void onProfilePicSelected(int resID) {
         ProfileManager.getInstance().getContact().setProfilePicResId(resID);
+        ProfileManager.getInstance().getContact().setPhotoUrl(resID+"");
         popFragmentByName("Profile");
-        popFragmentByName("chooseProfilePic");
+        popFragmentByName("Choose A Profile Picture");
         displayFragment(mHomeFragment, "Profile");
     }
 

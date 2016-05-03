@@ -278,7 +278,7 @@ public class DataUtil {
         contact1.setPhotoUrl("http://www.billybobproducts.com/sc_images/products/582_large_image.png");
 
         ContactController contactController = new ContactController(MeetAPenguim.getAppContext());
-        contactController.create(contact1);
+//        contactController.create(contact1);
 
         inboxMessage1.setId(1);
         inboxMessage1.setCloudId(1);
@@ -302,7 +302,7 @@ public class DataUtil {
         contact8.setExpiration(new Date().getTime());
         contact8.setContactInfoArrayList(new LinkedHashSet<ContactInfo>());
         contact8.setPhotoUrl("http://www.landsnail.com/apple/local/profile/New_Folder/graphics/wozniak.gif");
-        contactController.create(contact8);
+//        contactController.create(contact8);
         inboxMessage2.setContact(contact8);
         inboxMessage2.setId(2);
         inboxMessage1.setCloudId(2);

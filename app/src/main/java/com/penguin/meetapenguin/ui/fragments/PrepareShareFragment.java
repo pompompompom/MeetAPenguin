@@ -24,7 +24,6 @@ import com.penguin.meetapenguin.ui.activities.ScanActivity;
 import com.penguin.meetapenguin.ui.activities.ShareActivity;
 import com.penguin.meetapenguin.ui.components.SelectContactInfoAdapter;
 import com.penguin.meetapenguin.util.ProfileManager;
-import com.penguin.meetapenguin.util.testHelper.DataUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
@@ -96,11 +95,25 @@ public class PrepareShareFragment extends Fragment implements SelectContactInfoA
         toolbarView = toolbar.findViewById(R.id.share_fragment_toolbar);
 
         imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
-        Picasso.with(getContext())
-                .load(mContact.getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(imageProfile);
 
+
+        int photoID = 0;
+        try {
+            photoID = Integer.parseInt(mContact.getPhotoUrl());
+        } catch (Exception e) {
+            photoID = 0;
+        }
+
+        if (photoID != 0) {
+            imageProfile.setImageDrawable(inflater.getContext()
+                    .getResources()
+                    .getDrawable(photoID));
+        } else {
+            Picasso.with(getContext())
+                    .load(mContact.getPhotoUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageProfile);
+        }
         name = (TextView) toolbar.findViewById(R.id.name);
         description = (TextView) toolbar.findViewById(R.id.description);
         name.setText(mContact.getName());
