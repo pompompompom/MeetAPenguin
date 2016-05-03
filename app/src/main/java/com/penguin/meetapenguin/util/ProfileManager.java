@@ -1,7 +1,7 @@
 package com.penguin.meetapenguin.util;
 
 /**
- * Created by urbano on 4/22/16.
+ * Profile manager class.
  */
 
 import android.content.SharedPreferences;

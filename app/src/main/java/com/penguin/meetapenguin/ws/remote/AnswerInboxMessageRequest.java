@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by urbano on 4/22/16.
+ * Answer inbox message request for json request to the server.
  */
 public class AnswerInboxMessageRequest extends Request<String> {
 

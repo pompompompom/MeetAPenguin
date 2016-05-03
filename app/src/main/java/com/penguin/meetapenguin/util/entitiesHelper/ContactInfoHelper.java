@@ -12,7 +12,7 @@ import java.io.StringReader;
 import java.util.Set;
 
 /**
- * Created by urbano on 4/29/16.
+ * Contact information helper class.
  */
 public class ContactInfoHelper {
 
