@@ -62,7 +62,6 @@ public class SyncronizationService extends IntentService {
      */
     private void handleContactSyncronization(String param1) {
         broadcastContactUpdate();
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
@@ -71,7 +70,6 @@ public class SyncronizationService extends IntentService {
      */
     private void handleMessageSyncronization(String param1) {
         broadcastMessageUpdate();
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void broadcastContactUpdate() {

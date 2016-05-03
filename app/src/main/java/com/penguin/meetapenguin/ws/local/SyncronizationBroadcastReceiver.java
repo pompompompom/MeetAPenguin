@@ -24,7 +24,6 @@ public class SyncronizationBroadcastReceiver {
         if (mListener != null) {
             mListener.onUpdate();
         }
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public void registerContext(Context context, RemoteEntitiesUpdateListener listener) {
