@@ -68,8 +68,5 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
 
         finish();
-
-        // If you would like to resume scanning, call this method below:
-        // mScannerView.resumeCameraPreview(this);
     }
 }

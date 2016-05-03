@@ -37,6 +37,8 @@ import java.util.regex.Pattern;
  */
 public class RegistrationActivity extends AppCompatActivity {
 
+    private static final boolean DEBUG = false;
+
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private EditText mEditTextName;
     private EditText mEditTextEmail;
@@ -78,8 +80,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 mProgressDialog.setMessage(getResources().getString(R.string.please_wait));
                 mProgressDialog.show();
 
-                //REMOVE THIS HARDCODE ID FOR PRESENTATION PURPOSE.
-                mContact.setId(31);
+                if (DEBUG) {
+                    mContact.setId(31);
+                }
 
                 final Gson gson = new Gson();
                 String json = gson.toJson(mContact);

@@ -10,16 +10,19 @@ import com.penguin.meetapenguin.util.DBUtil;
  * Database open helper class
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
+    private static final boolean DEBUG = false;
 
     public DatabaseOpenHelper(Context context, String name,
                               SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
 
         SQLiteDatabase db = getWritableDatabase();
-//        db.execSQL(DBUtil.DROP_TABLE_INBOX_MESSAGE);
-//        db.execSQL(DBUtil.DROP_TABLE_CONTACT_INFO);
-//        db.execSQL(DBUtil.DROP_TABLE_CONTACT);
-//        db.execSQL(DBUtil.DROP_TABLE_ATTRIBUTE);
+        if (DEBUG) {
+            db.execSQL(DBUtil.DROP_TABLE_INBOX_MESSAGE);
+            db.execSQL(DBUtil.DROP_TABLE_CONTACT_INFO);
+            db.execSQL(DBUtil.DROP_TABLE_CONTACT);
+            db.execSQL(DBUtil.DROP_TABLE_ATTRIBUTE);
+        }
 
         db.execSQL(DBUtil.CREATE_TABLE_ATTRIBUTE);
         db.execSQL(DBUtil.CREATE_TABLE_CONTACT);

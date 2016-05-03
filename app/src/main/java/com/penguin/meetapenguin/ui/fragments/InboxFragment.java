@@ -40,6 +40,7 @@ import java.util.Map;
  */
 public class InboxFragment extends Fragment {
 
+    private static final boolean DEBUG = false;
     private static final String TAG = InboxFragment.class.getSimpleName();
     private static final String URL = ServerConstants.SERVER_URL + "/messages";
     private ArrayList<InboxMessage> mMessages;
@@ -64,7 +65,9 @@ public class InboxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(getContext());
-//        DataUtil.createFakeDataForInboxMessage();
+        if (DEBUG) {
+            DataUtil.createFakeDataForInboxMessage();
+        }
         mMessages = loadMessagesFromDB();
         mListener = new OnListInboxFragmentInteractionListener() {
             @Override
