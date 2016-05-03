@@ -131,7 +131,6 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
         mToolBarImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.util.Log.d("MITA", "PROFILE CLICK!!!");
                 if (!mDialogShown) {
                     dialog.show();
                     mDialogShown = true;

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.penguin.meetapenguin.R;
 
 /**
- * Created by mitayun on 5/1/16.
+ * Image Grid Adapter
  */
 public class ImageGridAdapter extends BaseAdapter{
     private Context mContext;

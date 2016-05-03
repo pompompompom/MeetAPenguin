@@ -238,7 +238,6 @@ public class ContactViewAdapter extends RecyclerView.Adapter<ContactViewAdapter.
                     public void onClick(View v) {
                         if (mContactInfo.getTag() != null) {
                             ContactInfo ci = (ContactInfo) mContactInfo.getTag();
-                            android.util.Log.d("MITA", "onclick: " + ci.getAttribute().getName());
                             Intent i = ContactInfoActionHelper.getLaunchIntent(mView.getContext(), ci);
                             if (i != null) {
                                 mView.getContext().startActivity(i);

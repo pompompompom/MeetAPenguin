@@ -9,7 +9,7 @@ import android.net.Uri;
 import com.penguin.meetapenguin.entities.ContactInfo;
 
 /**
- * Created by mitayun on 5/1/16.
+ * Contact information launching action helper.
  */
 public class ContactInfoActionHelper {
 
@@ -25,7 +25,6 @@ public class ContactInfoActionHelper {
                 }
             } catch (PackageManager.NameNotFoundException ignored) {
             }
-            android.util.Log.d("MITA", uri.toString());
             return new Intent(Intent.ACTION_VIEW, uri);
         } else if (attributeName.equals("Email")) {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(

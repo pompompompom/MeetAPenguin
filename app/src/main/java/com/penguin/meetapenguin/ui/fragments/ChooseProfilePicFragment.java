@@ -13,7 +13,7 @@ import com.penguin.meetapenguin.R;
 import com.penguin.meetapenguin.ui.components.ImageGridAdapter;
 
 /**
- * Created by mitayun on 5/1/16.
+ * Fragment for choosing profile picture
  */
 public class ChooseProfilePicFragment extends Fragment {
 

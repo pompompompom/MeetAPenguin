@@ -7,7 +7,7 @@ import com.penguin.meetapenguin.MeetAPenguim;
 import com.penguin.meetapenguin.entities.Contact;
 
 /**
- * Created by mitayun on 5/1/16.
+ * Zip code helper class
  */
 public class ZipCodeHelper {
     public static final String KEY_ZIP = "KEY_ZIP_CODE";

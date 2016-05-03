@@ -72,7 +72,6 @@ public class ShareActivity extends AppCompatActivity {
                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 for (Address address : addresses) {
                     if (address.getLocality() != null && address.getPostalCode() != null) {
-                        android.util.Log.d("MITA", "zip: " + address.getPostalCode());
                         return address.getPostalCode();
                     }
                 }
@@ -90,9 +89,6 @@ public class ShareActivity extends AppCompatActivity {
 
         Contact contact = (Contact) getIntent().getSerializableExtra("Contact");
         contact.setZipCode(getZipCode());
-
-        android.util.Log.d("MITA", "contact name: " + contact.getName());
-        Log.d("MITA", "!!!!!!!!!Sharing contact: " + ContactHelper.toJson(contact));
 
         qrCodeImageView = (ImageView) findViewById(R.id.qrcode);
         view = (ViewGroup) findViewById(R.id.activity_container);
