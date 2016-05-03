@@ -180,7 +180,7 @@ public class DataUtil {
         c.setExpiration(new Date(1464588270000L).getTime());
         c.setName("urbano");
         c.setDescription("CMU-SV Student");
-        c.setPhotoUrl("urbano photoURL");
+        c.setPhotoUrl("2130837579");
         c.setId(31);
 
         Set<ContactInfo> al = new LinkedHashSet<ContactInfo>();

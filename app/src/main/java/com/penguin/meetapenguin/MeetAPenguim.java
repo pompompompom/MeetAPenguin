@@ -50,8 +50,8 @@ public class MeetAPenguim extends Application {
 
         //DEMO DATA
         ContactController contactController = new ContactController(getAppContext());
-//        contactController.create(DataUtil.mockContact());
-//        contactController.create(DataUtil.mockContact2());
+        contactController.create(DataUtil.mockContact());
+        contactController.create(DataUtil.mockContact2());
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(DATA_INITIALIZED, true);
