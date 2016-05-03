@@ -63,22 +63,6 @@ public class ShareActivity extends AppCompatActivity {
 
     private String getZipCode() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            Snackbar snack = Snackbar.make(view, "Location access is required" +
-                    " to share information.", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ActivityCompat.requestPermissions(ShareActivity
-                                            .this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    0);
-                        }
-                    });
-            snack.show();
-            return "";
-        }
         Location location = lm.getLastKnownLocation(GPS_PROVIDER);
 
         // Get zipcode
