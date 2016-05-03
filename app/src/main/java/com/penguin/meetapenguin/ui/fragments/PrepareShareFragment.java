@@ -1,9 +1,14 @@
 package com.penguin.meetapenguin.ui.fragments;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,12 +37,13 @@ import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnShareFragmentInteraction}
  * interface.
  */
 public class PrepareShareFragment extends Fragment implements SelectContactInfoAdapter.OnContactViewAdapterInteraction {
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 12345;
     private static final boolean DEBUG = false;
     private static final String TAG = PrepareShareFragment.class.getSimpleName();
     private Set<ContactInfo> mSelected;
@@ -130,6 +136,9 @@ public class PrepareShareFragment extends Fragment implements SelectContactInfoA
         shareBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!handleLocationPermission(view)) {
+                    return;
+                }
                 launchShareActivity(mContact);
             }
         });
@@ -186,6 +195,35 @@ public class PrepareShareFragment extends Fragment implements SelectContactInfoA
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public boolean handleLocationPermission(View view) {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.READ_CONTACTS)) {
+                Snackbar snack = Snackbar.make(view, "Location access is required to share contact", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.READ_CONTACTS},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        });
+                snack.show();
+                return false;
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

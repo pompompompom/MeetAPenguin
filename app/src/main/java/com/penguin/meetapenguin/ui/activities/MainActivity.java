@@ -193,6 +193,12 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, getResources().getString(R.string.cant_access_camera), Toast.LENGTH_SHORT).show();
             }
             return;
+            case PrepareShareFragment.MY_PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, getResources().getString(R.string.can_access_location), Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(this, getResources().getString(R.string.cant_access_location), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -214,7 +220,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onProfilePicSelected(int resID) {
         ProfileManager.getInstance().getContact().setProfilePicResId(resID);
-        ProfileManager.getInstance().getContact().setPhotoUrl(resID+"");
+        ProfileManager.getInstance().getContact().setPhotoUrl(resID + "");
         popFragmentByName("Profile");
         popFragmentByName("Choose A Profile Picture");
         displayFragment(mHomeFragment, "Profile");
