@@ -51,4 +51,6 @@
     <string name="one_year">1 Year</string>
     <string name="two_year">2 Years</string>
     <string name="default_zip">94043</string>
+    <string name="can_access_location">Now we can access your location</string>
+    <string name="cant_access_location">We can\'t access your location</string>
 </resources>

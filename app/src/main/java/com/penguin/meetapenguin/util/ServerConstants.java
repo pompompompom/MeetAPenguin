@@ -5,7 +5,7 @@ package com.penguin.meetapenguin.util;
  */
 public class ServerConstants {
     private static final String SERVER_URBANO = "http://10.0.3.2:8080/rest";
-    private static final String SERVER_EMULATOR = "http://10.0.2.2:8085/rest";
-    private static final String SERVER_DEVICE = "http://192.168.1.82:8080/rest";
-    public static final String SERVER_URL = SERVER_EMULATOR;
+    //private static final String SERVER_EMULATOR = "http://10.0.2.2:8085/rest";
+    //private static final String SERVER_DEVICE = "http://192.168.1.82:8080/rest";
+    public static final String SERVER_URL = SERVER_URBANO;
 }
