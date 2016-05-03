@@ -128,10 +128,24 @@ public class ShareActivity extends AppCompatActivity {
         name.setText(contact.getName());
         description.setText(contact.getDescription());
         imageProfile = (CircularImageView) toolbar.findViewById(R.id.profile_picture);
-        Picasso.with(this)
-                .load(contact.getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(imageProfile);
+
+        int photoID = 0;
+        try {
+            photoID = Integer.parseInt(contact.getPhotoUrl());
+        } catch (Exception e) {
+            photoID = 0;
+        }
+
+        if (photoID != 0) {
+            imageProfile.setImageDrawable(this
+                    .getResources()
+                    .getDrawable(photoID));
+        } else {
+            Picasso.with(this)
+                    .load(contact.getPhotoUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageProfile);
+        }
 
         editShare = (Button) findViewById(R.id.edit_share_button);
         editShare.setOnClickListener(new View.OnClickListener() {
