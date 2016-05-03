@@ -41,11 +41,23 @@ public class ContactListViewAdapter extends RecyclerView.Adapter<ContactListView
         holder.mIdView.setText(mValues.get(position).getName());
         holder.mContentView.setText(mValues.get(position).getDescription());
         holder.mZipView.setText(ZipCodeHelper.getZipCodeFromPrefs(mValues.get(position)));
-        Picasso.with(mContext)
-                .load(mValues.get(position).getPhotoUrl())
-                .placeholder(R.drawable.placeholder)
-                .into(holder.mPersonPhoto);
 
+        int photoID = 0;
+        try {
+            photoID = Integer.parseInt(mValues.get(position).getPhotoUrl());
+        }catch(Exception e){
+            photoID = 0;
+        }
+            if(photoID != 0){
+            holder.mPersonPhoto.setImageDrawable(mContext.getResources()
+                    .getDrawable(photoID));
+//            mToolBarImageProfile.setImageDrawable(inflater.getContext().getResources().getDrawable(mContact.getProfilePicResId()));
+        }else {
+            Picasso.with(mContext)
+                    .load(mValues.get(position).getPhotoUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.mPersonPhoto);
+        }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

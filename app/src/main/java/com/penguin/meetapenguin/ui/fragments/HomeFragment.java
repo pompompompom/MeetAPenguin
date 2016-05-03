@@ -248,6 +248,7 @@ public class HomeFragment extends Fragment implements ContactViewAdapter.OnConta
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                         mProgressDialog.dismiss();
                         mProgressDialog = null;
                         ProfileManager.getInstance().setProfileOutDate(false);
